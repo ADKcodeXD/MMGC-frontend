@@ -1,0 +1,8 @@
+@import './variable/color.scss';
+@import './variable/fontsize.scss';
+.router-link-exact-active {
+  color: $themeColor;
+}
+.router-link-active {
+  color: $themeColor;
+}

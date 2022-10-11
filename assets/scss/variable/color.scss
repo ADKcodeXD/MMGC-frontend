@@ -1,0 +1,16 @@
+$themeColor: var(--themeColor, #ffc962);
+$themeNotActiveColor: var(--themeNotActiveColor, #9e7c3c);
+$whiteColor: var(--whiteColor, #fff);
+$textColor: var(--textColor, rgb(12, 12, 12));
+$shadowColor: var(--shadowColor, rgba(0, 0, 0, 0.3));
+$backgroundColor: var(--backgroundColor, rgb(0, 0, 0));
+$tipColor: var(--tipColor, rgb(177, 177, 177));
+:root {
+  --themeColor: var(--themeColor, #ffc962);
+  --themeNotActiveColor: var(--themeNotActiveColor, #ffc962);
+  --whiteColor: var(--whiteColor, #fff);
+  --shadowColor: var(--shadowColor, rgba(0, 0, 0, 0.3));
+  --backgroundColor: var(--backgroundColor, rgb(0, 0, 0));
+  --textColor: var(--textColor, rgb(12, 12, 12));
+  --tipColor: var(--tipColor, rgb(177, 177, 177));
+}

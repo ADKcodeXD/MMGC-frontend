@@ -1,0 +1,40 @@
+html,
+body,
+ul,
+h1,
+h3,
+h4,
+p,
+dl,
+dd,
+#app {
+  margin: 0;
+  padding: 0;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+  font-size: 14px;
+  font: 1em/1.4 'Microsoft Yahei', 'PingFang SC', 'Avenir', 'Segoe UI', 'Hiragino Sans GB',
+    'STHeiti', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
+}
+body {
+  margin: 0;
+}
+a {
+  font-weight: 400;
+  text-decoration: none;
+  &:visited,
+  &:link,
+  &:hover,
+  &:active {
+    color: inherit;
+    font-weight: inherit;
+  }
+}
+img {
+  width: 100%;
+  height: 100%;
+}
