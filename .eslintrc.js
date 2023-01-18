@@ -23,6 +23,7 @@ module.exports = {
     'no-mutating-props': 'off',
     'vue/no-v-html': 'off',
     'vue/no-setup-props-destructure': 'off',
-    '@typescript-eslint/no-unused-vars': 'off'
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/ban-types': 'off'
   }
 }
