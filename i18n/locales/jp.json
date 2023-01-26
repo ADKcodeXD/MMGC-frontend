@@ -1,3 +1,6 @@
 {
-  "hello":"こんにちは"
+  "hello": "こんにちは",
+  "enterMatch": "試合に入る",
+  "desc": "紹介",
+  "mainStage": "メインステージ"
 }
