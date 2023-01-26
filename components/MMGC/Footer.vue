@@ -13,9 +13,10 @@
 .MMGC {
   &-footer {
     width: 100%;
-    height: 5rem;
+    height: 4rem;
     padding: 1rem;
     color: $themeNotActiveColor;
+    flex-shrink: 0;
   }
 }
 </style>

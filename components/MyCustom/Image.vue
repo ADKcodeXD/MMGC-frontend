@@ -1,10 +1,8 @@
 <template>
-  <ElImage fit="cover" :lazy="isLazy" :src="img">
+  <ElImage :fit="fit" :lazy="isLazy" :src="img">
     <template #placeholder>
       <div class="gray">
-        <ElIcon :size="20" color="#ffc962">
-          <Loading />
-        </ElIcon>
+        <MyCustomLoading />
       </div>
     </template>
     <template #error>
@@ -15,21 +13,24 @@
   </ElImage>
 </template>
 <script setup lang="ts">
-import { ElImage, ElIcon } from 'element-plus'
-import { Loading } from '@element-plus/icons-vue'
 interface MyElimageProp {
   img?: string // 图片的链接
   isLazy?: boolean // 是否懒加载
+  fit?: '' | 'fill' | 'none' | 'contain' | 'cover' | 'scale-down'
 }
 withDefaults(defineProps<MyElimageProp>(), {
   img: '',
-  isLazy: false
+  isLazy: false,
+  fit: 'contain'
 })
 </script>
 
 <style lang="scss" scoped>
 .gray {
-  background-color: rgb(31, 0, 0);
+  background-color: rgba(2, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   width: 100%;
 }

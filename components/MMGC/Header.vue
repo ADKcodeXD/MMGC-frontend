@@ -5,11 +5,11 @@
     </section>
     <nav class="MMGC-header-nav">
       <p class="nav-item">
-        <NuxtLink :to="`/activity/${activityId}/about`"> 介绍 </NuxtLink>
+        <NuxtLink :to="`/activity/${activityId}/about`"> {{ $t('desc') }} </NuxtLink>
       </p>
       <i class="split">/</i>
       <p class="nav-item">
-        <NuxtLink :to="`/activity/${activityId}/main`"> 主会场 </NuxtLink>
+        <NuxtLink :to="`/activity/${activityId}/main`"> {{ $t('mainStage') }} </NuxtLink>
       </p>
       <i class="split">/</i>
       <p class="nav-item">主办&赞助</p>
@@ -17,36 +17,58 @@
       <p class="nav-item">往届赛事<i class="iconfont mmgc-iconchevron-down"></i></p>
     </nav>
     <section class="MMGC-header-oper">
-      <ElDropdown trigger="click">
+      <ElDropdown trigger="click" @command="handleLocale">
         <div class="oper-item">
-          <i class="iconfont mmgc-iconyuyan"></i>
+          <ClientOnly>
+            <Icon name="ion:language-sharp" size="1.5rem" class="mb-1" />
+          </ClientOnly>
           <p>语言</p>
         </div>
         <template #dropdown>
           <ElDropdownMenu>
-            <ElDropdownItem>中文简体</ElDropdownItem>
-            <ElDropdownItem>日本语</ElDropdownItem>
-            <ElDropdownItem>English</ElDropdownItem>
+            <ElDropdownItem command="cn">中文简体</ElDropdownItem>
+            <ElDropdownItem command="jp">日本语</ElDropdownItem>
+            <ElDropdownItem command="en">English</ElDropdownItem>
           </ElDropdownMenu>
         </template>
       </ElDropdown>
-      <div class="oper-item">
-        <i class="iconfont mmgc-icondenglu-copy"></i>
+      <div class="oper-item" @click="$router.push('/login')" v-if="!userInfo">
+        <ClientOnly>
+          <Icon name="ant-design:user-outlined" size="1.5rem" class="mb-1" />
+        </ClientOnly>
         <p>登录</p>
+      </div>
+      <div class="oper-item" v-else>
+        <MyInfo :member-vo="userInfo" @logout="logout" />
       </div>
     </section>
   </div>
 </template>
 <script setup lang="ts">
-import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
-withDefaults(
-  defineProps<{
-    activityId?: number
-  }>(),
-  {
-    activityId: 2023
-  }
-)
+import { MemberVo } from 'Member'
+import { useGlobalStore } from '~~/stores/global'
+import { useUserStore } from '~~/stores/user'
+const route = useRoute()
+const store = useGlobalStore()
+const activityId = parseInt(route.params.activityId.toString())
+const handleLocale = (command: 'cn' | 'jp' | 'en') => {
+  store.setLocale(command)
+}
+const userStore = useUserStore()
+
+const userInfo = ref<MemberVo | null>()
+const logout = () => {
+  userInfo.value = null
+  userStore.clearToken()
+}
+onMounted(() => {
+  setTimeout(() => {
+    userStore.getUserInfo().then(user => {
+      userInfo.value = user
+    })
+    store.setLocale(store.localeState)
+  }, 0)
+})
 </script>
 <style lang="scss" scoped>
 .MMGC {
@@ -101,10 +123,6 @@ withDefaults(
         font-size: 12px;
         line-height: normal;
         transition: color 0.4s ease;
-        .iconfont {
-          font-size: $bigFontSize;
-          margin-bottom: 5px;
-        }
         &:hover {
           color: $themeColor;
         }
