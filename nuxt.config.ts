@@ -2,6 +2,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 import eslintPlugin from 'vite-plugin-eslint'
 import ElementPlus from 'unplugin-element-plus/vite'
 import { i18n } from './i18n/i18n'
+
 export default defineNuxtConfig({
   // meta
   app: {
@@ -43,12 +44,12 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
-    devProxy: {
-      '/mmgcApi': {
-        target: 'http://localhost:8055/mmgcApi',
-        prependPath: true
-      }
-    }
+    // devProxy: {
+    //   '/api': {
+    //     target: 'http://localhost:8055/mmgcApi',
+    //     changeOrigin: true
+    //   }
+    // }
   },
   // build modules
   modules: [
@@ -57,20 +58,22 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/i18n',
     '@element-plus/nuxt',
-    'nuxt-icon'
+    'nuxt-icon',
+    'nuxt-swiper',
+    'nuxt-lodash'
   ],
-
   i18n: {
-    // add `vueI18n` option to `@nuxtjs/i18n` module options
     vueI18n: i18n
   },
   // auto import components
   components: true,
   runtimeConfig: {
     public: {
-      apiBase: ''
+      apiBase: '',
+      apiPrefix: ''
     }
-  }
+  },
+  plugins: ['~~/plugins/pinia-plugin-persist.client']
   // unocss: {
   //   uno: true,
   //   attributify: true,
