@@ -7,3 +7,4 @@ enum Api {
 export const getConfig = async () => {
   return await useHttp.get<MMGCSysConfig>(Api.getConfig)
 }
+ 
