@@ -1,5 +1,4 @@
 import { MemberVo } from 'Member'
-
 declare global {
   type NormalObject = {
     [key: string]: any
