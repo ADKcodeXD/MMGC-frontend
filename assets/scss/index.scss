@@ -38,3 +38,17 @@ img {
   width: 100%;
   height: 100%;
 }
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 1s ease;
+}
+
+.v-enter-from {
+  opacity: 0;
+  transform: translateY(-200px);
+}
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(200px);
+}

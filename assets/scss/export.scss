@@ -6,3 +6,14 @@
 .router-link-active {
   color: $themeColor;
 }
+
+.title {
+  color: $themeColor;
+  font-weight: 600;
+  font-size: $bigFontSize;
+}
+
+.sub-title {
+  color: $tipColor;
+  font-size: $smallFontSize;
+}
