@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="w-4/5 h-4/5">
+    <div>
       <video-player
         :src="videoUrl"
         controls

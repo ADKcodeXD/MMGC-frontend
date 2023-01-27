@@ -12,6 +12,7 @@
   color: $themeColor;
   font-weight: 600;
   font-size: $bigFontSize;
+  margin: 1rem 0;
   @include showLine(1);
 }
 
