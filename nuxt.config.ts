@@ -63,6 +63,13 @@ export default defineNuxtConfig({
     'nuxt-lodash'
   ],
   i18n: {
+    locales: ['cn', 'en', 'jp'],
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root' // recommended
+    },
+    defaultLocale: 'cn',
     vueI18n: i18n
   },
   // auto import components

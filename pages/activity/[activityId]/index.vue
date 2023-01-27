@@ -2,7 +2,10 @@
 const props = defineProps<{
   activityId: number
 }>()
-onMounted(() => {
-  navigateTo(`/activity/${props.activityId}/about`)
+onBeforeMount(() => {
+  const localeRoute = useLocaleRoute()
+  const router = useRouter()
+  const route = localeRoute(`/activity/${props.activityId}/about`)
+  router.replace(route?.fullPath || '/')
 })
 </script>

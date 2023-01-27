@@ -17,9 +17,10 @@
 <script setup lang="ts">
 import logodefault from '@/assets/img/hjj2022 logo.png'
 import logodefault2 from '@/assets/img/2022MMT.png'
-
+const localeRoute = useLocaleRoute()
 const goActivity = () => {
-  navigateTo('/activity/2022')
+  const route = localeRoute('/activity/2022')
+  navigateTo(route?.fullPath || '/')
 }
 </script>
 <style lang="scss" scoped>

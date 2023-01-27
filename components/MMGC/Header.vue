@@ -1,15 +1,17 @@
 <template>
   <div class="MMGC-header">
-    <section class="MMGC-header-logo" @click="$router.push('/')">
+    <section class="MMGC-header-logo" @click="goWelcome">
       <img src="@/assets/img/2022logo.png" />
     </section>
     <nav class="MMGC-header-nav">
       <p class="nav-item">
-        <NuxtLink :to="`/activity/${activityId}/about`"> {{ $t('desc') }} </NuxtLink>
+        <NuxtLink :to="localePath(`/activity/${activityId}/about`)"> {{ $t('desc') }} </NuxtLink>
       </p>
       <i class="split">/</i>
       <p class="nav-item">
-        <NuxtLink :to="`/activity/${activityId}/main`"> {{ $t('mainStage') }} </NuxtLink>
+        <NuxtLink :to="localePath(`/activity/${activityId}/main`)">
+          {{ $t('mainStage') }}
+        </NuxtLink>
       </p>
       <i class="split">/</i>
       <p class="nav-item">主办&赞助</p>
@@ -32,7 +34,11 @@
           </ElDropdownMenu>
         </template>
       </ElDropdown>
-      <div class="oper-item" @click="$router.push('/login')" v-if="!userInfo">
+      <div
+        class="oper-item"
+        @click="$router.push(localePath(`/activity/${activityId}/main`))"
+        v-if="!userInfo"
+      >
         <ClientOnly>
           <Icon name="ant-design:user-outlined" size="1.5rem" class="mb-1" />
         </ClientOnly>
@@ -50,9 +56,17 @@ import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
 const route = useRoute()
 const store = useGlobalStore()
+const localePath = useLocalePath()
+const switchLocalePath = useSwitchLocalePath()
+const localeRoute = useLocaleRoute()
 const activityId = parseInt(route.params.activityId.toString())
 const handleLocale = (command: 'cn' | 'jp' | 'en') => {
   store.setLocale(command)
+  switchLocalePath(command)
+}
+const goWelcome = () => {
+  const route = localeRoute('/welcome')
+  navigateTo(route?.fullPath)
 }
 const userStore = useUserStore()
 
@@ -66,7 +80,6 @@ onMounted(() => {
     userStore.getUserInfo().then(user => {
       userInfo.value = user
     })
-    store.setLocale(store.localeState)
   }, 0)
 })
 </script>
