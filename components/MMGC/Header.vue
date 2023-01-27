@@ -1,7 +1,7 @@
 <template>
   <div class="MMGC-header">
     <section class="MMGC-header-logo" @click="goWelcome">
-      <img src="@/assets/img/2022logo.png" />
+      <MyCustomImage :img="activityData?.activityLogo" />
     </section>
     <nav class="MMGC-header-nav">
       <p class="nav-item">
@@ -51,9 +51,13 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ActivityVo } from 'Activity'
 import { MemberVo } from 'Member'
 import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
+defineProps<{
+  activityData?: ActivityVo
+}>()
 const route = useRoute()
 const store = useGlobalStore()
 const localePath = useLocalePath()
