@@ -17,6 +17,5 @@
   background-size: cover;
   background-position: 20% 40%;
   min-width: 1024px;
-  max-width: 1920px;
 }
 </style>

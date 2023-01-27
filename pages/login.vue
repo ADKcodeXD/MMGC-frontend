@@ -169,7 +169,6 @@ const submit = async () => {
   } else {
     await loginRef.value.validate()
     const { data: token } = await UserApi.login(loginForm)
-    console.log(token)
     if (token) {
       const userStore = useUserStore()
       userStore.setToken(token)

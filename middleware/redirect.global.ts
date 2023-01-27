@@ -4,7 +4,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
     if (locale.value === 'cn') {
       return navigateTo('/welcome')
     } else {
-      return navigateTo(`/${locale.value}/welcome`)
+      if (locale.value) return navigateTo(`/${locale.value}/welcome`)
+      else return navigateTo('/welcome')
     }
   }
   return

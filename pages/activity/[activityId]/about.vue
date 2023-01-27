@@ -18,7 +18,7 @@
           </Swiper>
         </div>
         <!-- desc 介绍 -->
-        <div class="section">
+        <div class="section desc-like">
           <div class="desc-name">
             <div>
               <p class="title">
@@ -139,6 +139,11 @@ const clacTransform = (index: number) => {
       color: $whiteColor;
       font-size: $normalFontSize;
     }
+  }
+  .desc-like {
+    padding-top: 5%;
+    align-items: flex-start;
+    overflow-y: hidden;
   }
   .slider-item {
     width: 100%;
