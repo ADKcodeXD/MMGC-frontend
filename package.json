@@ -15,7 +15,6 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "@fullpage/nuxt-fullpage": "^0.2.3",
     "@nuxtjs/i18n": "^8.0.0-beta.7",
     "@videojs-player/vue": "^1.0.0",
     "element-plus": "^2.2.28",
