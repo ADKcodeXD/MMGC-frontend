@@ -1,5 +1,6 @@
 @import './variable/color.scss';
 @import './variable/fontsize.scss';
+@import './func/func.scss';
 .router-link-exact-active {
   color: $themeColor;
 }
@@ -11,9 +12,11 @@
   color: $themeColor;
   font-weight: 600;
   font-size: $bigFontSize;
+  @include showLine(1);
 }
 
 .sub-title {
   color: $tipColor;
   font-size: $smallFontSize;
+  @include showLine(1);
 }

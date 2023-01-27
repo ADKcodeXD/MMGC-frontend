@@ -3,3 +3,11 @@
   font-weight: $font-weight;
   color: $themeColor;
 }
+
+@mixin showLine($linecount: 1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $linecount;
+  -webkit-box-orient: vertical;
+}

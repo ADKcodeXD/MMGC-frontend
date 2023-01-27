@@ -32,52 +32,10 @@
   </el-popover>
 </template>
 <script setup lang="ts">
-import _ from 'lodash'
 import { MemberVo } from 'Member'
-interface SiteItem {
-  value: string
-  icon: string
-  color: string
-}
+
 const props = defineProps<{
   memberVo: MemberVo
 }>()
-
-const noAvatar = computed(() => {
-  if (!props.memberVo.avatar) {
-    return props.memberVo.memberName.slice(0, 1)
-  }
-  return undefined
-})
-
-const snsSites = computed<SiteItem[]>(() => {
-  if (props.memberVo.snsSite) {
-    const keys = _.keys(props.memberVo.snsSite)
-    const map: Record<string, any> = {
-      bilibili: {
-        color: '#EC2775',
-        icon: 'ri:bilibili-fill'
-      },
-      niconico: {
-        color: '#D4DADA',
-        icon: 'simple-icons:niconico'
-      },
-      youtube: { color: '#4664F0', icon: 'logos:youtube-icon' },
-      twitter: { color: '#1D9BF0', icon: 'logos:twitter' },
-      personalWebsite: { color: '#E57119', icon: 'material-symbols:broadcast-on-personal' }
-    }
-    return keys.map(item => {
-      const temp = map[item]
-      temp.value = (props.memberVo.snsSite as any)[item]
-      return temp
-    })
-  }
-  return []
-})
-
-const openlink = (link: string) => {
-  if (window) {
-    window.location.replace(link)
-  }
-}
+const { openlink, noAvatar, snsSites } = useMemberPop(props.memberVo)
 </script>
