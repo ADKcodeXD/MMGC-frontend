@@ -13,13 +13,13 @@
             :slides-per-view="1"
           >
             <SwiperSlide v-for="item in activityData.activityCM" :key="item">
-              <Aplayer :video-url="item" />
+              <Aplayer :video-url="item.link" />
             </SwiperSlide>
           </Swiper>
         </div>
         <!-- desc 介绍 -->
-        <div class="section desc-like">
-          <div class="desc-name">
+        <div class="section">
+          <div class="desc-like">
             <div>
               <p class="title">
                 {{ activityData.activityName[locale] || activityData.activityName.cn }}
@@ -29,21 +29,17 @@
                 v-html="activityData.desc[locale] || activityData.desc['cn']"
               />
             </div>
-            <div v-if="activityData.startTime && activityData.endTime">
-              <p class="title">起止时间</p>
-              <p>{{ activityData.startTime }} 至 {{ activityData.endTime }}</p>
-            </div>
             <div v-if="activityData.staff">
               <p class="title" v-if="activityData.staff.organizer">Staff</p>
               <div class="flex flex-col">
                 <div class="flex items-center my-2" v-if="activityData.staff.organizer">
-                  <p>主办:</p>
+                  <p class="staff-label">主办:</p>
                   <div v-if="activityData.staff && activityData.staff.organizer">
                     <MemberPop :member-vo="activityData.staff.organizer" />
                   </div>
                 </div>
                 <div class="flex items-center my-2" v-if="activityData.staff.judges">
-                  <p>评委:</p>
+                  <p class="staff-label">评委:</p>
                   <div v-if="activityData.staff && activityData.staff.judges" class="flex">
                     <MemberPop
                       :member-vo="item"
@@ -53,11 +49,21 @@
                   </div>
                 </div>
                 <div class="flex items-center my-2" v-if="activityData.staff.translator">
-                  <p>翻译人员:</p>
+                  <p class="staff-label">翻译人员:</p>
                   <div v-if="activityData.staff && activityData.staff.translator" class="flex">
                     <MemberPop
                       :member-vo="item"
                       v-for="item in activityData.staff.translator"
+                      :key="item.memberId"
+                    />
+                  </div>
+                </div>
+                <div class="flex items-center my-2" v-if="activityData.staff.others">
+                  <p class="staff-label">参与贡献者:</p>
+                  <div v-if="activityData.staff && activityData.staff.others" class="flex">
+                    <MemberPop
+                      :member-vo="item"
+                      v-for="item in activityData.staff.others"
                       :key="item.memberId"
                     />
                   </div>
@@ -67,8 +73,23 @@
           </div>
         </div>
         <!-- rules -->
-        <div class="section">this is about4</div>
+        <div class="section" v-if="activityData.rules">
+          <div class="desc-like">
+            <div v-html="activityData.rules[locale] || activityData.rules['cn']" />
+          </div>
+        </div>
         <!-- other -->
+        <div class="section" v-if="activityData.timesorother">
+          <div class="desc-like">
+            <div v-html="activityData.timesorother[locale] || activityData.timesorother['cn']" />
+          </div>
+        </div>
+        <!-- faq -->
+        <div class="section" v-if="activityData.faq">
+          <div class="desc-like">
+            <div v-html="activityData.faq[locale] || activityData.faq['cn']" />
+          </div>
+        </div>
       </div>
     </div>
     <MyCustomLoading v-else />
@@ -90,6 +111,8 @@
 </template>
 
 <script setup lang="ts">
+import { ActivityVo } from 'Activity'
+import _ from 'lodash'
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '~~/stores/global'
 
@@ -100,8 +123,9 @@ definePageMeta({
 const attrs: { activityId: number } = useAttrs() as any
 const { localeState } = storeToRefs(useGlobalStore())
 const locale = computed(() => localeState.value) as unknown as keyof I18N
-const { activityData } = useActivityDetail(attrs.activityId)
-const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(3)
+const { activityData, len } = useActivityDetail(attrs.activityId)
+
+const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(len.value)
 
 const clacTransform = (index: number) => {
   const pos = index - pageState.current
@@ -110,6 +134,32 @@ const clacTransform = (index: number) => {
   const scale = 1 - Math.abs(pos) * 0.25
   return `transform: translateY(${transformY}) translateX(${transformX}) scale(${scale});opacity: ${scale};`
 }
+const length = (activityData: Partial<ActivityVo>) => {
+  const keys = _.keys(activityData) as Array<keyof ActivityVo>
+  let len = 1
+  if (
+    keys.includes('activityCM') &&
+    activityData.activityCM &&
+    activityData.activityCM.length > 0
+  ) {
+    len++
+  }
+  if (keys.includes('rules') && activityData.rules && activityData.rules.cn) {
+    len++
+  }
+  if (keys.includes('timesorother') && activityData.timesorother && activityData.timesorother.cn) {
+    len++
+  }
+  if (keys.includes('faq') && activityData.faq && activityData.faq.cn) {
+    len++
+  }
+  return len
+}
+
+watchEffect(() => {
+  const len = length(activityData.value || {})
+  pageState.len = len
+})
 </script>
 
 <style lang="scss" scoped>
@@ -133,16 +183,22 @@ const clacTransform = (index: number) => {
       font-weight: 600;
       color: $themeColor;
     }
-    .desc-name {
+    .desc-like {
+      padding-top: 5%;
       justify-self: flex-start;
+      align-self: flex-start;
       width: 80%;
       color: $whiteColor;
       font-size: $normalFontSize;
     }
+    .staff-label {
+      width: 100px;
+    }
   }
   .desc-like {
-    padding-top: 5%;
     align-items: flex-start;
+    justify-content: flex-start;
+    width: 80%;
     overflow-y: hidden;
   }
   .slider-item {
@@ -151,7 +207,7 @@ const clacTransform = (index: number) => {
 }
 .achor {
   position: absolute;
-  top: 300px;
+  top: 40%;
   right: 0;
   width: 300px;
   display: flex;

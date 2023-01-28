@@ -1,4 +1,5 @@
 import { ActivityVo } from 'Activity'
+import _ from 'lodash'
 import { getActivityDetail, getActivityList } from './apis/activity'
 export const useActivityList = () => {
   const activityList = ref<PageResult<ActivityVo>>()
@@ -33,13 +34,14 @@ export const useActivityList = () => {
 
 export const useActivityDetail = (activityId: number) => {
   const activityData = ref<ActivityVo>()
-
+  const len = ref(1)
   let refreshFn = null
 
   const getActivity = async (activityId: number) => {
     const { data, refresh } = await getActivityDetail(activityId)
     if (data) {
       activityData.value = data
+      len.value = length(activityData.value)
       refreshFn = refresh
     }
   }
@@ -54,6 +56,7 @@ export const useActivityDetail = (activityId: number) => {
 
   return {
     activityData,
-    refreshFn
+    refreshFn,
+    len
   }
 }
