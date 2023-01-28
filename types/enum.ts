@@ -15,7 +15,8 @@ export const enum RESULT_CODE {
 	DATA_NOTFOUND = 8005, // 未找到相对应的数据
 	TOO_MANY_REQUEST = 8006, // 请求次数过多
 	VERIFY_ERROR = 8007, // 验证码错误
-	USER_PASSWORD_WRONG = 8008 // 用户名错误或密码错误
+	USER_PASSWORD_WRONG = 8008, // 用户名错误或密码错误
+	SEND_EMAIL_ERROR = 8009 // 发邮件错误
 }
 
 export const enum RESULT_MSG {
@@ -27,7 +28,8 @@ export const enum RESULT_MSG {
 	DATA_NOTFOUND = '未找到对应数据', // 未找到相对应的数据
 	TOO_MANY_REQUEST = '请稍后再请求', // 请求次数过多
 	VERIFY_ERROR = '验证码错误', // 验证码错误
-	USER_PASSWORD_WRONG = '用户名错误或密码错误' // 用户名错误或密码错误
+	USER_PASSWORD_WRONG = '用户名错误或密码错误', // 用户名错误或密码错误
+	SEND_EMAIL_ERROR = '发送邮件错误'
 }
 
 export const enum ROLE {

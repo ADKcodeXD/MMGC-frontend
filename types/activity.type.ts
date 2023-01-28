@@ -7,7 +7,7 @@ declare module 'Activity' {
 		/**
 		 * 活动cm 视频链接 可以拥有好几个CM
 		 */
-		activityCM: string[] | null
+		activityCM: Cmvo[] | null
 		/**
 		 * 活动封面图
 		 */
@@ -56,7 +56,20 @@ declare module 'Activity' {
 		 * 开始时间
 		 */
 		startTime: string | null
+		/**
+		 * 规则的多语言简介
+		 */
+		rules: I18N | null
+		/**
+		 * 其他信息的详细介绍
+		 */
+		timesorother: I18N | null
+		/**
+		 * faq
+		 */
+		faq: I18N | null
 	}
+
 	interface ActivityVo extends Omit<ActivityModel, 'staff' | 'sponsorId'> {
 		/**
 		 * StaffVo类型
@@ -67,8 +80,12 @@ declare module 'Activity' {
 		 */
 		sponsorListVo: Array<any> | null
 	}
+
 	type ActivityParamsTemp = Partial<
-		Pick<ActivityModel, 'activityBackgroundImg' | 'activityCM' | 'days' | 'endTime' | 'sponsorId' | 'startTime'>
+		Pick<
+			ActivityModel,
+			'activityBackgroundImg' | 'activityCM' | 'days' | 'endTime' | 'sponsorId' | 'startTime' | 'rules' | 'faq' | 'timesorother'
+		>
 	> &
 		Pick<ActivityModel, 'activityCover' | 'activityId' | 'activityLogo' | 'activityName' | 'desc'>
 	interface ActivityParams extends ActivityParamsTemp {

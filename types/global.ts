@@ -1,4 +1,5 @@
 import { MemberVo } from 'Member'
+
 declare global {
   type NormalObject = {
     [key: string]: any
@@ -48,12 +49,17 @@ declare global {
      * 翻译人员
      */
     translator?: number[] | null
+    /**
+     * 其他贡献者
+     */
+    others?: number[] | null
   }
 
   type StaffVo = {
     judges?: MemberVo[] | null
     organizer?: null | MemberVo
     translator?: MemberVo[] | null
+    others?: MemberVo[] | null
   }
 
   type Sns = {
@@ -108,6 +114,15 @@ declare global {
     result: T[]
     total: number
     page: number
+  }
+  /**
+   * CMVO
+   */
+  interface Cmvo {
+    cmEditor: string | null
+    desc: null | string
+    link: string
+    title: null | string
   }
 
   interface PageParams {
