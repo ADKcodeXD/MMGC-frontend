@@ -1,5 +1,5 @@
 <template>
-  <el-popover placement="top" :width="300" trigger="hover">
+  <el-popover placement="top" :width="300" trigger="hover" :show-after="100">
     <template #reference>
       <ElAvatar :src="memberVo.avatar || undefined" class="mx-1">{{ noAvatar }}</ElAvatar>
     </template>

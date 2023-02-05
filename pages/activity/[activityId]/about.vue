@@ -96,15 +96,15 @@
     <div class="achor">
       <div
         class="achor-item"
-        v-for="item in 3"
-        :key="item"
-        :class="{ current: pageState.current === item }"
-        :style="clacTransform(item)"
-        @click="move(item)"
+        v-for="(item, index) in achorList"
+        :key="index"
+        :class="{ current: pageState.current === index + 1 }"
+        :style="clacTransform(index + 1)"
+        @click="move(index + 1)"
       >
-        <p class="decorate">#{{ item }}</p>
+        <p class="decorate">#{{ index + 1 }}</p>
         <div class="circle"></div>
-        <p class="text-xl font-bold pl-8">活动CM</p>
+        <p class="text-xl font-bold pl-8">{{ item.name }}</p>
       </div>
     </div>
   </div>
@@ -123,6 +123,8 @@ definePageMeta({
 const attrs: { activityId: number } = useAttrs() as any
 const { localeState } = storeToRefs(useGlobalStore())
 const locale = computed(() => localeState.value) as unknown as keyof I18N
+
+const achorList = ref<any>([])
 const { activityData, len } = useActivityDetail(attrs.activityId)
 
 const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(len.value)
@@ -137,25 +139,31 @@ const clacTransform = (index: number) => {
 const length = (activityData: Partial<ActivityVo>) => {
   const keys = _.keys(activityData) as Array<keyof ActivityVo>
   let len = 1
+  const list: { name: string }[] = []
   if (
     keys.includes('activityCM') &&
     activityData.activityCM &&
     activityData.activityCM.length > 0
   ) {
+    list.push({ name: '活动CM' })
     len++
   }
+  list.push({ name: '活动介绍' })
   if (keys.includes('rules') && activityData.rules && activityData.rules.cn) {
+    list.push({ name: '活动规则' })
     len++
   }
   if (keys.includes('timesorother') && activityData.timesorother && activityData.timesorother.cn) {
+    list.push({ name: '注意事项' })
     len++
   }
   if (keys.includes('faq') && activityData.faq && activityData.faq.cn) {
+    list.push({ name: 'FAQ&其他' })
     len++
   }
+  achorList.value = list
   return len
 }
-
 watchEffect(() => {
   const len = length(activityData.value || {})
   pageState.len = len

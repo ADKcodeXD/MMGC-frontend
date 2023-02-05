@@ -34,11 +34,7 @@
           </ElDropdownMenu>
         </template>
       </ElDropdown>
-      <div
-        class="oper-item"
-        @click="$router.push(localePath(`/activity/${activityId}/main`))"
-        v-if="!userInfo"
-      >
+      <div class="oper-item" @click="$router.push(localePath('login'))" v-if="!userInfo">
         <ClientOnly>
           <Icon name="ant-design:user-outlined" size="1.5rem" class="mb-1" />
         </ClientOnly>
