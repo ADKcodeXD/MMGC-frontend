@@ -3,19 +3,33 @@
     <div class="fullpage" ref="fullpageEl" v-if="activityData">
       <div class="fullpage-container" ref="container" @mousewheel="onMouseWheel">
         <!-- CM -->
-        <div class="section relative" v-if="activityData.activityCM">
-          <p class="absolute top--2 left-0 title-cm">活动CM</p>
-          <Swiper
-            :modules="[SwiperNavigation, SwiperController, SwiperPagination]"
-            :allowTouchMove="false"
-            :pagination="true"
-            :navigation="true"
-            :slides-per-view="1"
-          >
-            <SwiperSlide v-for="item in activityData.activityCM" :key="item">
-              <Aplayer :video-url="item.link" />
-            </SwiperSlide>
-          </Swiper>
+        <div class="section relative cm-section" v-if="activityData.activityCM">
+          <div class="video-cm">
+            <Transition name="right-to-left" mode="out-in">
+              <div class="inner-container" v-if="currentItem">
+                <Aplayer :video-url="currentItem.link" />
+                <div class="flex justify-between items-end h-32">
+                  <div>
+                    <p class="title">{{ currentItem.title }}</p>
+                    <p class="tip text-light-50 mb-2">作者:{{ currentItem.cmEditor }}</p>
+                    <p class="sub-title">{{ currentItem.desc }}</p>
+                  </div>
+                  <div class="flex">
+                    <p class="cursor-pointer set" @click="prevCm" v-if="currentCMIndex !== 0">
+                      上一个
+                    </p>
+                    <p
+                      class="cursor-pointer set"
+                      @click="nextCm"
+                      v-if="currentCMIndex !== activityData.activityCM.length - 1"
+                    >
+                      下一个
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Transition>
+          </div>
         </div>
         <!-- desc 介绍 -->
         <div class="section">
@@ -117,7 +131,26 @@ import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '~~/stores/global'
 
 definePageMeta({
-  key: route => route.fullPath
+  pageTransition: { name: 'page', mode: 'out-in' }
+})
+const currentCMIndex = ref(0)
+
+const prevCm = () => {
+  if (currentCMIndex.value === 0) return
+  currentCMIndex.value--
+}
+const nextCm = () => {
+  if (currentCMIndex.value === activityData.value!.activityCM!.length - 1) return
+  currentCMIndex.value++
+}
+
+const currentItem = computed(() => {
+  if (activityData.value) {
+    if (activityData.value.activityCM) {
+      return activityData.value.activityCM[currentCMIndex.value]
+    }
+  }
+  return null
 })
 
 const attrs: { activityId: number } = useAttrs() as any
@@ -125,9 +158,9 @@ const { localeState } = storeToRefs(useGlobalStore())
 const locale = computed(() => localeState.value) as unknown as keyof I18N
 
 const achorList = ref<any>([])
-const { activityData, len } = useActivityDetail(attrs.activityId)
+const { activityData } = useActivityDetail(attrs.activityId)
 
-const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(len.value)
+const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(1)
 
 const clacTransform = (index: number) => {
   const pos = index - pageState.current
@@ -186,11 +219,7 @@ watchEffect(() => {
     justify-content: center;
     width: 100%;
     height: 100%;
-    .title-cm {
-      font-size: 32px;
-      font-weight: 600;
-      color: $themeColor;
-    }
+    overflow: hidden;
     .desc-like {
       padding-top: 5%;
       justify-self: flex-start;
@@ -201,6 +230,40 @@ watchEffect(() => {
     }
     .staff-label {
       width: 100px;
+    }
+  }
+  .cm-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow-x: hidden;
+    justify-content: flex-start;
+    .video-cm {
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      .inner-container {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+        .set {
+          color: $themeNotActiveColor;
+          font-size: $bigFontSize;
+          margin-left: 5px;
+          &:hover {
+            color: $themeColor;
+          }
+        }
+      }
+    }
+    .title-cm {
+      font-size: 32px;
+      font-weight: 600;
+      color: $themeColor;
     }
   }
   .desc-like {
@@ -245,22 +308,5 @@ watchEffect(() => {
     font-size: 48px;
     font-weight: 600;
   }
-}
-</style>
-
-<style>
-.swiper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.swiper-slide,
-.swiper-slide-duplicate {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
 }
 </style>
