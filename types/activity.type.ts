@@ -70,6 +70,37 @@ declare module 'Activity' {
 		faq: I18N | null
 	}
 
+	/**
+	 * Day
+	 */
+	export interface DayModel {
+		/**
+		 * 关联的活动id
+		 */
+		activityId: number | null
+		/**
+		 * 第几天
+		 */
+		day: number | null
+		/**
+		 * 主题封面
+		 */
+		themeCover: null | string
+
+		/**
+		 * 主题描述 支持国际化
+		 */
+		themeDesc: null | I18N
+		/**
+		 * 主题名字
+		 */
+		themeName: I18N | null
+
+		isPublic: boolean | null
+
+		sortIndex: number | null
+	}
+
 	interface ActivityVo extends Omit<ActivityModel, 'staff' | 'sponsorId'> {
 		/**
 		 * StaffVo类型
@@ -101,4 +132,8 @@ declare module 'Activity' {
 		 */
 		activityId: number
 	}
+
+	export type DayVo = Omit<DayModel, 'activityId'>
+
+	export type DayParams = DayModel
 }
