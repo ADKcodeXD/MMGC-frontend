@@ -1,10 +1,6 @@
 import { MemberVo } from 'Member'
-import _ from 'lodash'
-interface SiteItem {
-  value: string
-  icon: string
-  color: string
-}
+import { useOpenLink } from './useLink'
+
 export const useMemberPop = (memberVO: MemberVo) => {
   const noAvatar = computed(() => {
     if (!memberVO.avatar) {
@@ -12,35 +8,11 @@ export const useMemberPop = (memberVO: MemberVo) => {
     }
     return undefined
   })
-  const snsSites = computed<SiteItem[]>(() => {
-    if (memberVO.snsSite) {
-      const keys = _.keys(memberVO.snsSite)
-      const map: Record<string, any> = {
-        bilibili: {
-          color: '#EC2775',
-          icon: 'ri:bilibili-fill'
-        },
-        niconico: {
-          color: '#D4DADA',
-          icon: 'simple-icons:niconico'
-        },
-        youtube: { color: '#4664F0', icon: 'logos:youtube-icon' },
-        twitter: { color: '#1D9BF0', icon: 'logos:twitter' },
-        personalWebsite: { color: '#E57119', icon: 'material-symbols:broadcast-on-personal' }
-      }
-      return keys.map(item => {
-        const temp = map[item]
-        temp.value = (memberVO.snsSite as any)[item]
-        return temp
-      })
-    }
-    return []
+  const snsSites = computed(() => {
+    return useSnsSites(memberVO.snsSite)
   })
-  const openlink = (link: string) => {
-    if (window) {
-      window.location.replace(link)
-    }
-  }
+
+  const openlink = useOpenLink()
   return {
     openlink,
     snsSites,

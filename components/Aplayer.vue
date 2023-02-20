@@ -1,13 +1,18 @@
 <template>
   <ClientOnly>
-    <div>
+    <div class="w-full h-full">
       <video-player
         :src="videoUrl"
         controls
         :loop="true"
         :volume="0.6"
-        :width="1200"
-        :height="600"
+        style="width: 100%; height: 100%"
+        :poster="cover || ''"
+        :on-play="onPlay"
+        @abort="onAbort"
+        @play="onPlay"
+        @pause="onPause"
+        @mounted="handleMounted"
       />
     </div>
   </ClientOnly>
@@ -15,22 +20,32 @@
 <script lang="ts" setup>
 import { VideoPlayer } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
-let dp = ref()
-const props = defineProps<{
+const player = ref()
+defineProps<{
   videoUrl: string
+  cover?: string
 }>()
-// const randomId = computed(() => {
-//   return `dplayer${props.videoUrl}${Math.random() * 150}`
-// })
-// onBeforeUnmount(() => {})
-// watch(props, props => {
-//   if (dp.value) {
-//     dp.value.switchVideo({
-//       url: props.videoUrl,
-//       type: 'auto'
-//     })
-//   }
-// })
+const emit = defineEmits(['onPlay', 'onAbort', 'onPause'])
+const onPlay = () => {
+  emit('onPlay')
+}
+const onAbort = () => {
+  emit('onAbort')
+}
+const onPause = () => {
+  emit('onPause')
+}
+const handleMounted = (payload: any) => {
+  player.value = payload.player
+}
+
+const pause = () => {
+  if (player.value) {
+    player.value.pause()
+    emit('onPause')
+  }
+}
+defineExpose({ pause })
 </script>
 <style lang="scss">
 .video-js .vjs-big-play-button {

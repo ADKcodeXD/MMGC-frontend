@@ -2,9 +2,13 @@ import { defineStore } from 'pinia'
 export const useGlobalStore = defineStore('global', {
   state: () => {
     return {
-      localeState: useCookie('locale').value || 'cn'
+      localeState: useCookie('locale').value || 'cn',
+      documentReadyState: true,
+      currentActivityId: 2022
     } as {
       localeState: 'cn' | 'en' | 'jp'
+      documentReadyState: boolean
+      currentActivityId: number
     }
   },
   actions: {
@@ -16,6 +20,9 @@ export const useGlobalStore = defineStore('global', {
       })
       locale.value = newLocale
       this.localeState = newLocale
+    },
+    setCurrentActivityId(activityId: number) {
+      this.currentActivityId = activityId
     }
   }
 })

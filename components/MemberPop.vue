@@ -1,7 +1,9 @@
 <template>
   <el-popover placement="top" :width="300" trigger="hover" :show-after="100">
     <template #reference>
-      <ElAvatar :src="memberVo.avatar || undefined" class="mx-1">{{ noAvatar }}</ElAvatar>
+      <ElAvatar :src="memberVo.avatar || undefined" class="mx-1" :size="size || 32">{{
+        noAvatar
+      }}</ElAvatar>
     </template>
     <template #default>
       <div class="flex">
@@ -36,6 +38,7 @@ import { MemberVo } from 'Member'
 
 const props = defineProps<{
   memberVo: MemberVo
+  size?: number
 }>()
 const { openlink, noAvatar, snsSites } = useMemberPop(props.memberVo)
 </script>
