@@ -47,34 +47,37 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ActivityVo } from 'Activity'
 import { MemberVo } from 'Member'
 import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
-defineProps<{
-  activityData?: ActivityVo
-}>()
+
 const route = useRoute()
 const store = useGlobalStore()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const localeRoute = useLocaleRoute()
-const activityId = parseInt(route.params.activityId.toString())
+const glableStore = useGlobalStore()
+const userStore = useUserStore()
+
+const userInfo = ref<MemberVo | null>()
+const activityId = parseInt(route.params.activityId?.toString()) || glableStore.currentActivityId
+const { activityData } = useActivityDetail(activityId)
+
 const handleLocale = (command: 'cn' | 'jp' | 'en') => {
   store.setLocale(command)
   switchLocalePath(command)
 }
+
 const goWelcome = () => {
   const route = localeRoute('/welcome')
   navigateTo(route?.fullPath)
 }
-const userStore = useUserStore()
 
-const userInfo = ref<MemberVo | null>()
 const logout = () => {
   userInfo.value = null
   userStore.clearToken()
 }
+
 onMounted(() => {
   setTimeout(() => {
     userStore.getUserInfo().then(user => {
@@ -83,6 +86,7 @@ onMounted(() => {
   }, 0)
 })
 </script>
+
 <style lang="scss" scoped>
 .MMGC {
   &-header {
