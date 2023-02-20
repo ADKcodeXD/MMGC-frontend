@@ -34,21 +34,15 @@ export const useActivityList = () => {
 
 export const useActivityDetail = (activityId: number) => {
   const activityData = ref<ActivityVo>()
-  const len = ref(1)
   let refreshFn = null
 
   const getActivity = async (activityId: number) => {
     const { data, refresh } = await getActivityDetail(activityId)
     if (data) {
       activityData.value = data
-      len.value = length(activityData.value)
       refreshFn = refresh
     }
   }
-
-  onMounted(async () => {
-    getActivity(activityId)
-  })
 
   watchEffect(() => {
     getActivity(activityId)
@@ -57,6 +51,6 @@ export const useActivityDetail = (activityId: number) => {
   return {
     activityData,
     refreshFn,
-    len
+    getActivity
   }
 }
