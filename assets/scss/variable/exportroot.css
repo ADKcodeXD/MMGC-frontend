@@ -1,0 +1,21 @@
+:root {
+  --verySmallFontSize: var(--verySmallFontSize, 0.5rem);
+  --smallFontSize: var(--smallFontSize, 0.8rem);
+  --normalFontSize: var(--normalFontSize, 1rem);
+  --midFontSize: var(--midFontSize, 1.25rem);
+  --bigFontSize: var(--bigFontSize, 1.5rem);
+  --veryBigFontSize: var(--veryBigFontSize, 2rem);
+  --biggerFontSize: var(--biggerFontSize, 2.5rem);
+  --biggestFontSize: var(--biggestFontSize, 3rem);
+
+  --themeColor: var(--themeColor, #ffc962);
+  --themeNotActiveColor: var(--themeNotActiveColor, #ffc962);
+  --whiteColor: var(--whiteColor, #fff);
+  --shadowColor: var(--shadowColor, rgba(0, 0, 0, 0.3));
+  --backgroundColor: var(--backgroundColor, rgb(0, 0, 0));
+  --textColor: var(--textColor, rgb(12, 12, 12));
+  --tipColor: var(--tipColor, rgb(177, 177, 177));
+  --secondryColor: var(--secondryColor, #e0960b);
+  --errorColor: var(--errorColor, #da290a);
+  --hintColor: var(--hintColor, rgb(27, 121, 245));
+}

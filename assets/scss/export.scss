@@ -16,8 +16,34 @@
   @include showLine(1);
 }
 
+.title-click {
+  color: $themeNotActiveColor;
+  font-weight: 600;
+  font-size: $bigFontSize;
+  margin: 1rem 0;
+  @include showLine(1);
+  transition: 0.4s ease all;
+  cursor: pointer;
+  &:hover {
+    color: $themeColor;
+  }
+}
+
 .sub-title {
   color: $tipColor;
   font-size: $smallFontSize;
   @include showLine(1);
+}
+
+.tag {
+  &-primary {
+    @include tagfunc();
+    background-color: $secondryColor;
+    color: $whiteColor;
+  }
+  &-day {
+    @include tagfunc();
+    background-color: $hintColor;
+    color: $whiteColor;
+  }
 }
