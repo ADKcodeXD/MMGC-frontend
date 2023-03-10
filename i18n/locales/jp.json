@@ -1,6 +1,26 @@
 {
   "hello": "こんにちは",
-  "enterMatch": "試合に入る",
+  "enterMatch": "大会に参加する",
   "desc": "紹介",
-  "mainStage": "メインステージ"
+  "mainStage": "メインステージ",
+  "prev": "前の",
+  "next": "次の",
+  "judge": "審査員",
+  "organizer": "主催者",
+  "translator": "翻訳者",
+  "commiter": "貢献者",
+  "movieList": "作品リスト",
+  "author": "作者：",
+  "viewDetail": "詳細を見る",
+  "notFoundDays": "その日は見つかりませんでした、またはまだ公開されていません",
+  "wheelMouse": "マウスホイールでスクロールダウン",
+  "uploadAt": "アップロード日：",
+  "firstViewTime": "最初の公開日：",
+  "like": "いいね",
+  "polls": "投票",
+  "otherView": "他のチャンネルで見る",
+  "clickJump": "クリックしてジャンプ",
+  "detailInfo": "詳細情報",
+  "sendComment": "コメントを送信",
+  "belongMatch": "所属する大会"
 }
