@@ -1,30 +1,29 @@
 <template>
-  <div @mouseover="isShow = true" @mouseleave="showOff" class="relative">
+  <div @mouseover="isShow = true" class="relative" v-if="memberVo">
     <ElAvatar :src="memberVo.avatar || undefined" class="mx-1">{{ noAvatar }}</ElAvatar>
-    <div class="popover" v-show="isShow" @mouseover="isShow = true">
+    <div class="popover" @mouseleave="showOff" v-show="isShow" @mouseover="isShow = true">
       <div class="flex flex-col items-center">
         <ElAvatar :size="60" :src="memberVo.avatar || undefined" class="mx-1">{{
           noAvatar
         }}</ElAvatar>
         <p class="title mt-1" style="font-size: 24px">{{ memberVo.memberName }}</p>
         <p>{{ memberVo.username }}</p>
-        <p v-if="snsSites.length">社交媒体</p>
+        <p v-if="snsSites.length">{{ $t('sns') }}</p>
         <div class="flex flex-wrap">
           <div
             v-for="item in snsSites"
             :key="item.value"
             class="cursor-pointer"
-            :title="`点击跳转 ${item.value}`"
+            :title="`${$t('clickJump')} ${item.value}`"
             @click="openlink(item.value)"
           >
             <Icon :name="item.icon" :style="{ color: item.color }" size="16px" class="mr-1" />
           </div>
         </div>
       </div>
-
       <div class="wrapper">
-        <div class="btn"><Icon name="ion:edit"></Icon>修改</div>
-        <div class="btn" @click="logout"><Icon name="ion:log-out-outline"></Icon>注销</div>
+        <div class="btn"><Icon name="ion:edit"></Icon>{{ $t('update') }}</div>
+        <div class="btn" @click="logout"><Icon name="ion:log-out-outline"></Icon>{{ $t('logout') }}</div>
       </div>
     </div>
   </div>
@@ -37,11 +36,13 @@ const props = defineProps<{
 }>()
 const { openlink, noAvatar, snsSites } = useMemberPop(props.memberVo)
 const emit = defineEmits(['logout'])
-const isShow = ref(true)
+const isShow = ref(false)
+
 const logout = () => {
   emit('logout')
   isShow.value = false
 }
+
 const showOff = _.debounce(() => {
   isShow.value = false
 }, 300)

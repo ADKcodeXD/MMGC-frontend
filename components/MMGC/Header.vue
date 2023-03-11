@@ -14,9 +14,12 @@
         </NuxtLink>
       </p>
       <i class="split">/</i>
-      <p class="nav-item">主办&赞助</p>
+      <p class="nav-item">{{ $t('organSponsor') }}</p>
       <i class="split">/</i>
-      <p class="nav-item">往届赛事<i class="iconfont mmgc-iconchevron-down"></i></p>
+      <p class="nav-item">
+        <NuxtLink :to="localePath(`/activity/${activityId}/history`)"> {{ $t('history') }} </NuxtLink>
+        <i class="iconfont mmgc-iconchevron-down"></i>
+      </p>
     </nav>
     <section class="MMGC-header-oper">
       <ElDropdown trigger="click" @command="handleLocale">
@@ -24,7 +27,7 @@
           <ClientOnly>
             <Icon name="ion:language-sharp" size="1.5rem" class="mb-1" />
           </ClientOnly>
-          <p>语言</p>
+          <p>{{ $t('language') }}</p>
         </div>
         <template #dropdown>
           <ElDropdownMenu>
@@ -34,11 +37,11 @@
           </ElDropdownMenu>
         </template>
       </ElDropdown>
-      <div class="oper-item" @click="$router.push(localePath('login'))" v-if="!userInfo">
+      <div class="oper-item" @click="$router.push(localePath('login'))" v-if="!isUserInfo">
         <ClientOnly>
           <Icon name="ant-design:user-outlined" size="1.5rem" class="mb-1" />
         </ClientOnly>
-        <p>登录</p>
+        <p>{{ $t('login') }}</p>
       </div>
       <div class="oper-item" v-else>
         <MyInfo :member-vo="userInfo" @logout="logout" />
@@ -48,9 +51,11 @@
 </template>
 <script setup lang="ts">
 import { MemberVo } from 'Member'
+import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
-
+import lodash from 'lodash'
+import { Ref } from 'vue'
 const route = useRoute()
 const store = useGlobalStore()
 const localePath = useLocalePath()
@@ -59,14 +64,22 @@ const localeRoute = useLocaleRoute()
 const glableStore = useGlobalStore()
 const userStore = useUserStore()
 
-const userInfo = ref<MemberVo | null>()
-const activityId = parseInt(route.params.activityId?.toString()) || glableStore.currentActivityId
-const { activityData } = useActivityDetail(activityId)
+const userInfo = storeToRefs(userStore).userInfo as unknown as Ref<MemberVo>
+
+const activityId =
+  parseInt(route.params.activityId?.toString()) || glableStore.config?.currentActivityId
+
+const { activityData } = useActivityDetail(activityId || 0)
+if (userStore.token) userStore.getUserInfo()
 
 const handleLocale = (command: 'cn' | 'jp' | 'en') => {
   store.setLocale(command)
   switchLocalePath(command)
 }
+
+const isUserInfo = computed(() => {
+  return !lodash.isEmpty(userInfo.value)
+})
 
 const goWelcome = () => {
   const route = localeRoute('/welcome')
@@ -74,17 +87,8 @@ const goWelcome = () => {
 }
 
 const logout = () => {
-  userInfo.value = null
   userStore.clearToken()
 }
-
-onMounted(() => {
-  setTimeout(() => {
-    userStore.getUserInfo().then(user => {
-      userInfo.value = user
-    })
-  }, 0)
-})
 </script>
 
 <style lang="scss" scoped>

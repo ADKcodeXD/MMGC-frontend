@@ -1,10 +1,10 @@
 <template>
-  <div v-if="movieItem" @click="goToMovieDetail(movieItem.movieId)">
+  <div v-if="movieItem">
     <div class="movie-item relative">
       <div class="desc-info-detail">
         <div>
-          <p class="title-2">{{ movieItem.movieName.cn }}</p>
-          <p class="sub">{{ movieItem.movieDesc.cn }}</p>
+          <p class="title-2">{{ movieItem.movieName[locale] || movieItem.movieName['cn'] }}</p>
+          <p class="sub">{{ movieItem.movieDesc[locale] || movieItem.movieDesc['cn'] }}</p>
         </div>
 
         <div class="flex w-full justify-between items-center">
@@ -27,19 +27,21 @@
             </div>
           </div>
           <div class="flex items-center mt-3">
-            <p class="text-light-50 mr-3">作者:</p>
+            <p class="text-light-50 mr-3">{{ $t('author') }}:</p>
             <MemberPop v-if="movieItem.author" :member-vo="movieItem.author" :size="30" />
             <p v-else>{{ movieItem.authorName }}</p>
           </div>
         </div>
       </div>
-      <div class="w-full h-full bg-black">
+      <div class="w-full h-full bg-black img" @click="goToMovieDetail(movieItem.movieId)">
         <MyCustomImage :img="movieItem.movieCover" />
       </div>
     </div>
     <div>
-      <p class="title-click">{{ movieItem.movieName.cn }}</p>
-      <div class="info text-xl">
+      <p class="title-click" @click="goToMovieDetail(movieItem.movieId)">
+        {{ movieItem.movieName[locale] || movieItem.movieName['cn'] }}
+      </p>
+      <div class="info text-xl" v-if="!!showPlayLink">
         <Icon
           name="fa6-brands:bilibili"
           class="cursor-pointer"
@@ -76,10 +78,11 @@ import { MovieVo } from 'Movie'
 
 defineProps<{
   movieItem: MovieVo
+  showPlayLink?: boolean
 }>()
 const openlink = useOpenLink()
 const localeNaviGate = useLocaleNavigate()
-
+const { locale } = useCurrentLocale()
 const goToMovieDetail = (movieId: number) => {
   localeNaviGate(`/movie/${movieId}`)
 }
@@ -94,10 +97,20 @@ const goToMovieDetail = (movieId: number) => {
   position: relative;
   cursor: pointer;
   transition: all ease 0.4s;
+  .img {
+    transition: all 0.4s ease;
+  }
   &:hover {
-    transform: translateY(-10px) scale(1.05);
+    .img {
+      transform: scale(1.2);
+    }
     .desc-info-detail {
       transform: translateY(0);
+
+      .info {
+        color: $whiteColor;
+        display: flex;
+      }
     }
   }
   .desc-info-detail {
