@@ -1,0 +1,38 @@
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  filter: blur(5px) brightness(0);
+}
+
+.right-to-left-enter-activie,
+.right-to-left-leave-activie {
+  transition: all 0.7s ease;
+}
+
+.right-to-left-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.right-to-left-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.list-move, /* 对移动中的元素应用的过渡 */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  filter: blur(5px) brightness(0);
+  transform: translateY(-100px);
+}
