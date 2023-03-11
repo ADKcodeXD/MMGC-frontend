@@ -1,7 +1,9 @@
 export default defineEventHandler(async event => {
-  const baseUrl = process.env.NUXT_PUBLIC_API_BASE || ''
-  const prefix = process.env.NUXT_PUBLIC_API_PREFIX || ''
+  const runtime = useRuntimeConfig()
+  const baseUrl = runtime.public.apiBase || ''
+  const prefix = runtime.public.apiPrefix || ''
   if (event.node.req.url?.startsWith('/api')) {
+    console.log(event.node.req.url, baseUrl, prefix)
     const url = baseUrl + prefix + event.node.req.url.replace('/api', '')
     const query = getQuery(event)
     const token = getCookie(event, 'token')

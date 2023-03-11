@@ -76,11 +76,12 @@ export default defineNuxtConfig({
   components: true,
   runtimeConfig: {
     public: {
-      apiBase: '',
-      apiPrefix: ''
+      apiBase: 'http://43.136.104.79',
+      apiPrefix: '/mmgcApi'
     }
   },
   plugins: ['~~/plugins/pinia-plugin-persist.client']
+
   // unocss: {
   //   uno: true,
   //   attributify: true,
