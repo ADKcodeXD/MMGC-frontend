@@ -1,5 +1,5 @@
 <template>
-  <ElImage :fit="fit" :lazy="isLazy" :src="img">
+  <ElImage :fit="fit" :lazy="isLazy" :src="img || ''" v-bind="$attrs" v-on="$listeners">
     <template #placeholder>
       <div class="gray">
         <MyCustomLoading />
@@ -14,7 +14,7 @@
 </template>
 <script setup lang="ts">
 interface MyElimageProp {
-  img?: string // 图片的链接
+  img?: string | null // 图片的链接
   isLazy?: boolean // 是否懒加载
   fit?: '' | 'fill' | 'none' | 'contain' | 'cover' | 'scale-down'
 }
@@ -39,5 +39,6 @@ withDefaults(defineProps<MyElimageProp>(), {
   width: 100%;
   height: 100%;
   min-height: inherit;
+  display: inline-flex;
 }
 </style>
