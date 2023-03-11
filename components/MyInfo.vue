@@ -22,9 +22,12 @@
         </div>
       </div>
       <div class="wrapper">
-        <div class="btn"><Icon name="ion:edit"></Icon>{{ $t('update') }}</div>
-        <div class="btn" @click="logout"><Icon name="ion:log-out-outline"></Icon>{{ $t('logout') }}</div>
+        <div class="btn" @click="editMyInfo"><Icon name="ion:edit"></Icon>{{ $t('update') }}</div>
+        <div class="btn" @click="logout">
+          <Icon name="ion:log-out-outline"></Icon>{{ $t('logout') }}
+        </div>
       </div>
+      <MyInfoEdit ref="editRef" />
     </div>
   </div>
 </template>
@@ -38,9 +41,15 @@ const { openlink, noAvatar, snsSites } = useMemberPop(props.memberVo)
 const emit = defineEmits(['logout'])
 const isShow = ref(false)
 
+const editRef = ref()
+
 const logout = () => {
   emit('logout')
   isShow.value = false
+}
+
+const editMyInfo = () => {
+  editRef.value.openDialog()
 }
 
 const showOff = _.debounce(() => {

@@ -7,9 +7,9 @@
     </div>
     <div class="flex-1 w-full h-full flex justify-center pt-10">
       <div class="login-container">
-        <div class="img-container">
+        <!-- <div class="img-container">
           <MyCustomImage :img="Bg" fit="cover" />
-        </div>
+        </div> -->
         <div class="form">
           <div>
             <p class="title">{{ $t('logintoMMGC') }}</p>
@@ -200,18 +200,13 @@ const submit = async () => {
   }
   .login-container {
     width: 47%;
-    height: 65%;
+    height: 70%;
     background-color: rgba(70, 21, 2, 0.205);
     border-radius: 2rem;
     display: flex;
-    overflow: hidden;
+    overflow-y: auto;
     backdrop-filter: blur(5px);
     box-shadow: 0 0 100px rgba(238, 71, 5, 0.473);
-    .img-container {
-      width: 40%;
-      height: 100%;
-      flex-shrink: 0;
-    }
     .form {
       display: flex;
       flex-direction: column;
