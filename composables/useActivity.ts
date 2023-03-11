@@ -6,7 +6,7 @@ export const useActivityList = () => {
   let refreshFn = null
   const pageParams = reactive<PageParams>({
     page: 1,
-    pageSize: 10
+    pageSize: 20
   })
 
   const getActivityListFn = async (pageParams: PageParams) => {
@@ -44,8 +44,8 @@ export const useActivityDetail = (activityId: number) => {
     }
   }
 
-  watchEffect(() => {
-    getActivity(activityId)
+  watchEffect(async () => {
+    await getActivity(activityId)
   })
 
   return {

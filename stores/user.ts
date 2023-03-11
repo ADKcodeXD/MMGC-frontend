@@ -8,10 +8,10 @@ export const useUserStore = defineStore('user', {
   state: () => {
     return {
       token: useCookie('token').value || '',
-      userInfo: {}
+      userInfo: null
     } as {
       token: string | undefined
-      userInfo: MemberVo
+      userInfo: MemberVo | null | undefined
     }
   },
   actions: {
@@ -26,6 +26,7 @@ export const useUserStore = defineStore('user', {
         maxAge: 0
       })
       tokenCookie.value = null
+      this.userInfo = null
       this.token = undefined
     },
     async getUserInfo() {

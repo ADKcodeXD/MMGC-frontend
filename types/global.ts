@@ -161,5 +161,12 @@ declare global {
     otherSettings?: string
     configType?: number
   }
+  export interface ConfigVo {
+    currentActivityId: number
+    skin: string
+    isVideoPlay: boolean
+    otherSettings: string
+    configType: string
+  }
 }
 export {}

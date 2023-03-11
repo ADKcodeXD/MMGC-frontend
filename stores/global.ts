@@ -1,14 +1,19 @@
+import { ActivityVo } from 'Activity'
 import { defineStore } from 'pinia'
+import { getActivityDetail } from '~~/composables/apis/activity'
+import { getConfig } from '~~/composables/apis/config'
 export const useGlobalStore = defineStore('global', {
   state: () => {
     return {
       localeState: useCookie('locale').value || 'cn',
       documentReadyState: true,
-      currentActivityId: 2022
+      config: null,
+      currentActivityData: null
     } as {
       localeState: 'cn' | 'en' | 'jp'
       documentReadyState: boolean
-      currentActivityId: number
+      config: ConfigVo | null
+      currentActivityData: ActivityVo | null
     }
   },
   actions: {
@@ -21,8 +26,15 @@ export const useGlobalStore = defineStore('global', {
       locale.value = newLocale
       this.localeState = newLocale
     },
-    setCurrentActivityId(activityId: number) {
-      this.currentActivityId = activityId
+    async setConfig() {
+      const { data } = await getConfig()
+      this.config = data
+    },
+    async setCurrentActivity() {
+      if (this.config && this.config.currentActivityId) {
+        const { data } = await getActivityDetail(this.config.currentActivityId)
+        this.currentActivityData = data || null
+      }
     }
   }
 })

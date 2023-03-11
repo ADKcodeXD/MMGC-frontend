@@ -4,7 +4,7 @@ export const xFetch = async <T>(url: string, method = 'get', params?: any) => {
       if (response._data) {
         const data = response._data
         if (data.data.code === 401) {
-          return
+          throw new Error('no login')
         } else {
           if (process.client) {
             ElMessage({
