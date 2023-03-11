@@ -5,30 +5,28 @@
         <!-- CM -->
         <div class="section relative cm-section" v-if="activityData.activityCM">
           <div class="video-cm">
-            <Transition name="right-to-left" mode="out-in">
-              <div class="inner-container" v-if="currentItem">
-                <Aplayer :video-url="currentItem.link" />
-                <div class="flex justify-between items-end h-32">
-                  <div>
-                    <p class="title">{{ currentItem.title }}</p>
-                    <p class="tip text-light-50 mb-2">作者:{{ currentItem.cmEditor }}</p>
-                    <p class="sub-title">{{ currentItem.desc }}</p>
-                  </div>
-                  <div class="flex">
-                    <p class="cursor-pointer set" @click="prevCm" v-if="currentCMIndex !== 0">
-                      上一个
-                    </p>
-                    <p
-                      class="cursor-pointer set"
-                      @click="nextCm"
-                      v-if="currentCMIndex !== activityData.activityCM.length - 1"
-                    >
-                      下一个
-                    </p>
-                  </div>
+            <div class="inner-container" v-if="currentItem">
+              <Aplayer :video-url="currentItem.link" />
+              <div class="flex justify-between items-end h-32">
+                <div>
+                  <p class="title">{{ currentItem.title }}</p>
+                  <p class="tip text-light-50 mb-2">作者:{{ currentItem.cmEditor }}</p>
+                  <p class="sub-title">{{ currentItem.desc }}</p>
+                </div>
+                <div class="flex">
+                  <p class="cursor-pointer set" @click="prevCm" v-if="currentCMIndex !== 0">
+                    {{ $t('prev') }}
+                  </p>
+                  <p
+                    class="cursor-pointer set"
+                    @click="nextCm"
+                    v-if="currentCMIndex !== activityData.activityCM.length - 1"
+                  >
+                    {{ $t('next') }}
+                  </p>
                 </div>
               </div>
-            </Transition>
+            </div>
           </div>
         </div>
         <!-- desc 介绍 -->
@@ -47,13 +45,13 @@
               <p class="title" v-if="activityData.staff.organizer">Staff</p>
               <div class="flex flex-col">
                 <div class="flex items-center my-2" v-if="activityData.staff.organizer">
-                  <p class="staff-label">主办:</p>
+                  <p class="staff-label">{{ $t('organizer') }}:</p>
                   <div v-if="activityData.staff && activityData.staff.organizer">
                     <MemberPop :member-vo="activityData.staff.organizer" />
                   </div>
                 </div>
                 <div class="flex items-center my-2" v-if="activityData.staff.judges">
-                  <p class="staff-label">评委:</p>
+                  <p class="staff-label">{{ $t('judge') }}:</p>
                   <div v-if="activityData.staff && activityData.staff.judges" class="flex">
                     <MemberPop
                       :member-vo="item"
@@ -63,7 +61,7 @@
                   </div>
                 </div>
                 <div class="flex items-center my-2" v-if="activityData.staff.translator">
-                  <p class="staff-label">翻译人员:</p>
+                  <p class="staff-label">{{ $t('translator') }}:</p>
                   <div v-if="activityData.staff && activityData.staff.translator" class="flex">
                     <MemberPop
                       :member-vo="item"
@@ -73,7 +71,7 @@
                   </div>
                 </div>
                 <div class="flex items-center my-2" v-if="activityData.staff.others">
-                  <p class="staff-label">参与贡献者:</p>
+                  <p class="staff-label">{{ $t('commiter') }}:</p>
                   <div v-if="activityData.staff && activityData.staff.others" class="flex">
                     <MemberPop
                       :member-vo="item"
@@ -127,12 +125,7 @@
 <script setup lang="ts">
 import { ActivityVo } from 'Activity'
 import _ from 'lodash'
-import { storeToRefs } from 'pinia'
-import { useGlobalStore } from '~~/stores/global'
 
-definePageMeta({
-  pageTransition: { name: 'page', mode: 'out-in' }
-})
 const currentCMIndex = ref(0)
 
 const prevCm = () => {
@@ -154,14 +147,14 @@ const currentItem = computed(() => {
 })
 
 const attrs: { activityId: number } = useAttrs() as any
-const { localeState } = storeToRefs(useGlobalStore())
-const locale = computed(() => localeState.value) as unknown as keyof I18N
 
+const { locale } = useCurrentLocale()
 const achorList = ref<any>([])
-const { activityData } = useActivityDetail(attrs.activityId)
+const { activityData, getActivity } = useActivityDetail(attrs.activityId)
+
+await getActivity(attrs.activityId)
 
 const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(1)
-
 const clacTransform = (index: number) => {
   const pos = index - pageState.current
   const transformY = pos * 90 + 'px'
@@ -169,6 +162,7 @@ const clacTransform = (index: number) => {
   const scale = 1 - Math.abs(pos) * 0.25
   return `transform: translateY(${transformY}) translateX(${transformX}) scale(${scale});opacity: ${scale};`
 }
+
 const length = (activityData: Partial<ActivityVo>) => {
   const keys = _.keys(activityData) as Array<keyof ActivityVo>
   let len = 1
@@ -197,6 +191,7 @@ const length = (activityData: Partial<ActivityVo>) => {
   achorList.value = list
   return len
 }
+
 watchEffect(() => {
   const len = length(activityData.value || {})
   pageState.len = len

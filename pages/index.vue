@@ -1,16 +1,11 @@
 <template>
-  <div class="page-index">
-    <div>
-      <NuxtLink :to="'/activity/2022'">2022</NuxtLink>
-    </div>
-  </div>
+  <div class="page-index"></div>
 </template>
 
 <style>
 .page-index {
   padding-top: 60px;
   text-align: center;
+  background-color: black;
 }
 </style>
-
-<script setup lang="ts"></script>

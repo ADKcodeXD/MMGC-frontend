@@ -1,8 +1,8 @@
 <template>
   <div class="bg">
     <div class="header">
-      <div class="w-60 h-24">
-        <MyCustomImage :img="Mirai" @click="$router.push('/')" />
+      <div class="w-60 h-24 cursor-pointer">
+        <MyCustomImage :img="Mirai" @click="goWelcome" />
       </div>
     </div>
     <div class="flex-1 w-full h-full flex justify-center pt-10">
@@ -12,8 +12,8 @@
         </div>
         <div class="form">
           <div>
-            <p class="title">登录到MMGC官网</p>
-            <p class="sub-title">登录MMGC官网可以使用投票，评论，点赞等功能，为选手加油助威！</p>
+            <p class="title">{{ $t('logintoMMGC') }}</p>
+            <p class="sub-title">{{ $t('MMGCdesc') }}</p>
           </div>
           <Transition mode="out-in">
             <el-form
@@ -26,10 +26,10 @@
               class="mt-5 flex-1"
               v-if="!isRegister"
             >
-              <el-form-item label="用户名" prop="username">
+              <el-form-item :label="$t('username')" prop="username">
                 <el-input v-model="loginForm.username" />
               </el-form-item>
-              <el-form-item label="密码" prop="password">
+              <el-form-item :label="$t('password')" prop="password">
                 <el-input v-model="loginForm.password" type="password" />
               </el-form-item>
             </el-form>
@@ -43,13 +43,13 @@
               ref="registerRef"
               v-else
             >
-              <el-form-item label="用户名" prop="username">
+              <el-form-item :label="$t('username')" prop="username">
                 <el-input v-model="registerForm.username" />
               </el-form-item>
-              <el-form-item label="密码" prop="password">
+              <el-form-item :label="$t('password')" prop="password">
                 <el-input v-model="registerForm.password" type="password" />
               </el-form-item>
-              <el-form-item label="昵称" prop="memberName">
+              <el-form-item :label="$t('nickname')" prop="memberName">
                 <el-input v-model="registerForm.memberName" />
               </el-form-item>
               <el-form-item label="确认密码" prop="rePassword">
@@ -76,23 +76,17 @@
 
           <div class="text-light-50 self-end">
             <el-button type="primary" round :dark="true" @click="isRegister = !isRegister">{{
-              isRegister ? '登录' : '注册'
+              isRegister ? $t('login') : $t('register')
             }}</el-button>
-            <el-button
-              type="primary"
-              color="#ffc962"
-              round
-              :dark="true"
-              style="color: #ffffdd"
-              @click="submit"
-              >提交</el-button
-            >
+            <el-button type="primary" round :dark="true" style="color: #ffffdd" @click="submit">{{
+              $t('submit')
+            }}</el-button>
           </div>
           <div class="flex items-center justify-self-end">
             <div class="w-24 h-12">
               <MyCustomImage :img="Mirai" />
             </div>
-            <p class="sub-title">本站承诺不会使用您的任何信息用作任何其他用途</p>
+            <p class="sub-title">{{ $t('dontDoany') }}</p>
           </div>
         </div>
       </div>
@@ -112,7 +106,15 @@ const time = ref(60)
 const registerRef = ref()
 const loginRef = ref()
 const isLoading = ref(false)
+const localeRoute = useLocaleRoute()
+
 const { createMessage } = useMessage()
+
+const goWelcome = () => {
+  const route = localeRoute('/welcome')
+  navigateTo(route?.fullPath)
+}
+
 const loginForm = reactive<{ username: string; password: string }>({
   username: '',
   password: ''

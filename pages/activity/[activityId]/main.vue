@@ -1,5 +1,6 @@
 <template>
   <div class="main" ref="fullpageEl">
+    <!-- 全屏滚动 -->
     <div class="fullpage-container" ref="container" @mousewheel="onMouseWheel">
       <div class="video-container">
         <Transition mode="out-in">
@@ -23,37 +24,44 @@
               </div>
               <div class="descinfo">
                 <div class="left">
-                  <p class="title-movie">{{ item.movieName[locale] }}</p>
-                  <p class="sub-title">{{ item.movieDesc[locale] }}</p>
+                  <p class="title-movie">{{ item.movieName[locale] || item.movieName['cn'] }}</p>
+                  <p class="sub-title">{{ item.movieDesc[locale] || item.movieDesc['cn'] }}</p>
                 </div>
                 <div class="right">
                   <div class="flex items-center mt-3">
-                    <p class="text-light-50 mr-3">作者:</p>
+                    <p class="text-light-50 mr-3">{{ $t('author') }}</p>
                     <MemberPop v-if="item.author" :member-vo="item.author" />
                     <p v-else>{{ item.authorName }}</p>
                   </div>
-                  <ElButton type="primary" @click="goToMovieDetail(item.movieId)"
-                    >查看详情</ElButton
-                  >
+                  <ElButton type="primary" @click="goToMovieDetail(item.movieId)">{{
+                    $t('viewDetail')
+                  }}</ElButton>
                 </div>
               </div>
             </el-carousel-item>
           </el-carousel>
           <p class="title" v-else-if="movies.length === 0 && !isLoading">
-            该天数未找到或者暂时未公开哦~
+            {{ $t('notFoundDays') }}
           </p>
+          <MyCustomLoading v-else />
         </Transition>
       </div>
 
       <div class="video-list">
-        <p class="self-start movie-title">作品列表</p>
-        <div class="movie-item-container">
-          <div v-for="item in movies" :key="item.movieId" style="height: 200px; width: 80%">
-            <MovieListCard :movie-item="item" />
+        <p class="self-start movie-title">{{ $t('movieList') }}</p>
+        <Transition mode="out-in">
+          <div class="movie-item-container relative" v-if="!isLoading">
+            <div v-for="item in movies" :key="item.movieId" style="height: 200px; width: 80%">
+              <MovieListCard :movie-item="item" />
+            </div>
           </div>
-        </div>
+          <div v-else class="h-full w-4/5 items-center">
+            <MyCustomLoading />
+          </div>
+        </Transition>
       </div>
     </div>
+    <!-- 导航 -->
     <div class="nav">
       <div
         v-for="(day, index) in days"
@@ -63,21 +71,24 @@
         @click="handleSwitchDay(day.day || 0)"
       >
         <p class="title-click" :class="{ active: currentDay === day.day }">
-          Day {{ index + 1 }} {{ day.themeName?.cn }}
+          Day {{ index + 1 }} {{ day.themeName![locale] || day.themeName!['cn'] }}
         </p>
-        <p class="sub-title" :class="{ active: currentDay === day.day }">{{ day.themeDesc?.cn }}</p>
+        <p class="sub-title" :class="{ active: currentDay === day.day }">
+          {{ day.themeDesc![locale] || day.themeDesc!['cn'] }}
+        </p>
       </div>
     </div>
-    <transition>
+    <!-- 滚轮滑动 -->
+    <Transition>
       <div class="mouse-roll" v-if="pageState.current === 1">
         <div>
           <Icon name="mingcute:mouse-fill" />
           <Icon name="material-symbols:keyboard-double-arrow-down-rounded" class="anime" />
         </div>
-        <p class="text-xs mt-3">鼠标滚轮下页</p>
+        <p class="text-xs mt-3">{{ $t('wheelMouse') }}</p>
       </div>
-    </transition>
-
+    </Transition>
+    <!-- 背景 -->
     <div
       ref="background"
       class="background"
@@ -92,17 +103,13 @@
 <script setup lang="ts">
 import { DayVo } from 'Activity'
 import { MovieVo } from 'Movie'
-import { storeToRefs } from 'pinia'
 import { getActivityDays } from '~~/composables/apis/activity'
 import { getMovieByActivityId } from '~~/composables/apis/movie'
-import { useGlobalStore } from '~~/stores/global'
 definePageMeta({
   key: route => route.fullPath
 })
 
-const { localeState } = storeToRefs(useGlobalStore())
-const locale = computed(() => localeState.value) as unknown as keyof I18N
-
+const { locale } = useCurrentLocale()
 const props = defineProps<{
   activityId: number
 }>()
@@ -190,9 +197,13 @@ watchEffect(async () => {
   await getVideoByDay(currentDay.value)
 })
 
-watch(currentDay, () => {
-  getVideoByDay(currentDay.value)
-})
+watch(
+  currentDay,
+  () => {
+    getVideoByDay(currentDay.value)
+  },
+  { immediate: false }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -329,6 +340,7 @@ watch(currentDay, () => {
     flex-direction: column;
     align-items: flex-end;
     font-size: $veryBigFontSize;
+    width: 100px;
     .anime {
       animation: down 3s infinite;
     }
@@ -337,6 +349,7 @@ watch(currentDay, () => {
     border-radius: 25px;
   }
 }
+
 @keyframes down {
   0% {
     transform: translateY(-100%);

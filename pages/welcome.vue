@@ -1,28 +1,33 @@
 <template>
-  <div class="bg">
-    <div class="logo">
-      <div class="logo1">
-        <MyCustomImage :img="logodefault" />
-      </div>
-      <div class="logo2">
-        <MyCustomImage :img="logodefault2" />
+  <div>
+    <div class="bg">
+      <div class="logo">
+        <div class="logo1">
+          <MyCustomImage :img="activityData?.activityCover" />
+        </div>
+        <div class="logo2">
+          <MyCustomImage :img="activityData?.activityLogo" />
+        </div>
       </div>
     </div>
-  </div>
-  <div class="oper-items">
-    <p class="item" @click="goActivity">{{ $t('enterMatch') }}</p>
-    <p class="sub item" @click="() => {}">往届赛事</p>
+    <div class="oper-items">
+      <p class="item" @click="goActivity">{{ $t('enterMatch') }}</p>
+      <p class="sub item" @click="() => {}">往届赛事</p>
+    </div>
   </div>
 </template>
+
 <script setup lang="ts">
-import logodefault from '@/assets/img/hjj2022 logo.png'
-import logodefault2 from '@/assets/img/2022MMT.png'
+import { useGlobalStore } from '~~/stores/global'
 const localeRoute = useLocaleRoute()
+const globalState = useGlobalStore()
+const { activityData } = useActivityDetail(globalState.config!.currentActivityId)
 const goActivity = () => {
-  const route = localeRoute('/activity/2022')
+  const route = localeRoute(`/activity/${activityData.value?.activityId}`)
   navigateTo(route?.fullPath || '/')
 }
 </script>
+
 <style lang="scss" scoped>
 @keyframes move {
   0% {

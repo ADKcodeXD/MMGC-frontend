@@ -22,5 +22,20 @@
   "clickJump": "Click to jump",
   "detailInfo": "Detailed Information",
   "sendComment": "Send Comment",
-  "belongMatch": "Belong to Match"
+  "belongMatch": "Belonging Match",
+  "login": "Login",
+  "language": "Language",
+  "organSponsor": "Organizer & Sponsor",
+  "history": "Match History",
+  "sns": "Social Media",
+  "update": "Update",
+  "logout": "Logout",
+  "logintoMMGC": "Login to MMGC website",
+  "submit": "Submit",
+  "register": "Register",
+  "dontDoany": "We promise not to use your information for any other purposes",
+  "MMGCdesc": "Logging in to the MMGC website allows you to use functions such as voting, commenting, and liking to cheer for the contestants!",
+  "username": "Username",
+  "password": "Password",
+  "nickname": "Nickname"
 }

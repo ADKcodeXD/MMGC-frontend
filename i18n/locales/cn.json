@@ -22,5 +22,20 @@
   "clickJump": "点击跳转",
   "detailInfo": "详细信息",
   "sendComment": "发送评论",
-  "belongMatch": "所属赛事"
+  "belongMatch": "所属赛事",
+  "login": "登录",
+  "language": "Language",
+  "organSponsor": "主办&赞助",
+  "history": "历史赛事",
+  "sns": "社交媒体",
+  "update": "修改",
+  "logout": "注销",
+  "logintoMMGC": "登录到MMGC官网",
+  "submit": "提交",
+  "register": "注册",
+  "dontDoany": "本站承诺不会使用您的任何信息用作任何其他用途",
+  "MMGCdesc": "登录MMGC官网可以使用投票，评论，点赞等功能，为选手加油助威！",
+  "username": "用户名",
+  "password": "密码",
+  "nickname": "昵称"
 }

@@ -8,17 +8,19 @@
             {{ movieDetail.activityVo.activityId }}活动作品
           </div>
           <div class="tag-day" v-if="movieDetail.activityVo">Day{{ movieDetail.day }}作品</div>
-          <p class="movie-title">{{ movieDetail?.movieName['cn'] }}</p>
+          <p class="movie-title">
+            {{ movieDetail?.movieName[locale] || movieDetail?.movieName['cn'] }}
+          </p>
         </div>
         <div>
           <MemberPop :member-vo="movieDetail?.author" v-if="movieDetail?.author" :size="48" />
-          <p class="sub-title" v-else>作者:{{ movieDetail?.authorName }}</p>
+          <p class="sub-title" v-else>{{ $t('author') }}:{{ movieDetail?.authorName }}</p>
         </div>
       </div>
       <div class="movie-info">
-        <p class="sub-title">上传于:{{ movieDetail.createTime }}</p>
+        <p class="sub-title">{{ $t('uploadAt') }}:{{ movieDetail.createTime }}</p>
         <p class="sub-title mx-2" v-if="movieDetail.realPublishTime">
-          首次公开时间:{{ movieDetail.realPublishTime }}
+          {{ $t('firstViewTime') }}:{{ movieDetail.realPublishTime }}
         </p>
         <div class="flex text-gray-200">
           <div class="mx-2 info-center">
@@ -41,7 +43,7 @@
       </div>
       <div class="movie-play">
         <Aplayer
-          :video-url="movieDetail?.moviePlaylink['cn'] || ''"
+          :video-url="movieDetail?.moviePlaylink[locale] || movieDetail?.moviePlaylink['cn']"
           v-if="movieDetail?.moviePlaylink"
           :cover="movieDetail.movieCover"
         ></Aplayer>
@@ -50,22 +52,22 @@
         <div class="flex">
           <div class="flex items-center operitem">
             <Icon name="ant-design:like-outlined" class="text-4xl" />
-            <p>点赞</p>
+            <p>{{ $t('like') }}</p>
           </div>
           <div class="flex items-center mx-2 operitem">
             <Icon name="ant-design:profile-outlined" class="text-4xl" />
-            <p>投票</p>
+            <p>{{ $t('polls') }}</p>
           </div>
         </div>
         <div class="flex" v-if="movieDetail.movieLink && snsSites.length > 0">
-          <p>其他渠道观看</p>
+          <p>{{ $t('otherView') }}</p>
           <div>
             <div class="flex flex-wrap">
               <div
                 v-for="item in snsSites"
                 :key="item.value"
                 class="cursor-pointer"
-                :title="`点击跳转 ${item.value}`"
+                :title="`${$t('clickJump')} ${item.value}`"
                 @click="openlink(item.value)"
               >
                 <Icon :name="item.icon" :style="{ color: item.color }" size="24px" class="mr-1" />
@@ -76,24 +78,66 @@
       </div>
       <div class="movie-desc">
         <div class="left">
-          <p class="title">详细信息</p>
-          <p class="desc">简介:{{ movieDetail.movieDesc['cn'] }}</p>
-          <p class="sub-title">所属赛事:{{ movieDetail.activityVo?.activityName.cn }}</p>
+          <p class="title">{{ $t('detailInfo') }}</p>
+          <p class="desc">
+            {{ $t('desc') }}:{{ movieDetail.movieDesc[locale] || movieDetail.movieDesc['cn'] }}
+          </p>
           <p class="sub-title">
-            作者:{{
+            {{ $t('belongMatch') }}:{{ movieDetail.activityVo?.activityName.cn }}
+          </p>
+          <p class="sub-title">
+            {{ $t('author') }}:{{
               movieDetail.author ? movieDetail.author.memberName : movieDetail.authorName || ''
             }}
           </p>
         </div>
-        <div>
-          <p class="download">Download</p>
+        <div v-if="movieDetail.movieDownloadLink">
+          <el-popover placement="top-start" :width="160" trigger="click" popper-class="popover">
+            <template #reference>
+              <p class="download">Download</p>
+            </template>
+            <div class="download-list flex flex-wrap justify-between items-center">
+              <div
+                v-if="movieDetail?.movieDownloadLink?.google"
+                class="down-item down-google text-5xl cursor-pointer mx-2"
+                :title="`谷歌下载链接:${movieDetail.movieDownloadLink.google}`"
+                @click="openlink(movieDetail?.movieDownloadLink?.google || '')"
+              >
+                <Icon name="logos:google-drive" />
+              </div>
+              <div
+                v-if="movieDetail?.movieDownloadLink?.baidu"
+                class="down-item down-google text-5xl cursor-pointer mx-2"
+                :title="`百度网盘下载:${movieDetail.movieDownloadLink.baidu}`"
+                @click="openlink(movieDetail?.movieDownloadLink?.baidu || '')"
+              >
+                <Icon name="simple-icons:baidu" class="text-blue-600" />
+              </div>
+              <div
+                v-if="movieDetail?.movieDownloadLink?.onedrive"
+                class="down-item down-google text-5xl cursor-pointer mx-2"
+                :title="`微软OneDrive下载:${movieDetail.movieDownloadLink.onedrive}`"
+                @click="openlink(movieDetail?.movieDownloadLink?.onedrive || '')"
+              >
+                <Icon name="logos:microsoft-onedrive" />
+              </div>
+              <div
+                v-if="movieDetail?.movieDownloadLink?.google"
+                class="down-item down-google text-5xl cursor-pointer mx-2"
+                :title="`其他下载链接:${movieDetail.movieDownloadLink.other}`"
+                @click="openlink(movieDetail?.movieDownloadLink?.other || '')"
+              >
+                <Icon name="material-symbols:link-rounded" class="text-green-600" />
+              </div>
+            </div>
+          </el-popover>
         </div>
       </div>
       <div class="movie-activity-other" v-if="movieDetail.activityVo && movies.length > 0">
         <p class="title">Day{{ movieDetail.day }}其他作品</p>
         <div class="movie-list">
-          <div class="w-96 mr-5 flex-shrink-0">
-            <MovieListCard v-for="item in movies" :key="item.movieId" :movie-item="item" />
+          <div v-for="item in movies" :key="item.movieId" class="flex-shrink-0 w-96 mr-3">
+            <MovieListCard :movie-item="item" />
           </div>
         </div>
       </div>
@@ -104,7 +148,7 @@
           :autosize="{ minRows: 3, maxRows: 5 }"
           placeholder="你可以在此处发表你的评论哦~"
         />
-        <ElButton type="primary" class="self-end mt-2">发送评论</ElButton>
+        <ElButton type="primary" class="self-end mt-2">{{ $t('sendComment') }}</ElButton>
       </div>
     </div>
   </div>
@@ -117,11 +161,11 @@ const route = useRoute()
 const movieDetail = ref<MovieVo>()
 const movies = ref<MovieVo[]>([])
 const openlink = useOpenLink()
-
 const snsSites = ref()
 const movieId = computed(() => {
   return parseInt(route.params.movieId.toString()) || 0
 })
+const { locale } = useCurrentLocale()
 
 const getMovieDetail = async (movieId: number) => {
   const { data } = await getMovieDetailById(movieId)
@@ -151,10 +195,12 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .body {
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-image: url(@/assets/img/bg.png);
+  background-color: black;
   background-size: cover;
   filter: brightness(0.8);
   min-width: 1024px;
@@ -176,6 +222,10 @@ watchEffect(() => {
     .movie-info {
       display: flex;
       align-items: center;
+      .info-center {
+        display: inline-flex;
+        align-items: center;
+      }
     }
     .movie-play {
       border-radius: 20px;
@@ -183,6 +233,9 @@ watchEffect(() => {
       height: 520px;
       margin-top: 10px;
       width: 100%;
+    }
+    .popover {
+      padding: 0;
     }
     .movie-oper {
       margin-top: 5px;
@@ -207,7 +260,6 @@ watchEffect(() => {
     }
     .movie-list {
       overflow-x: auto;
-      overflow-y: unset;
       display: flex;
     }
     .movie-desc {
