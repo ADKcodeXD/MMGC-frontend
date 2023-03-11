@@ -13,9 +13,9 @@
 }
 
 @mixin tagfunc() {
-  display: block;
+  display: inline-flex;
   padding: 5px 10px;
   font-size: $normalFontSize;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-right: 5px;
 }

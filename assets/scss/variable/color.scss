@@ -1,11 +1,35 @@
 $themeColor: var(--themeColor, #fcc55f);
+$themeColor2: var(--themeColor2, #f0b64a);
+$themeColor3: var(--themeColor3, #f0cb86);
+$themeColor4: var(--themeColor4, #d8ba82);
+$themeColor5: var(--themeColor5, #9b4e07);
 $themeColorBackShadow: var(--themeColorBackShadow, #ffc86249);
 $themeNotActiveColor: var(--themeNotActiveColor, #9e7c3c);
 $whiteColor: var(--whiteColor, #fff);
-$textColor: var(--textColor, rgb(12, 12, 12));
+$textColor: var(--textColor, rgb(252, 252, 252));
 $shadowColor: var(--shadowColor, rgba(0, 0, 0, 0.3));
 $backgroundColor: var(--backgroundColor, rgb(0, 0, 0));
 $tipColor: var(--tipColor, rgb(177, 177, 177));
+$tipColorDark: var(--tipColorDark, rgb(97, 97, 97));
 $secondryColor: var(--secondryColor, #e0960b);
 $errorColor: var(--errorColor, #da290a);
 $hintColor: var(--hintColor, rgb(27, 121, 245));
+
+:root {
+  --el-color-primary: var(--themeColor, #fcc55f);
+  --el-color-primary-light-3: var(--themeColor2, #f0b64a);
+  --el-color-primary-light-5: var(--themeColor3, #f0cb86);
+  --el-color-primary-light-7: var(--themeColor4, #d8ba82);
+  --el-color-primary-light-8: var(--themeColor5, #9b4e07);
+  --el-color-primary-light-9: var(--themeColor5, #9b4e07);
+  --el-color-primary-dark-2: var(--themeColor5, #9b4e07);
+  --el-bg-color: var(--backgroundColor, rgb(0, 0, 0));
+  --el-text-color-disabled: var(--themeColor5, #9b4e07);
+  --el-text-color-primary: var(--themeColor, #fcc55f);
+  --el-text-color-regular: var(--whiteColor, #fff);
+  --el-fill-color-blank: var(--backgroundColor, rgb(0, 0, 0));
+  --el-bg-color-overlay: var(--shadowColor, rgba(36, 2, 2, 0.856));
+  --el-border-color: var(--tipColorDark, rgb(97, 97, 97));
+  --el-popover-border-color: var(--tipColorDark, rgb(97, 97, 97));
+  --el-input-border: var(--tipColorDark, rgb(97, 97, 97));
+}

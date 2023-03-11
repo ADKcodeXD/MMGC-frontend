@@ -13,7 +13,7 @@
   --whiteColor: var(--whiteColor, #fff);
   --shadowColor: var(--shadowColor, rgba(0, 0, 0, 0.3));
   --backgroundColor: var(--backgroundColor, rgb(0, 0, 0));
-  --textColor: var(--textColor, rgb(12, 12, 12));
+  --textColor: var(--textColor, rgb(252, 252, 252));
   --tipColor: var(--tipColor, rgb(177, 177, 177));
   --secondryColor: var(--secondryColor, #e0960b);
   --errorColor: var(--errorColor, #da290a);

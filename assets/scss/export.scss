@@ -1,6 +1,8 @@
 @import './variable/color.scss';
 @import './variable/fontsize.scss';
 @import './func/func.scss';
+@import './transition.scss';
+
 .router-link-exact-active {
   color: $themeColor;
 }
@@ -46,4 +48,12 @@
     background-color: $hintColor;
     color: $whiteColor;
   }
+}
+
+:deep(.el-popover) {
+  padding: 5px;
+}
+
+:deep(.el-avatar) {
+  cursor: pointer;
 }

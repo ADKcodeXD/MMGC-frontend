@@ -17,6 +17,7 @@ dd,
 html {
   height: 100%;
   font-size: 14px;
+  color: var(--textColor);
   font: 1em/1.4 'Microsoft Yahei', 'PingFang SC', 'Avenir', 'Segoe UI', 'Hiragino Sans GB',
     'STHeiti', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
 }
@@ -39,29 +40,19 @@ img {
   height: 100%;
 }
 
-.v-enter-active,
-.v-leave-active {
-  transition: all 1s ease;
+::-webkit-scrollbar {
+  width: 6px;
+  height: 1px;
 }
 
-.v-enter-from {
-  opacity: 0;
-  transform: translateY(-200px);
-}
-.v-leave-to {
-  opacity: 0;
-  transform: translateY(200px);
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: none;
+  background: hsla(29, 95%, 29%, 0.514);
+  -webkit-box-shadow: none;
 }
 
-.right-to-left-activie {
-  transition: all 0.7s ease;
-}
-
-.right-to-left-enter-from {
-  opacity: 0;
-  transform: translateX(-100%);
-}
-.right-to-left-leave-to {
-  opacity: 0;
-  transform: translateX(100%);
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  background: #1a1101e0;
+  -webkit-box-shadow: none;
 }
