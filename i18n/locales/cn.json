@@ -37,5 +37,7 @@
   "MMGCdesc": "登录MMGC官网可以使用投票，评论，点赞等功能，为选手加油助威！",
   "username": "用户名",
   "password": "密码",
-  "nickname": "昵称"
+  "nickname": "昵称",
+  "cancel": "取消",
+  "confirm": "确认"
 }

@@ -56,7 +56,7 @@ const customUpload = (options: UploadRequestOptions) => {
 <style>
 .avatar-uploader .el-upload {
   border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
+  border-radius: 50%;
   cursor: pointer;
   position: relative;
   overflow: hidden;
