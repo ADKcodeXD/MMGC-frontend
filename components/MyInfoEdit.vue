@@ -7,12 +7,15 @@
     append-to-body
     draggable
   >
-    <el-form :model="form" :label-width="100" label-position="top">
+    <el-form :model="form" :label-width="100" label-position="top" ref="formRef" :rules="rules">
       <el-form-item label="头像">
         <MyCustomAvatarUpload v-model="form.avatar" />
       </el-form-item>
       <el-form-item label="昵称">
         <el-input v-model="form.memberName"></el-input>
+      </el-form-item>
+      <el-form-item label="用户名">
+        <el-input v-model="form.username" disabled></el-input>
       </el-form-item>
       <el-form-item label="简介">
         <el-input v-model="form.desc" type="textarea"></el-input>
@@ -40,7 +43,10 @@
 </template>
 <script setup lang="ts">
 import { MemberVo } from 'Member'
+import { UserApi } from '~~/composables/apis/user'
 import { useUserStore } from '~~/stores/user'
+import { genral } from '~~/composables/useFormRules'
+import lodash from 'lodash'
 
 defineExpose({
   openDialog: () => (dialogFormVisible.value = true)
@@ -50,7 +56,15 @@ const { userInfo } = useUserStore()
 
 const dialogFormVisible = ref(false)
 
-const form = reactive<MemberVo>(userInfo!)
+const formRef = ref()
+
+const rules = reactive({
+  memberName: genral('昵称')
+})
+
+const tempUser = lodash.cloneDeep(userInfo)
+
+const form = reactive<MemberVo>(tempUser!)
 const keys: Array<keyof Sns> = ['bilibili', 'niconico', 'twitter', 'youtube', 'personalWebsite']
 keys.forEach(key => {
   if (form.snsSite) {
@@ -60,8 +74,19 @@ keys.forEach(key => {
     form.snsSite[key] = ''
   }
 })
-const confirm = () => {
+
+const confirm = async () => {
+  const userStore = useUserStore()
   // 调用api
+  await formRef.value.validate()
+  const values = lodash.cloneDeep(form) as any
+  delete values.email
+  delete values.role
+  delete values.createTime
+  delete values.username
+  await UserApi.updateMyInfo(values)
+  await userStore.refreshUserStore()
+  ElMessage.success('修改成功')
   dialogFormVisible.value = false
 }
 </script>

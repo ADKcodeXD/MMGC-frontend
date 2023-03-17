@@ -1,12 +1,12 @@
 import { MemberParams } from 'Member'
+export const genral = (name: string) => {
+  return [
+    { required: true, message: `请输入${name}`, trigger: 'change' },
+    { min: 6, max: 16, message: `${name}需要在6-16个字符间`, trigger: 'change' }
+  ]
+}
 
 export const useLoginRules = (registerForm: MemberParams) => {
-  const genral = (name: string) => {
-    return [
-      { required: true, message: `请输入${name}`, trigger: 'change' },
-      { min: 6, max: 16, message: `${name}需要在6-16个字符间`, trigger: 'change' }
-    ]
-  }
   const validateRePass = (rule: any, value: any, callback: any) => {
     if (value === '') {
       callback(new Error('请输入确认密码！'))

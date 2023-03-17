@@ -24,8 +24,17 @@ const register = async (params: MemberParams) => {
   }
 }
 
+const updateMyInfo = async (params: Partial<MemberVo>) => {
+  const { data, refresh } = await xFetch<string>('/api/user/updateUserInfoByToken', 'post', params)
+  return {
+    data: data && data.data,
+    refresh
+  }
+}
+
 export const UserApi = {
   getMyInfo: getMyInfoApi,
   login: login,
-  register: register
+  register: register,
+  updateMyInfo: updateMyInfo
 }

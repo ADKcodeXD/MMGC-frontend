@@ -29,8 +29,26 @@ export const useUserStore = defineStore('user', {
       this.userInfo = null
       this.token = undefined
     },
+
     async getUserInfo() {
       if (_.isEmpty(this.userInfo) && this.token) {
+        try {
+          const { data } = await UserApi.getMyInfo()
+          if (data) {
+            this.userInfo = data
+            return this.userInfo
+          }
+        } catch (error) {
+          this.clearToken()
+          return null
+        }
+      } else {
+        return null
+      }
+    },
+
+    async refreshUserStore() {
+      if (this.token) {
         try {
           const { data } = await UserApi.getMyInfo()
           if (data) {
