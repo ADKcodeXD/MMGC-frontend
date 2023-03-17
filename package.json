@@ -14,6 +14,7 @@
     "build:start:node": "nuxi build && node .output/server/index.mjs --dotenv env/.env.production",
     "start:node": "node .output/server/index.mjs --dotenv env/.env.production",
     "start": "pm2 start ecosystem.config.js",
+    "start:build": "nuxi build && pm2 start ecosystem.config.js",
     "generate": "nuxi generate"
   },
   "dependencies": {
