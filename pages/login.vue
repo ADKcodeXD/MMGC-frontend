@@ -95,7 +95,6 @@
 </template>
 <script setup lang="ts">
 import Mirai from '~~/assets/img/mirai.png'
-import Bg from '~~/assets/img/bg.png'
 import { MemberParams } from 'Member'
 import { useUserStore } from '~~/stores/user'
 import { UserApi } from '~~/composables/apis/user'

@@ -1,5 +1,5 @@
 <template>
-  <ElImage :fit="fit" :lazy="isLazy" :src="img || ''" v-bind="$attrs" v-on="$listeners">
+  <ElImage :fit="fit" :lazy="isLazy" :src="img || ''">
     <template #placeholder>
       <div class="gray">
         <MyCustomLoading />
