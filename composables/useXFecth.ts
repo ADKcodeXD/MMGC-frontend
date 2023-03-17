@@ -1,4 +1,9 @@
-export const xFetch = async <T>(url: string, method = 'get', params?: any) => {
+export const xFetch = async <T>(
+  url: string,
+  method = 'get',
+  params?: any,
+  headers?: Record<string, any>
+) => {
   const { data, refresh, error } = await useFetch<ResResult<T>>(url, {
     onResponseError({ response }) {
       if (response._data) {
@@ -17,7 +22,8 @@ export const xFetch = async <T>(url: string, method = 'get', params?: any) => {
     },
     body: method === 'get' ? undefined : params,
     query: method !== 'get' ? undefined : params,
-    method: method
+    method: method,
+    headers: headers || undefined
   })
 
   return {
