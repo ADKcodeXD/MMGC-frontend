@@ -76,7 +76,7 @@ export default defineNuxtConfig({
   components: true,
   runtimeConfig: {
     public: {
-      apiBase: 'https://mirai-mad.fun',
+      apiBase: 'http://localhost:1234',
       apiPrefix: '/mmgcApi'
     }
   },

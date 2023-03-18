@@ -41,7 +41,7 @@ export default defineEventHandler(async event => {
       method,
       params: query,
       body,
-      headers
+      headers,
     })
   }
 })
