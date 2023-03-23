@@ -4,8 +4,8 @@ import ElementPlus from 'unplugin-element-plus/vite'
 import { i18n } from './i18n/i18n'
 
 export default defineNuxtConfig({
-  // meta
   app: {
+    cdnURL: 'https://mirai-mad.fun/',
     head: {
       title: 'MMGC - Mirai Mad Team',
       meta: [
