@@ -5,7 +5,7 @@
       <slot></slot>
     </div>
     <div class="back">
-      <MyCustomImage :img="currentActivityData?.activityBackgroundImg || placeHolder" />
+      <MyCustomImage fit="cover" :img="currentActivityData?.activityBackgroundImg || placeHolder" />
     </div>
     <!-- <MMGCFooter /> -->
   </div>

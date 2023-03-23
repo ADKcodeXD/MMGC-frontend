@@ -37,18 +37,18 @@ withDefaults(
 )
 
 const emit = defineEmits(['update:modelValue'])
-
+const { t } = useI18n()
 const isLoading = ref(false)
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
   isLoading.value = false
-  ElMessage.success('上传成功')
+  ElMessage.success(t('uploadSuccess'))
   emit('update:modelValue', response.data)
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
   if (rawFile.size / 1024 / 1024 > 5) {
-    ElMessage.error('上传头像需小于 5MB!')
+    ElMessage.error(t('needSmallThan5'))
     return false
   }
   isLoading.value = true

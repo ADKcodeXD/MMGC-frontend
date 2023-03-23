@@ -12,7 +12,7 @@
     </div>
     <div class="oper-items">
       <p class="item" @click="goActivity">{{ $t('enterMatch') }}</p>
-      <p class="sub item" @click="() => {}">往届赛事</p>
+      <p class="sub item" @click="goHistory">往届赛事</p>
     </div>
   </div>
 </template>
@@ -24,6 +24,10 @@ const globalState = useGlobalStore()
 const { activityData } = useActivityDetail(globalState.config!.currentActivityId)
 const goActivity = () => {
   const route = localeRoute(`/activity/${activityData.value?.activityId}`)
+  navigateTo(route?.fullPath || '/')
+}
+const goHistory = () => {
+  const route = localeRoute(`/activity/${activityData.value?.activityId}/history`)
   navigateTo(route?.fullPath || '/')
 }
 </script>

@@ -9,7 +9,7 @@ interface SiteItem {
 export const useOpenLink = () => {
   const openlink = (link: string) => {
     if (window) {
-      window.location.replace(link)
+      window.open(link, '_blank')
     }
   }
   return openlink

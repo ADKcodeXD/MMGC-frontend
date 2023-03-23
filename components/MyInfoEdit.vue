@@ -3,33 +3,33 @@
     style="box-shadow: var(--themeColor)"
     width="600"
     v-model="dialogFormVisible"
-    title="修改个人信息"
+    :title="$t('updateMyInfo')"
     append-to-body
     draggable
   >
     <el-form :model="form" :label-width="100" label-position="top" ref="formRef" :rules="rules">
-      <el-form-item label="头像">
+      <el-form-item :label="$t('avatar')">
         <MyCustomAvatarUpload v-model="form.avatar" />
       </el-form-item>
-      <el-form-item label="昵称">
+      <el-form-item :label="$t('nickname')">
         <el-input v-model="form.memberName"></el-input>
       </el-form-item>
-      <el-form-item label="用户名">
+      <el-form-item :label="$t('username')">
         <el-input v-model="form.username" disabled></el-input>
       </el-form-item>
-      <el-form-item label="简介">
+      <el-form-item :label="$t('descriable')">
         <el-input v-model="form.desc" type="textarea"></el-input>
       </el-form-item>
-      <el-form-item label="社交媒体账号">
+      <el-form-item :label="$t('snsAccounts')">
         <el-input
           v-for="item in keys"
           :key="item"
           v-model="form.snsSite![item]"
           style="width: 48%; margin-left: 6px; margin-top: 6px"
-          :placeholder="`请输入${item}账号地址`"
+          :placeholder="`${$t('inputXXurl', [item])}`"
         ></el-input>
       </el-form-item>
-      <el-form-item label="邮箱">
+      <el-form-item :label="$t('email')">
         <el-input v-model="form.email" disabled></el-input>
       </el-form-item>
     </el-form>
@@ -57,9 +57,10 @@ const { userInfo } = useUserStore()
 const dialogFormVisible = ref(false)
 
 const formRef = ref()
+const { t } = useI18n()
 
 const rules = reactive({
-  memberName: genral('昵称')
+  memberName: genral(t('nickname'), t)
 })
 
 const tempUser = lodash.cloneDeep(userInfo)
@@ -86,7 +87,7 @@ const confirm = async () => {
   delete values.username
   await UserApi.updateMyInfo(values)
   await userStore.refreshUserStore()
-  ElMessage.success('修改成功')
+  ElMessage.success(t('updateSuccess'))
   dialogFormVisible.value = false
 }
 </script>

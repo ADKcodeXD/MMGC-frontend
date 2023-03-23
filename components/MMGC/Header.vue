@@ -14,10 +14,16 @@
         </NuxtLink>
       </p>
       <i class="split">/</i>
-      <p class="nav-item">{{ $t('organSponsor') }}</p>
+      <p class="nav-item">
+        <NuxtLink :to="localePath(`/activity/${activityId}/support`)">
+          {{ $t('organSponsor') }}
+        </NuxtLink>
+      </p>
       <i class="split">/</i>
       <p class="nav-item">
-        <NuxtLink :to="localePath(`/activity/${activityId}/history`)"> {{ $t('history') }} </NuxtLink>
+        <NuxtLink :to="localePath(`/activity/${activityId}/history`)">
+          {{ $t('history') }}
+        </NuxtLink>
         <i class="iconfont mmgc-iconchevron-down"></i>
       </p>
     </nav>

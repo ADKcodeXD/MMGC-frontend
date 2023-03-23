@@ -64,7 +64,7 @@ const showOff = _.debounce(() => {
   top: 120%;
   right: -50%;
   width: 12rem;
-  height: 14rem;
+  height: 15rem;
   border-radius: 30px;
   color: $themeNotActiveColor;
   box-shadow: 0 0 10px rgba(223, 62, 13, 0.212);
@@ -79,6 +79,7 @@ const showOff = _.debounce(() => {
   .wrapper {
     width: 105%;
     transform: translateY(4px);
+    flex-shrink: 0;
     .btn {
       width: 100%;
       display: flex;

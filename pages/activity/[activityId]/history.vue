@@ -14,13 +14,13 @@
           <p class="title">
             {{ activity.activityName[locale] || activity.activityName['cn'] }}
           </p>
-          <span class="tag-primary ml-2"> {{ activity.activityId }} 活动</span>
+          <span class="tag-primary ml-2"> {{ $t('xxActivity', [activity.activityId]) }}</span>
           <span class="tag-day ml-2" v-if="config?.currentActivityId === activity.activityId">
-            当前活动</span
+            {{ $t('currentactivity') }}</span
           >
         </div>
         <p v-if="activity.startTime && activity.endTime">
-          开始结束时间:{{ activity.startTime }} - {{ activity.endTime }}
+          {{ $t('startAndEndTime') }}:{{ activity.startTime }} - {{ activity.endTime }}
         </p>
       </div>
     </div>

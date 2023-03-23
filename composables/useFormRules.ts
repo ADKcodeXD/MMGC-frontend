@@ -1,17 +1,18 @@
 import { MemberParams } from 'Member'
-export const genral = (name: string) => {
+
+export const genral = (name: string, t: any) => {
   return [
-    { required: true, message: `请输入${name}`, trigger: 'change' },
-    { min: 6, max: 16, message: `${name}需要在6-16个字符间`, trigger: 'change' }
+    { required: true, message: t('inputName', [name]), trigger: 'change' },
+    { min: 6, max: 16, message: t('name616', [name]), trigger: 'change' }
   ]
 }
 
-export const useLoginRules = (registerForm: MemberParams) => {
+export const useLoginRules = (registerForm: MemberParams, t: any) => {
   const validateRePass = (rule: any, value: any, callback: any) => {
     if (value === '') {
-      callback(new Error('请输入确认密码！'))
+      callback(new Error(t('inputConfirm')))
     } else if (value !== registerForm.password) {
-      callback(new Error('两次密码输入不一致！'))
+      callback(new Error(t('notSame')))
     } else {
       callback()
     }
@@ -19,43 +20,43 @@ export const useLoginRules = (registerForm: MemberParams) => {
   const validateEmail = (rule: any, value: any, callback: any) => {
     const emailReg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9-]+[.a-zA-Z]+$/
     if (value === '') {
-      callback(new Error('请输入邮箱！'))
+      callback(new Error(t('inputEmail')))
     } else if (!emailReg.test(value)) {
-      callback(new Error('请输入正确的邮箱'))
+      callback(new Error(t('correctEmail')))
     } else {
       callback()
     }
   }
   const ruleslogin = reactive({
-    username: genral('用户名'),
-    password: genral('密码')
+    username: genral(t('username'), t),
+    password: genral(t('password'), t)
   })
   const rulesRegister = reactive({
     username: [
-      ...genral('用户名'),
+      ...genral(t('username'), t),
       {
         pattern: /^[A-Za-z0-9]{6,16}$/,
-        message: `用户名不能包含特殊字符，只能由英文和数字组成`,
+        message: t('nochar'),
         triger: 'change'
       }
     ],
     password: [
-      ...genral('密码'),
+      ...genral(t('password'), t),
       {
         pattern: /^[A-Za-z0-9.+-_,]{6,16}$/,
-        message: `密码只能包含如下特殊字符(.+-_,)`,
+        message: t('teshu'),
         triger: 'change'
       }
     ],
-    memberName: genral('昵称'),
-    rePassword: [{ validator: validateRePass, trigger: 'change' }, ...genral('确认密码')],
+    memberName: genral(t('nickname'), t),
+    rePassword: [{ validator: validateRePass, trigger: 'change' }, ...genral(t('confirmPass'), t)],
     email: [
       { validator: validateEmail, trigger: 'change' },
-      { required: true, message: '请输入邮箱', trigger: 'change' }
+      { required: true, message: t('inputEmail'), trigger: 'change' }
     ],
     verifyCode: [
-      { required: true, message: '请输入验证码', trigger: 'change' },
-      { pattern: /^[0-9]{6}/, message: '请输入正确的验证码', trigger: 'change' }
+      { required: true, message: t('inputCode'), trigger: 'change' },
+      { pattern: /^[0-9]{6}/, message: t('correctCode'), trigger: 'change' }
     ]
   })
   return {

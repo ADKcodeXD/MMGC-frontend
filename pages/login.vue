@@ -20,6 +20,7 @@
               label-position="left"
               label-width="100px"
               :model="loginForm"
+              @submit.prevent
               status-icon
               ref="loginRef"
               :rules="ruleslogin"
@@ -38,6 +39,7 @@
               label-width="100px"
               :model="registerForm"
               class="mt-5 flex-1"
+              @submit.prevent
               status-icon
               :rules="rulesRegister"
               ref="registerRef"
@@ -52,22 +54,22 @@
               <el-form-item :label="$t('nickname')" prop="memberName">
                 <el-input v-model="registerForm.memberName" />
               </el-form-item>
-              <el-form-item label="确认密码" prop="rePassword">
+              <el-form-item :label="$t('confirmPass')" prop="rePassword">
                 <el-input v-model="registerForm.rePassword" type="password" />
               </el-form-item>
-              <el-form-item label="邮箱" prop="email">
+              <el-form-item :label="t('email')" prop="email">
                 <el-input v-model="registerForm.email" />
               </el-form-item>
-              <el-form-item label="验证码" prop="verifyCode">
+              <el-form-item :label="$t('verifyCode')" prop="verifyCode">
                 <div class="flex w-full">
                   <el-input v-model="registerForm.verifyCode" />
                   <el-button
                     type="primary"
                     class="ml-2"
-                    @click="getCode"
+                    @click="getCodeFn"
                     :disabled="isSend || isLoading"
                     :loading="isLoading"
-                    >{{ !isSend ? '获取验证码' : `${time}秒后再次获取` }}</el-button
+                    >{{ !isSend ? $t('getCode') : $t('time get', [time]) }}</el-button
                   >
                 </div>
               </el-form-item>
@@ -98,6 +100,7 @@ import Mirai from '~~/assets/img/mirai.png'
 import { MemberParams } from 'Member'
 import { useUserStore } from '~~/stores/user'
 import { UserApi } from '~~/composables/apis/user'
+import { getCode, verify } from '~~/composables/apis/email'
 
 const isRegister = ref(false)
 const isSend = ref(false)
@@ -106,6 +109,8 @@ const registerRef = ref()
 const loginRef = ref()
 const isLoading = ref(false)
 const localeRoute = useLocaleRoute()
+
+const { t } = useI18n()
 
 const { createMessage } = useMessage()
 
@@ -127,13 +132,13 @@ const registerForm = reactive<MemberParams & { rePassword: string }>({
   rePassword: '',
   email: ''
 })
-const { rulesRegister, ruleslogin } = useLoginRules(registerForm)
+const { rulesRegister, ruleslogin } = useLoginRules(registerForm, t)
 
-const getCode = async () => {
+const getCodeFn = async () => {
   try {
     await registerRef.value.validateField('email')
     isLoading.value = true
-    await useHttp.get<string>('/email/getCode', { email: registerForm.email })
+    await getCode(registerForm.email)
     isSend.value = true
     const myInternal = setInterval(() => {
       time.value--
@@ -143,7 +148,7 @@ const getCode = async () => {
       clearInterval(myInternal)
       time.value = 60
     }, 60000)
-    createMessage('发送验证码成功,请到邮箱查收')
+    createMessage(t('getCodeSuccess'))
   } catch (error) {
     //
   } finally {
@@ -154,10 +159,6 @@ const getCode = async () => {
 const submit = async () => {
   if (isRegister.value) {
     await registerRef.value.validate()
-    await useHttp.post<string>('/email/verify', {
-      email: registerForm.email,
-      code: registerForm.verifyCode
-    })
     registerForm.verifyCode = parseInt(registerForm.verifyCode!.toString())
     const { data: token } = await UserApi.register(registerForm)
     if (token) {
