@@ -5,7 +5,6 @@ import { i18n } from './i18n/i18n'
 
 export default defineNuxtConfig({
   app: {
-    cdnURL: 'https://mirai-mad.fun/',
     head: {
       title: 'MMGC - Mirai Mad Team',
       meta: [
