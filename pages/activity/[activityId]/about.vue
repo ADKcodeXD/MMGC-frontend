@@ -10,7 +10,9 @@
               <div class="flex justify-between items-end h-32">
                 <div>
                   <p class="title">{{ currentItem.title }}</p>
-                  <p class="tip text-light-50 mb-2">作者:{{ currentItem.cmEditor }}</p>
+                  <p class="tip text-light-50 mb-2">
+                    {{ $t('author') }}:{{ currentItem.cmEditor }}
+                  </p>
                   <p class="sub-title">{{ currentItem.desc }}</p>
                 </div>
                 <div class="flex">
@@ -105,20 +107,7 @@
       </div>
     </div>
     <MyCustomLoading v-else />
-    <div class="achor">
-      <div
-        class="achor-item"
-        v-for="(item, index) in achorList"
-        :key="index"
-        :class="{ current: pageState.current === index + 1 }"
-        :style="clacTransform(index + 1)"
-        @click="move(index + 1)"
-      >
-        <p class="decorate">#{{ index + 1 }}</p>
-        <div class="circle"></div>
-        <p class="text-xl font-bold pl-8">{{ item.name }}</p>
-      </div>
-    </div>
+    <AchorList :page-state="pageState" @move="move" :achor-list="achorList" />
   </div>
 </template>
 
@@ -155,13 +144,6 @@ const { activityData, getActivity } = useActivityDetail(attrs.activityId)
 await getActivity(attrs.activityId)
 
 const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(1)
-const clacTransform = (index: number) => {
-  const pos = index - pageState.current
-  const transformY = pos * 90 + 'px'
-  const transformX = Math.abs(pos) * 15 + 'px'
-  const scale = 1 - Math.abs(pos) * 0.25
-  return `transform: translateY(${transformY}) translateX(${transformX}) scale(${scale});opacity: ${scale};`
-}
 
 const length = (activityData: Partial<ActivityVo>) => {
   const keys = _.keys(activityData) as Array<keyof ActivityVo>
@@ -172,20 +154,20 @@ const length = (activityData: Partial<ActivityVo>) => {
     activityData.activityCM &&
     activityData.activityCM.length > 0
   ) {
-    list.push({ name: '活动CM' })
+    list.push({ name: 'activityCm' })
     len++
   }
-  list.push({ name: '活动介绍' })
+  list.push({ name: 'activityDesc' })
   if (keys.includes('rules') && activityData.rules && activityData.rules.cn) {
-    list.push({ name: '活动规则' })
+    list.push({ name: 'activityRules' })
     len++
   }
   if (keys.includes('timesorother') && activityData.timesorother && activityData.timesorother.cn) {
-    list.push({ name: '注意事项' })
+    list.push({ name: 'warning' })
     len++
   }
   if (keys.includes('faq') && activityData.faq && activityData.faq.cn) {
-    list.push({ name: 'FAQ&其他' })
+    list.push({ name: 'faqOther' })
     len++
   }
   achorList.value = list
@@ -266,42 +248,6 @@ watchEffect(() => {
     justify-content: flex-start;
     width: 80%;
     overflow-y: hidden;
-  }
-  .slider-item {
-    width: 100%;
-  }
-}
-.achor {
-  position: absolute;
-  top: 40%;
-  right: 0;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  color: $themeNotActiveColor;
-  &-item {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    margin-bottom: 50px;
-    transition: all ease 0.5s;
-    &.current {
-      color: $themeColor;
-      text-shadow: 0 0 50px $themeColor;
-    }
-  }
-  .circle {
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    width: 100px;
-    height: 100px;
-    border: 3px $themeNotActiveColor solid;
-    border-radius: 50%;
-  }
-  .decorate {
-    font-size: 48px;
-    font-weight: 600;
   }
 }
 </style>
