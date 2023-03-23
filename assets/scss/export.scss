@@ -37,6 +37,11 @@
   @include showLine(1);
 }
 
+.sub-title-no-line {
+  color: $tipColor;
+  font-size: $smallFontSize;
+}
+
 .tag {
   &-primary {
     @include tagfunc();
