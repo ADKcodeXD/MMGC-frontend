@@ -32,38 +32,46 @@ const move = (index: number) => {
 }
 </script>
 <style lang="scss" scoped>
-.achor {
-  position: absolute;
-  top: 40%;
-  right: 0;
-  width: 300px;
-  display: flex;
-  cursor: pointer;
-  flex-direction: column;
-  color: $themeNotActiveColor;
-  &-item {
+@media screen and (min-width: 320px) {
+  .achor {
     position: absolute;
+    top: 40%;
+    right: 0;
+    width: 200px;
     display: flex;
-    align-items: center;
-    margin-bottom: 50px;
-    transition: all ease 0.5s;
-    &.current {
-      color: $themeColor;
-      text-shadow: 0 0 50px $themeColor;
+    cursor: pointer;
+    flex-direction: column;
+    color: $themeNotActiveColor;
+    &-item {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      margin-bottom: 50px;
+      transition: all ease 0.5s;
+      &.current {
+        color: $themeColor;
+        text-shadow: 0 0 50px $themeColor;
+      }
+    }
+    .circle {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      width: 100px;
+      height: 100px;
+      border: 3px $themeNotActiveColor solid;
+      border-radius: 50%;
+    }
+    .decorate {
+      font-size: 48px;
+      font-weight: 600;
     }
   }
-  .circle {
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    width: 100px;
-    height: 100px;
-    border: 3px $themeNotActiveColor solid;
-    border-radius: 50%;
-  }
-  .decorate {
-    font-size: 48px;
-    font-weight: 600;
+}
+
+@media screen and (min-width: 1440px) {
+  .achor {
+    width: 300px;
   }
 }
 </style>

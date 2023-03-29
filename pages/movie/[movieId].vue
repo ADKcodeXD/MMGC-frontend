@@ -104,7 +104,7 @@
                 <div
                   v-if="movieDetail?.movieDownloadLink?.google"
                   class="down-item down-google text-5xl cursor-pointer mx-2"
-                  :title="`谷歌下载链接:${movieDetail.movieDownloadLink.google}`"
+                  :title="$t('googleDownload', [movieDetail.movieDownloadLink.google])"
                   @click="openlink(movieDetail?.movieDownloadLink?.google || '')"
                 >
                   <Icon name="logos:google-drive" />
@@ -112,7 +112,7 @@
                 <div
                   v-if="movieDetail?.movieDownloadLink?.baidu"
                   class="down-item down-google text-5xl cursor-pointer mx-2"
-                  :title="`百度网盘下载:${movieDetail.movieDownloadLink.baidu}`"
+                  :title="$t('baiduDownload', [movieDetail.movieDownloadLink.baidu])"
                   @click="openlink(movieDetail?.movieDownloadLink?.baidu || '')"
                 >
                   <Icon name="simple-icons:baidu" class="text-blue-600" />
@@ -120,7 +120,7 @@
                 <div
                   v-if="movieDetail?.movieDownloadLink?.onedrive"
                   class="down-item down-google text-5xl cursor-pointer mx-2"
-                  :title="`微软OneDrive下载:${movieDetail.movieDownloadLink.onedrive}`"
+                  :title="$t('microsoftDownload', [movieDetail.movieDownloadLink.onedrive])"
                   @click="openlink(movieDetail?.movieDownloadLink?.onedrive || '')"
                 >
                   <Icon name="logos:microsoft-onedrive" />
@@ -128,7 +128,7 @@
                 <div
                   v-if="movieDetail?.movieDownloadLink?.google"
                   class="down-item down-google text-5xl cursor-pointer mx-2"
-                  :title="`其他下载链接:${movieDetail.movieDownloadLink.other}`"
+                  :title="$t('otherDownload', [movieDetail.movieDownloadLink.other])"
                   @click="openlink(movieDetail?.movieDownloadLink?.other || '')"
                 >
                   <Icon name="material-symbols:link-rounded" class="text-green-600" />
@@ -170,12 +170,40 @@
         <ElInput
           type="textarea"
           :autosize="{ minRows: 3, maxRows: 5 }"
+          show-word-limit
+          maxlength="512"
           :placeholder="$t('sentCommentin')"
+          v-model:model-value="content"
         />
-        <ElButton type="primary" class="self-end mt-2">{{ $t('sendComment') }}</ElButton>
+        <ElButton
+          type="primary"
+          class="self-end mt-2"
+          @click="sentComment"
+          :disabled="!userInfo?.memberId || !content || content.length > 512"
+          >{{ $t('sendComment') }}</ElButton
+        >
       </div>
       <div class="movie-comment-area">
-        <ElEmpty :description="$t('noComment')" />
+        <ElEmpty :description="$t('noComment')" v-if="comments.length === 0" />
+        <template v-else>
+          <CommentItem
+            v-for="comment in comments"
+            :key="comment.commentId"
+            :movie-detail="movieDetail"
+            :comment="comment"
+            :topPrarentId="comment.commentId"
+            :level="1"
+            @refresh="getComment"
+            @sent-reply="getComment"
+          >
+          </CommentItem>
+        </template>
+        <ElPagination
+          layout="prev, pager, next"
+          :total="total"
+          v-model:page-size="pageParam.pageSize"
+          v-model:current-page="pageParam.page"
+        />
       </div>
     </div>
   </div>
@@ -184,8 +212,10 @@
 import { MovieVo } from 'Movie'
 import { getMovieByActivityId, getMovieDetailById } from '~~/composables/apis/movie'
 import { likeVideo, cancelVideoLike, pollVideo } from '~~/composables/apis/oper'
+import { addComment, getCommentList } from '~~/composables/apis/comment'
 import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
+import { CommentVo } from 'Comment'
 
 const route = useRoute()
 const movieDetail = ref<MovieVo>()
@@ -194,12 +224,22 @@ const openlink = useOpenLink()
 const snsSites = ref()
 const body = ref()
 const isLike = ref(false)
+const content = ref('')
 const movieId = computed(() => {
   return parseInt(route.params.movieId.toString()) || 0
 })
 const { locale } = useCurrentLocale()
 const { t } = useI18n()
 const { userInfo } = useUserStore()
+
+const pageParam = reactive<any>({
+  page: 1,
+  pageSize: 10,
+  movieId: movieId.value
+})
+
+const total = ref(0)
+const comments = ref<CommentVo[]>([])
 
 const getMovieDetail = async (movieId: number) => {
   const { data } = await getMovieDetailById(movieId)
@@ -258,10 +298,43 @@ const pollMovie = () => {
   }
 }
 
+const sentComment = async () => {
+  if (!userInfo || !userInfo?.memberId) {
+    ElMessage.warning(t('loginFirst'))
+    return
+  }
+  if (!content.value || content.value.trim().length === 0) {
+    ElMessage.warning(t('commentContentEmpty'))
+    return
+  }
+  await addComment({
+    content: content.value,
+    movieId: movieId.value
+  })
+  await getComment()
+  ElMessage.success(t('commentSuccess'))
+  content.value = ''
+}
+
+const getComment = async (prams?: any) => {
+  if (!prams) {
+    pageParam.page = 1
+    prams = pageParam
+  }
+  const { data } = await getCommentList(prams)
+  if (data) {
+    comments.value = data.result
+    total.value = data.total
+  }
+}
 watchEffect(() => {
   getMovieDetail(movieId.value).then(() => {
     getVideoByDay()
   })
+})
+
+watchEffect(() => {
+  getComment(pageParam)
 })
 
 onMounted(async () => {
@@ -285,6 +358,7 @@ onMounted(async () => {
   background-image: url(@/assets/img/bg.png);
   background-color: black;
   background-size: cover;
+  background-attachment: fixed;
   filter: brightness(0.8);
   min-width: 1024px;
   .movie-content {
@@ -384,6 +458,7 @@ onMounted(async () => {
         display: flex;
         flex-direction: column;
         margin-top: 20px;
+        margin-bottom: 10px;
       }
     }
   }

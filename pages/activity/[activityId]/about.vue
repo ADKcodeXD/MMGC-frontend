@@ -181,73 +181,81 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-.fullpage {
-  height: 100%;
-  width: 80%;
-  overflow: hidden;
-  &-container {
+@media screen and (min-width: 320px) {
+  .fullpage {
     height: 100%;
     width: 100%;
-    transition: all ease 0.5s;
-  }
-  .section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
     overflow: hidden;
-    .desc-like {
-      padding-top: 5%;
-      justify-self: flex-start;
-      align-self: flex-start;
-      width: 80%;
-      color: $whiteColor;
-      font-size: $normalFontSize;
+    &-container {
+      height: 100%;
+      width: 100%;
+      transition: all ease 0.5s;
     }
-    .staff-label {
-      width: 100px;
-    }
-  }
-  .cm-section {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    overflow-x: hidden;
-    justify-content: flex-start;
-    .video-cm {
+    .section {
+      display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      .desc-like {
+        padding-top: 5%;
+        justify-self: flex-start;
+        align-self: flex-start;
+        width: 80%;
+        color: $whiteColor;
+        font-size: $normalFontSize;
+      }
+      .staff-label {
+        width: 100px;
+      }
+    }
+    .cm-section {
       width: 100%;
       height: 100%;
       display: flex;
-      .inner-container {
-        display: flex;
-        flex-direction: column;
-        width: 80%;
+      overflow-x: hidden;
+      justify-content: flex-start;
+      .video-cm {
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 100%;
         height: 100%;
-        .set {
-          color: $themeNotActiveColor;
-          font-size: $bigFontSize;
-          margin-left: 5px;
-          &:hover {
-            color: $themeColor;
+        display: flex;
+        .inner-container {
+          display: flex;
+          flex-direction: column;
+          width: 80%;
+          height: 100%;
+          .set {
+            color: $themeNotActiveColor;
+            font-size: $bigFontSize;
+            margin-left: 5px;
+            &:hover {
+              color: $themeColor;
+            }
           }
         }
       }
+      .title-cm {
+        font-size: 32px;
+        font-weight: 600;
+        color: $themeColor;
+      }
     }
-    .title-cm {
-      font-size: 32px;
-      font-weight: 600;
-      color: $themeColor;
+    .desc-like {
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 80%;
+      overflow-y: hidden;
     }
   }
-  .desc-like {
-    align-items: flex-start;
-    justify-content: flex-start;
+}
+
+@media screen and (min-width: 1440px) {
+  .fullpage {
     width: 80%;
-    overflow-y: hidden;
   }
 }
 </style>

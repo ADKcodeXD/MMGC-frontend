@@ -58,7 +58,7 @@
           v-for="(item, index) in activityData.sponsorListVo"
           :key="index"
         >
-          <div class="w-96">
+          <div :style="{ maxHeight: item.sponsorName.cn ? '400px' : '500px' }">
             <MyCustomImage :img="item.sponsorLogo" />
           </div>
           <div class="title">

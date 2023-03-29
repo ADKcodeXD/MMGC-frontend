@@ -207,146 +207,173 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.main {
-  width: 90%;
-  height: 100%;
-  overflow: hidden;
-  .fullpage-container {
-    height: 100%;
+@media screen and (min-width: 320px) {
+  .main {
+    min-width: 1024px;
     width: 100%;
-    transition: all ease 0.5s;
-    .video-container {
+    height: 100%;
+    overflow: hidden;
+    .fullpage-container {
       height: 100%;
       width: 100%;
-      display: flex;
-      justify-content: center;
-      .movie-content {
-        height: 90%;
-        width: 80%;
-        overflow: hidden;
-        .kanban {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
+      transition: all ease 0.5s;
+      .video-container {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        .movie-content {
+          height: 75%;
+          width: 80%;
           overflow: hidden;
-          border-radius: 25px;
-          background-color: rgb(36, 1, 1);
-          .video-content {
+          .kanban {
             width: 100%;
-            height: 80%;
-          }
-          .descinfo {
-            padding: 10px;
+            height: 100%;
             display: flex;
-            height: 20%;
-            justify-content: space-between;
-            width: 100%;
-            .right {
+            flex-direction: column;
+            overflow: hidden;
+            border-radius: 25px;
+            background-color: rgb(36, 1, 1);
+            .video-content {
+              width: 100%;
+              height: 80%;
+            }
+            .descinfo {
+              padding: 10px;
               display: flex;
-              flex-direction: column;
-              align-items: flex-end;
+              height: 20%;
               justify-content: space-between;
-              height: 100%;
-            }
-            .title-movie {
-              color: $themeColor;
-              font-size: $bigFontSize;
-              margin: 5px 0;
-              @include showLine(2);
-            }
-            .sub-title {
-              @include showLine(2);
+              width: 100%;
+              .right {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: space-between;
+                height: 100%;
+              }
+              .title-movie {
+                color: $themeColor;
+                font-size: $bigFontSize;
+                margin: 5px 0;
+                @include showLine(2);
+              }
+              .sub-title {
+                @include showLine(2);
+              }
             }
           }
         }
       }
-    }
-    .video-list {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      .movie-title {
-        margin-left: 13%;
-        font-size: $bigFontSize;
-        color: $themeColor;
-      }
-      .movie-item-container {
-        width: 80%;
-        display: grid;
-        grid-template-columns: repeat(3, 33%);
-        grid-template-rows: repeat(3, 250px);
+      .video-list {
+        width: 100%;
+        height: 100%;
+        display: flex;
         align-items: center;
-        justify-items: center;
+        flex-direction: column;
+        .movie-title {
+          margin-left: 5%;
+          font-size: $bigFontSize;
+          color: $themeColor;
+        }
+        .movie-item-container {
+          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(3, 350px);
+          grid-template-rows: repeat(3, 250px);
+          align-items: center;
+          justify-items: center;
+        }
       }
     }
-  }
-  .nav {
-    position: absolute;
-    left: 50%;
-    bottom: 20px;
-    width: 400px;
-    height: 150px;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .day-item {
-      display: flex;
+    .nav {
       position: absolute;
-      flex-direction: column;
+      left: 50%;
+      bottom: 20px;
+      width: 400px;
+      height: 150px;
+      transform: translateX(-50%);
+      display: flex;
       justify-content: center;
       align-items: center;
-      transition: all 0.4s ease;
-      .sub-title {
-        font-size: $smallFontSize;
-        max-width: 200px;
-        text-align: center;
-        &.active {
-          max-width: 400px;
-          color: $tipColor;
-          font-size: $bigFontSize;
-          @include showLine(2);
+      .day-item {
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.4s ease;
+        .sub-title {
+          font-size: $smallFontSize;
+          max-width: 200px;
+          text-align: center;
+          &.active {
+            max-width: 400px;
+            color: $tipColor;
+            font-size: $bigFontSize;
+            @include showLine(2);
+          }
+        }
+        .active {
+          color: $themeColor;
+          font-size: $veryBigFontSize;
+          text-shadow: 0 0 10px $themeColor;
         }
       }
-      .active {
-        color: $themeColor;
-        font-size: $veryBigFontSize;
-        text-shadow: 0 0 10px $themeColor;
+    }
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -10;
+      filter: brightness(0.6) blur(3px);
+      // background-color: rgb(0, 7, 17);
+      background-size: cover;
+      transition: all ease 0.5s;
+    }
+    .mouse-roll {
+      position: absolute;
+      bottom: 100px;
+      right: 50px;
+      transform: translateX(-50%);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-size: $veryBigFontSize;
+      width: 100px;
+      .anime {
+        animation: down 3s infinite;
       }
     }
-  }
-  .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -10;
-    filter: brightness(0.6) blur(3px);
-    // background-color: rgb(0, 7, 17);
-    background-size: cover;
-    transition: all ease 0.5s;
-  }
-  .mouse-roll {
-    position: absolute;
-    bottom: 100px;
-    right: 50px;
-    transform: translateX(-50%);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: $veryBigFontSize;
-    width: 100px;
-    .anime {
-      animation: down 3s infinite;
+    :deep(.el-carousel__item) {
+      border-radius: 25px;
     }
   }
-  :deep(.el-carousel__item) {
-    border-radius: 25px;
+}
+
+@media screen and (min-width: 1440px) {
+  .main {
+    width: 90%;
+    .fullpage-container {
+      .video-container {
+        .movie-content {
+          height: 90%;
+          width: 80%;
+          overflow: hidden;
+        }
+      }
+      .video-list {
+        .movie-title {
+          margin-left: 13%;
+        }
+        .movie-item-container {
+          width: 80%;
+          grid-template-columns: repeat(3, 33%);
+        }
+      }
+    }
   }
 }
 
