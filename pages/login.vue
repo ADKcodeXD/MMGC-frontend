@@ -20,11 +20,12 @@
               label-position="left"
               label-width="100px"
               :model="loginForm"
-              @submit.prevent
               status-icon
               ref="loginRef"
               :rules="ruleslogin"
               class="mt-5 flex-1"
+              @submit.native.prevent
+              @validate="validateLogin"
               v-if="!isRegister"
             >
               <el-form-item :label="$t('username')" prop="username">
@@ -39,9 +40,10 @@
               label-width="100px"
               :model="registerForm"
               class="mt-5 flex-1"
-              @submit.prevent
               status-icon
               :rules="rulesRegister"
+              @submit.native.prevent
+              @validate="validateLogin"
               ref="registerRef"
               v-else
             >
@@ -80,7 +82,7 @@
             <el-button type="primary" round :dark="true" @click="isRegister = !isRegister">{{
               isRegister ? $t('login') : $t('register')
             }}</el-button>
-            <el-button type="primary" round :dark="true" style="color: #ffffdd" @click="submit">{{
+            <el-button type="primary" round :dark="true" @click="submitFn">{{
               $t('submit')
             }}</el-button>
           </div>
@@ -100,8 +102,8 @@ import Mirai from '~~/assets/img/mirai.png'
 import { MemberParams } from 'Member'
 import { useUserStore } from '~~/stores/user'
 import { UserApi } from '~~/composables/apis/user'
-import { getCode, verify } from '~~/composables/apis/email'
-
+import { getCode } from '~~/composables/apis/email'
+import _ from 'lodash'
 const isRegister = ref(false)
 const isSend = ref(false)
 const time = ref(60)
@@ -132,6 +134,7 @@ const registerForm = reactive<MemberParams & { rePassword: string }>({
   rePassword: '',
   email: ''
 })
+
 const { rulesRegister, ruleslogin } = useLoginRules(registerForm, t)
 
 const getCodeFn = async () => {
@@ -156,11 +159,12 @@ const getCodeFn = async () => {
   }
 }
 
-const submit = async () => {
+const submitFn = async () => {
   if (isRegister.value) {
     await registerRef.value.validate()
     registerForm.verifyCode = parseInt(registerForm.verifyCode!.toString())
-    const { data: token } = await UserApi.register(registerForm)
+    const form = _.cloneDeep(registerForm)
+    const { data: token } = await UserApi.register(form)
     if (token) {
       const userStore = useUserStore()
       await userStore.setToken(token)
@@ -170,7 +174,8 @@ const submit = async () => {
     }
   } else {
     await loginRef.value.validate()
-    const { data: token } = await UserApi.login(loginForm)
+    const form = _.cloneDeep(loginForm)
+    const { data: token } = await UserApi.login(form)
     if (token) {
       const userStore = useUserStore()
       userStore.setToken(token)
