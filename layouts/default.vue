@@ -31,7 +31,7 @@ const { currentActivityData } = globalState
 .back {
   position: absolute;
   width: 100vw;
-  max-height: 100vh;
+  height: 100vh;
   overflow: hidden;
   z-index: -11;
 }

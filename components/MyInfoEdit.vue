@@ -2,8 +2,10 @@
   <el-dialog
     style="box-shadow: var(--themeColor)"
     width="600"
+    lock-scroll
     v-model="dialogFormVisible"
     :title="$t('updateMyInfo')"
+    top="5vh"
     append-to-body
     draggable
   >

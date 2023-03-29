@@ -24,6 +24,7 @@ module.exports = {
     'vue/no-v-html': 'off',
     'vue/no-setup-props-destructure': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
-    '@typescript-eslint/ban-types': 'off'
+    '@typescript-eslint/ban-types': 'off',
+    'vue/no-v-model-argument': 'off'
   }
 }

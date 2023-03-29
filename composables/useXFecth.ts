@@ -25,10 +25,12 @@ export const xFetch = async <T>(
       const data = response._data
       if (data.code !== 200) {
         if (process.client) {
-          ElMessage({
-            type: 'error',
-            message: data.msg
-          })
+          if (data.msg) {
+            ElMessage({
+              type: 'error',
+              message: data.msg
+            })
+          }
         }
         throw new Error(data.msg)
       } else {
