@@ -86,5 +86,17 @@
   "teshu": "Password can only contain the following special characters (.+-_,)",
   "inputCode": "Please enter verification code",
   "correctCode": "Please enter the correct verification code",
-  "updateSuccess": "Updated Success"
+  "updateSuccess": "Update successful",
+  "baiduDownload": "Baidu Netdisk Download: {0}",
+  "googleDownload": "Google download link: {0}",
+  "microsoftDownload": "Microsoft OneDrive download: {0}",
+  "otherDownload": "Other download link: {0}",
+  "commentContentEmpty": "Please enter content before posting",
+  "commentSuccess": "Comment posted successfully",
+  "deleteSuccess": "Deletion successful",
+  "reply": "Reply",
+  "replyTo": "Reply to @{0}",
+  "sentIn": "Posted in {0}",
+  "deleteComment": "Delete this comment",
+  "confirmDelete": "Are you sure you want to delete this comment?"
 }

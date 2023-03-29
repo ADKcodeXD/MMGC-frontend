@@ -5,7 +5,7 @@
   "mainStage": "メインステージ",
   "prev": "前の",
   "next": "次の",
-  "judge": "アドバイザー",
+  "judge": "審査員",
   "organizer": "主催者",
   "translator": "翻訳者",
   "commiter": "貢献者",
@@ -85,5 +85,17 @@
   "teshu": "パスワードには以下の特殊文字(.+-_,)しか使用できません",
   "inputCode": "認証コードを入力してください",
   "correctCode": "正しい認証コードを入力してください",
-  "updateSuccess": "変更完了"
+  "updateSuccess": "更新に成功しました",
+  "baiduDownload": "百度ネットディスクのダウンロード：{0}",
+  "googleDownload": "Googleダウンロードリンク：{0}",
+  "microsoftDownload": "Microsoft OneDriveダウンロード：{0}",
+  "otherDownload": "その他のダウンロードリンク：{0}",
+  "commentContentEmpty": "内容を入力して投稿してください",
+  "commentSuccess": "投稿が成功しました",
+  "deleteSuccess": "削除に成功しました",
+  "reply": "返信",
+  "replyTo": "@{0}に返信",
+  "sentIn": "{0}に投稿されました",
+  "deleteComment": "このコメントを削除",
+  "confirmDelete": "このコメントを削除しますか？"
 }

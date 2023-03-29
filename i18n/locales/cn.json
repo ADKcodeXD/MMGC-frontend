@@ -86,5 +86,17 @@
   "teshu": "密码只能包含如下特殊字符(.+-_,)",
   "inputCode": "请输入验证码",
   "correctCode": "请输入正确的验证码",
-  "updateSuccess": "修改成功"
+  "updateSuccess": "修改成功",
+  "baiduDownload": "百度网盘下载:{0}",
+  "googleDownload": "谷歌下载链接:{0}",
+  "microsoftDownload": "微软OneDrive下载:{0}",
+  "otherDownload": "其他下载链接:{0}",
+  "commentContentEmpty": "请输入内容后发布",
+  "commentSuccess": "发布成功",
+  "deleteSuccess": "删除成功",
+  "reply": "回复",
+  "replyTo": "回复给@{0}",
+  "sentIn": "发布于{0}",
+  "deleteComment": "删除该评论",
+  "confirmDelete": "你确定要删除该评论?"
 }
