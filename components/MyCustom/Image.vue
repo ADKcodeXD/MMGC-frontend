@@ -17,6 +17,7 @@ interface MyElimageProp {
   img?: string | null // 图片的链接
   isLazy?: boolean // 是否懒加载
   fit?: '' | 'fill' | 'none' | 'contain' | 'cover' | 'scale-down'
+  zip?: 'none' | '0.8x' | '0.6x' | '0.4x' | '0.2x'
 }
 withDefaults(defineProps<MyElimageProp>(), {
   img: '',

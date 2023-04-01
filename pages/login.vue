@@ -18,7 +18,7 @@
           <Transition mode="out-in">
             <el-form
               label-position="left"
-              label-width="100px"
+              label-width="200px"
               :model="loginForm"
               status-icon
               ref="loginRef"
@@ -37,7 +37,7 @@
             </el-form>
             <el-form
               label-position="left"
-              label-width="100px"
+              label-width="200px"
               :model="registerForm"
               class="mt-5 flex-1"
               status-icon

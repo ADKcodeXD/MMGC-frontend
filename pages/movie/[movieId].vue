@@ -96,7 +96,13 @@
             </div>
           </div>
           <div v-if="movieDetail.movieDownloadLink">
-            <el-popover placement="top-start" :width="160" trigger="click" popper-class="popover">
+            <el-popover
+              placement="top-start"
+              :width="160"
+              trigger="click"
+              popper-class="popover"
+              transition="popshow"
+            >
               <template #reference>
                 <p class="download">Download</p>
               </template>

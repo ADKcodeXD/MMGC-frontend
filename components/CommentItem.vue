@@ -21,7 +21,7 @@
               class="ml-2 text-xs self-center bg-pink-600 px-2 rounded-lg"
               v-if="userInfo && userInfo.memberId === comment.memberVo?.memberId"
             >
-              你自己
+              {{ $t('yourself') }}
             </span>
             <span
               class="ml-2 text-xs self-center bg-green-600 px-2 rounded-lg"
@@ -43,7 +43,7 @@
             <ElButton
               type="danger"
               size="small"
-              class="w-24 mb-2"
+              class="mb-2"
               v-if="userInfo && userInfo.memberId === comment.memberVo?.memberId"
               >{{ $t('deleteComment') }}</ElButton
             >

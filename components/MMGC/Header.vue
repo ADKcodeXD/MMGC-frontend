@@ -67,15 +67,21 @@ const store = useGlobalStore()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const localeRoute = useLocaleRoute()
-const glableStore = useGlobalStore()
+const globalStore = useGlobalStore()
 const userStore = useUserStore()
 
 const userInfo = storeToRefs(userStore).userInfo as unknown as Ref<MemberVo>
 
 const activityId =
-  parseInt(route.params.activityId?.toString()) || glableStore.config?.currentActivityId
+  parseInt(route.params.activityId?.toString()) || globalStore.config?.currentActivityId
+let activityData = ref<any>()
 
-const { activityData } = useActivityDetail(activityId || 0)
+if (activityId === globalStore.config?.currentActivityId) {
+  activityData.value = globalStore.currentActivityData
+} else {
+  const { activityData: remoteData } = useActivityDetail(activityId || 0)
+  activityData = remoteData
+}
 if (userStore.token) userStore.getUserInfo()
 
 const handleLocale = (command: 'cn' | 'jp' | 'en') => {

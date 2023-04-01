@@ -12,7 +12,7 @@
     </div>
     <div class="oper-items">
       <p class="item" @click="goActivity">{{ $t('enterMatch') }}</p>
-      <p class="sub item" @click="goHistory">往届赛事</p>
+      <p class="sub item" @click="goHistory">{{ $t('history') }}</p>
     </div>
   </div>
 </template>

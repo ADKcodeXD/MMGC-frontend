@@ -35,12 +35,18 @@ export const useActivityList = () => {
 export const useActivityDetail = (activityId: number) => {
   const activityData = ref<ActivityVo>()
   let refreshFn = null
+  const isLoading = ref(false)
 
   const getActivity = async (activityId: number) => {
-    const { data, refresh } = await getActivityDetail(activityId)
-    if (data) {
-      activityData.value = data
-      refreshFn = refresh
+    isLoading.value = true
+    try {
+      const { data, refresh } = await getActivityDetail(activityId)
+      if (data) {
+        activityData.value = data
+        refreshFn = refresh
+      }
+    } finally {
+      isLoading.value = false
     }
   }
 
@@ -51,6 +57,7 @@ export const useActivityDetail = (activityId: number) => {
   return {
     activityData,
     refreshFn,
+    isLoading,
     getActivity
   }
 }
