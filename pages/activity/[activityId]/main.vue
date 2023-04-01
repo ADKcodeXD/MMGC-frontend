@@ -51,7 +51,7 @@
         <p class="self-start movie-title">{{ $t('movieList') }}</p>
         <Transition mode="out-in">
           <div class="movie-item-container relative" v-if="!isLoading">
-            <div v-for="item in movies" :key="item.movieId" style="height: 200px; width: 80%">
+            <div v-for="item in movies" :key="item.movieId" style="width: 80%">
               <MovieListCard :movie-item="item" />
             </div>
           </div>
@@ -279,7 +279,7 @@ watch(
           width: 100%;
           display: grid;
           grid-template-columns: repeat(3, 350px);
-          grid-template-rows: repeat(3, 250px);
+          overflow-y: auto;
           align-items: center;
           justify-items: center;
         }
@@ -371,6 +371,7 @@ watch(
         .movie-item-container {
           width: 80%;
           grid-template-columns: repeat(3, 33%);
+          grid-auto-flow: row;
         }
       }
     }

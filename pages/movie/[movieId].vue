@@ -355,116 +355,129 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-.body {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-image: url(@/assets/img/bg.png);
-  background-color: black;
-  background-size: cover;
-  background-attachment: fixed;
-  filter: brightness(0.8);
-  min-width: 1024px;
-  .movie-content {
-    width: 70%;
+@media screen and (min-width: 120px) {
+  .body {
+    width: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-
-    .movie-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .movie-title {
-        color: $themeColor;
-        font-size: $veryBigFontSize;
-        font-weight: 600;
-      }
-    }
-    .movie-info {
-      display: flex;
-      align-items: center;
-      .info-center {
-        display: inline-flex;
-        align-items: center;
-      }
-    }
-    .movie-play {
-      border-radius: 20px;
-      overflow: hidden;
-      height: 520px;
-      margin-top: 10px;
-      width: 100%;
-    }
-    .popover {
-      padding: 0;
-    }
-    .movie-oper {
-      margin-top: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: $midFontSize;
-      color: $themeColor;
-      .operitem {
-        border-radius: 35px;
-        font-size: $smallFontSize;
-        padding: 4px 8px;
-        cursor: pointer;
-        width: 40px;
-        position: relative;
-        transition: all ease 0.3s;
-        &-font {
-          position: absolute;
-          opacity: 0;
-          left: 0;
-          transition: all ease 0.3s;
-        }
-        &:hover {
-          color: $whiteColor;
-          background-color: $secondryColor;
-          width: 100px;
-          .operitem-font {
-            opacity: 1;
-            left: 60px;
-          }
-        }
-        &.active {
-          color: $whiteColor;
-          background-color: $secondryColor;
-        }
-      }
-      .download {
-        font-size: $bigFontSize;
-        color: $themeColor;
-        font-weight: 600;
-        cursor: pointer;
-      }
-    }
-    .movie-list {
-      overflow-x: auto;
-      display: flex;
-    }
-    .movie-desc {
-      margin-top: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      line-height: 2rem;
-      .desc {
-        color: $tipColor;
-        font-size: $smallFontSize;
-      }
-    }
-    .movie-comment {
+    align-items: center;
+    background-image: url(@/assets/img/bg.png);
+    background-color: black;
+    background-size: cover;
+    background-attachment: fixed;
+    filter: brightness(0.8);
+    min-width: 1024px;
+    .movie-content {
+      width: 96%;
       display: flex;
       flex-direction: column;
-      &-area {
+
+      .movie-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .movie-title {
+          color: $themeColor;
+          font-size: $veryBigFontSize;
+          font-weight: 600;
+        }
+      }
+      .movie-info {
+        display: flex;
+        align-items: center;
+        .info-center {
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+      .movie-play {
+        border-radius: 20px;
+        overflow: hidden;
+        height: 520px;
+        margin-top: 10px;
+        width: 100%;
+      }
+      .popover {
+        padding: 0;
+      }
+      .movie-oper {
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: $midFontSize;
+        color: $themeColor;
+        .operitem {
+          border-radius: 35px;
+          font-size: $smallFontSize;
+          padding: 4px 8px;
+          cursor: pointer;
+          width: 40px;
+          position: relative;
+          transition: all ease 0.3s;
+          &-font {
+            position: absolute;
+            opacity: 0;
+            left: 0;
+            transition: all ease 0.3s;
+          }
+          &:hover {
+            color: $whiteColor;
+            background-color: $secondryColor;
+            width: 100px;
+            .operitem-font {
+              opacity: 1;
+              left: 60px;
+            }
+          }
+          &.active {
+            color: $whiteColor;
+            background-color: $secondryColor;
+          }
+        }
+        .download {
+          font-size: $bigFontSize;
+          color: $themeColor;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
+      .movie-list {
+        overflow-x: auto;
+        display: flex;
+      }
+      .movie-desc {
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        line-height: 2rem;
+        .desc {
+          color: $tipColor;
+          font-size: $smallFontSize;
+        }
+      }
+      .movie-comment {
         display: flex;
         flex-direction: column;
-        margin-top: 20px;
-        margin-bottom: 10px;
+        &-area {
+          display: flex;
+          flex-direction: column;
+          margin-top: 20px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .body {
+    .movie-content {
+      width: 70%;
+      .movie-play {
+        height: 600px;
       }
     }
   }

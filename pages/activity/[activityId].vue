@@ -37,5 +37,6 @@ const activityId = parseInt(route.params.activityId.toString())
   background-size: cover;
   filter: brightness(0.8);
   min-width: 1024px;
+  overflow: hidden;
 }
 </style>
