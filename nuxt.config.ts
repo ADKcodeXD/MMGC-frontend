@@ -75,7 +75,7 @@ export default defineNuxtConfig({
   components: true,
   runtimeConfig: {
     public: {
-      apiBase: 'http://localhost:1234',
+      apiBase: 'http://localhost',
       apiPrefix: '/mmgcApi'
     }
   },
