@@ -9,21 +9,6 @@
   filter: blur(5px) brightness(0);
 }
 
-.right-to-left-enter-activie,
-.right-to-left-leave-activie {
-  transition: all 0.7s ease;
-}
-
-.right-to-left-enter-from {
-  opacity: 0;
-  transform: translateX(-100%);
-}
-
-.right-to-left-leave-to {
-  opacity: 0;
-  transform: translateX(100%);
-}
-
 .list-move, /* 对移动中的元素应用的过渡 */
 .list-enter-active,
 .list-leave-active {
@@ -35,4 +20,55 @@
   opacity: 0;
   filter: blur(5px) brightness(0);
   transform: translateY(-100px);
+}
+
+.popshow-enter-active,
+.popshow-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.popshow-enter-from,
+.popshow-leave-to {
+  opacity: 0;
+  transform-origin: 50% 100%;
+  transform: scale(0);
+}
+
+.left-to-right-enter-active {
+  transition: transform 0.7s cubic-bezier(0, 0.84, 0.26, 0.98),
+    opacity 0.7s cubic-bezier(0, 0.84, 0.26, 0.98);
+}
+
+.left-to-right-leave-active {
+  transition: transform 0.7s cubic-bezier(0.89, 0.01, 1, 0.37),
+    opacity 0.7s cubic-bezier(0.89, 0.01, 1, 0.37);
+}
+
+.left-to-right-enter-from {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.left-to-right-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.right-to-left-enter-active {
+  transition: transform 0.7s cubic-bezier(0, 0.84, 0.26, 0.98),
+    opacity 0.7s cubic-bezier(0, 0.84, 0.26, 0.98);
+}
+
+.right-to-left-leave-active {
+  transition: transform 0.7s cubic-bezier(0.89, 0.01, 1, 0.37),
+    opacity 0.7s cubic-bezier(0.89, 0.01, 1, 0.37);
+}
+
+.right-to-left-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.right-to-left-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
 }
