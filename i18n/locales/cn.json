@@ -98,5 +98,6 @@
   "replyTo": "回复给@{0}",
   "sentIn": "发布于{0}",
   "deleteComment": "删除该评论",
-  "confirmDelete": "你确定要删除该评论?"
+  "confirmDelete": "你确定要删除该评论?",
+  "yourself": "你自己"
 }

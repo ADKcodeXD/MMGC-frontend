@@ -1,6 +1,6 @@
 {
   "hello": "こんにちは",
-  "enterMatch": "閲覧する",
+  "enterMatch": "詳細を見る",
   "desc": "紹介",
   "mainStage": "メインステージ",
   "prev": "前の",
@@ -97,5 +97,6 @@
   "replyTo": "@{0}に返信",
   "sentIn": "{0}に投稿されました",
   "deleteComment": "このコメントを削除",
-  "confirmDelete": "このコメントを削除しますか？"
+  "confirmDelete": "このコメントを削除しますか？",
+  "yourself": "自分"
 }
