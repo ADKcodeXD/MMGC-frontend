@@ -1,6 +1,6 @@
 export default defineEventHandler(async event => {
   const runtime = useRuntimeConfig()
-  const baseUrl = runtime.public.apiBase || ''
+  const baseUrl = runtime.public.apiLocal || ''
   const prefix = runtime.public.apiPrefix || ''
   if (event.node.req.url?.startsWith('/api')) {
     const url = baseUrl + prefix + event.node.req.url.replace('/api', '')
@@ -41,7 +41,7 @@ export default defineEventHandler(async event => {
       method,
       params: query,
       body,
-      headers,
+      headers
     })
   }
 })

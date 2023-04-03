@@ -75,8 +75,9 @@ export default defineNuxtConfig({
   components: true,
   runtimeConfig: {
     public: {
-      apiBase: 'http://43.136.104.79',
-      apiPrefix: '/mmgcApi'
+      apiBase: 'https://mirai-mad.com',
+      apiPrefix: '/mmgcApi',
+      apiLocal: 'http://localhost:8055'
     }
   },
   plugins: ['~~/plugins/pinia-plugin-persist.client']
