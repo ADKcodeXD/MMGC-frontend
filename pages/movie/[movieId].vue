@@ -212,7 +212,7 @@
         />
       </div>
     </div>
-    <p class="title">你所查看的作品暂未公开或没找到哦~</p>
+    <p class="title" v-else>你所查看的作品暂未公开或没找到哦~</p>
   </div>
 </template>
 <script setup lang="ts">
