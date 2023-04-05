@@ -15,12 +15,14 @@
             <el-carousel-item class="kanban" v-for="item in movies" :key="item.movieId">
               <div class="video-content">
                 <Aplayer
+                  v-if="item.moviePlaylink"
                   :video-url="item.moviePlaylink[locale] || item.moviePlaylink['cn']"
                   :cover="item.movieCover"
                   :ref="setItemRefs"
                   @on-play="canAutoPlay = false"
                   @on-pause="canAutoPlay = true"
                 />
+                <MyCustomImage v-else :img="item.movieCover" />
               </div>
               <div class="descinfo">
                 <div class="left">
