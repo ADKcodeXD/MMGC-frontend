@@ -1,6 +1,8 @@
 <template>
   <div class="body" :key="$route.fullPath">
-    <MMGCHeader class="flex-shrink-0" />
+    <ClientOnly>
+      <MMGCHeader class="flex-shrink-0" />
+    </ClientOnly>
     <div class="flex items-center justify-center" style="height: 79%">
       <slot></slot>
     </div>
