@@ -47,7 +47,7 @@
       </div>
       <div class="movie-play">
         <Aplayer
-          :video-url="movieDetail?.moviePlaylink[locale] || movieDetail?.moviePlaylink['cn']"
+          :video-url="playSource"
           v-if="movieDetail?.moviePlaylink"
           :cover="movieDetail.movieCover"
         ></Aplayer>
@@ -212,7 +212,7 @@
         />
       </div>
     </div>
-    <p class="title" v-else>你所查看的作品暂未公开或没找到哦~</p>
+    <p class="title" v-else>{{ $t('noOpen') }}</p>
   </div>
 </template>
 <script setup lang="ts">
@@ -223,6 +223,7 @@ import { addComment, getCommentList } from '~~/composables/apis/comment'
 import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
 import { CommentVo } from 'Comment'
+import _ from 'lodash'
 
 const route = useRoute()
 const movieDetail = ref<MovieVo>()
@@ -248,10 +249,20 @@ const pageParam = reactive<any>({
 const total = ref(0)
 const comments = ref<CommentVo[]>([])
 
+const playSource = ref<any[]>([])
+
 const getMovieDetail = async (movieId: number) => {
   const { data } = await getMovieDetailById(movieId)
   if (data) {
     movieDetail.value = data
+    const keys = _.keys(movieDetail.value.moviePlaylink) as any
+    keys.forEach((key: keyof I18N) => {
+      if (movieDetail.value && movieDetail.value.moviePlaylink[key]) {
+        if (movieDetail.value.moviePlaylink[key]) {
+          playSource.value.push({ url: movieDetail.value.moviePlaylink[key], label: key })
+        }
+      }
+    })
     snsSites.value = useSnsSites(data.movieLink)
   }
 }

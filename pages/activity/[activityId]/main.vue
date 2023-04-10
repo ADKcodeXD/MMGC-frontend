@@ -33,7 +33,9 @@
                   <div class="flex items-center mt-3">
                     <p class="text-light-50 mr-3">{{ $t('author') }}</p>
                     <MemberPop v-if="item.author" :member-vo="item.author" />
-                    <p v-else>{{ item.authorName }}</p>
+                    <p v-else class="text-light-50" :title="item.authorName">
+                      {{ item.authorName }}
+                    </p>
                   </div>
                   <ElButton type="primary" @click="goToMovieDetail(item.movieId)">{{
                     $t('viewDetail')
@@ -72,10 +74,18 @@
         :style="clalTransform(index)"
         @click="handleSwitchDay(day.day || 0)"
       >
-        <p class="title-click" :class="{ active: currentDay === day.day }">
+        <p
+          class="title-click"
+          :class="{ active: currentDay === day.day }"
+          :title="day.themeName![locale] || day.themeName!['cn']"
+        >
           Day {{ index + 1 }} {{ day.themeName![locale] || day.themeName!['cn'] }}
         </p>
-        <p class="sub-title" :class="{ active: currentDay === day.day }">
+        <p
+          class="sub-title"
+          :class="{ active: currentDay === day.day }"
+          :title="day.themeDesc![locale] || day.themeDesc!['cn']"
+        >
           {{ day.themeDesc![locale] || day.themeDesc!['cn'] }}
         </p>
       </div>
@@ -250,6 +260,7 @@ watch(
                 display: flex;
                 flex-direction: column;
                 align-items: flex-end;
+                flex-shrink: 0;
                 justify-content: space-between;
                 height: 100%;
               }

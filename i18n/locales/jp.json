@@ -1,5 +1,9 @@
 {
   "hello": "こんにちは",
+  "cn":"中国語",
+  "en":"英語",
+  "jp":"日本語",
+  "current":"Source",
   "enterMatch": "詳細を見る",
   "desc": "紹介",
   "mainStage": "メインステージ",
@@ -98,5 +102,6 @@
   "sentIn": "{0}に投稿されました",
   "deleteComment": "このコメントを削除",
   "confirmDelete": "このコメントを削除しますか？",
-  "yourself": "自分"
+  "yourself": "自分",
+  "noOpen": "あなたが見ている作品は、まだリリースされていないか、見つかっていません~"
 }

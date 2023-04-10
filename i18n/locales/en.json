@@ -1,5 +1,9 @@
 {
   "hello": "Hello",
+  "cn":"Chinese",
+  "en":"English",
+  "jp":"Japanese",
+  "current":"Current Source",
   "enterMatch": "Enter Match",
   "desc": "Introduction",
   "mainStage": "Main Stage",
@@ -99,5 +103,6 @@
   "sentIn": "Posted in {0}",
   "deleteComment": "Delete this comment",
   "confirmDelete": "Are you sure you want to delete this comment?",
-  "yourself": "Me"
+  "yourself": "Me",
+  "noOpen": "The work you are looking at has not been released yet or has not been found~"
 }

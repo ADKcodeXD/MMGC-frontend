@@ -29,7 +29,7 @@
           <div class="flex items-center mt-3">
             <p class="text-light-50 mr-3">{{ $t('author') }}:</p>
             <MemberPop v-if="movieItem.author" :member-vo="movieItem.author" :size="30" />
-            <p v-else>{{ movieItem.authorName }}</p>
+            <p v-else class="text-light-50">{{ movieItem.authorName }}</p>
           </div>
         </div>
       </div>
@@ -38,7 +38,11 @@
       </div>
     </div>
     <div>
-      <p class="title-click" @click="goToMovieDetail(movieItem.movieId)">
+      <p
+        class="title-click"
+        @click="goToMovieDetail(movieItem.movieId)"
+        :title="movieItem.movieName[locale] || movieItem.movieName['cn']"
+      >
         {{ movieItem.movieName[locale] || movieItem.movieName['cn'] }}
       </p>
       <div class="info text-xl" v-if="!!showPlayLink">

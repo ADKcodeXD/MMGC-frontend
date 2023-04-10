@@ -37,6 +37,7 @@
     "@nuxt/vite-builder": "^3.0.0",
     "@pinia/nuxt": "^0.4.2",
     "@types/node": "^18.15.5",
+    "@types/video.js": "^7.3.51",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "@unocss/nuxt": "^0.45.21",

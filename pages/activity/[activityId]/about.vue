@@ -11,11 +11,11 @@
                   <Aplayer :video-url="currentItem.link" />
                   <div class="flex justify-between items-end h-32">
                     <div>
-                      <p class="title">{{ currentItem.title }}</p>
+                      <p class="title" :title="currentItem.title">{{ currentItem.title }}</p>
                       <p class="tip text-light-50 mb-2">
                         {{ $t('author') }}:{{ currentItem.cmEditor }}
                       </p>
-                      <p class="sub-title">{{ currentItem.desc }}</p>
+                      <p class="sub-title" :title="currentItem.desc">{{ currentItem.desc }}</p>
                     </div>
                     <div class="flex">
                       <p class="cursor-pointer set" @click="prevCm" v-if="currentCMIndex !== 0">
