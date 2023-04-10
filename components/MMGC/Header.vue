@@ -43,15 +43,15 @@
           </ElDropdownMenu>
         </template>
       </ElDropdown>
-      <div class="oper-item" @click="$router.push(localePath('login'))" v-if="!isUserInfo">
-        <ClientOnly>
+      <ClientOnly>
+        <div class="oper-item" @click="$router.push(localePath('login'))" v-if="!isUserInfo">
           <Icon name="ant-design:user-outlined" size="1.5rem" class="mb-1" />
-        </ClientOnly>
-        <p>{{ $t('login') }}</p>
-      </div>
-      <div class="oper-item" v-else>
-        <MyInfo :member-vo="userInfo" @logout="logout" />
-      </div>
+          <p>{{ $t('login') }}</p>
+        </div>
+        <div class="oper-item" v-else>
+          <MyInfo :member-vo="userInfo" @logout="logout" />
+        </div>
+      </ClientOnly>
     </section>
   </div>
 </template>
