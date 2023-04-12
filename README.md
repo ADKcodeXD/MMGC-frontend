@@ -1,49 +1,46 @@
-# Element Plus with Nuxt 3 Minimal Starter
+# MMGC-frontent 黄金祭赛事官网前端
 
-<pre align="center">
-🏗 Working in Progress
-</pre>
+本项目基于Nuxt3建立而成
 
-> Nuxt 3 is still beta, we may need to keep updating to adapt it.
-> It doesn't work very well yet.
+## 项目功能点
 
-SSR Preview: <https://element-plus-nuxt.vercel.app/>
+- 由Nuxt3带来的服务端渲染
 
-SSG Preview: <https://nuxt-starter.element-plus.org/>
+- 支持了三语国际化 中文英文和日文
 
-We recommend to look at the [Nuxt 3 Docs](https://v3.nuxtjs.org) and [Element Plus Docs](https://element-plus.org/).
+- 对elementPlus 做了主题定制
 
-## Setup
+- 采用Videojs/vue 进行视频播放
 
-Make sure to install the dependencies
+- 动态背景化
+
+## 可改进点
+
+- 支持移动端
+
+- 支持主题样式自定义
+
+- 支持更加正确的路由跳转动画（to be solved : Nuxt3-Bug）
+
+## 项目运行&启动
+
+确保你需要拥有nodejs 16.0以上的环境
 
 ```bash
 yarn install
 ```
+安装依赖
 
-## Development
-
-Start the development server on `http://localhost:3000`
-
+- 正常启动
 ```bash
-yarn dev
+yarn run dev
+```
+- pm2 直接启动 请确保你的PM2已被安装
+```bash
+yarn run build && yarn run start
 ```
 
-More info about [nuxt deployment](https://v3.nuxtjs.org/docs/deployment/presets).
-
-Run `npm run generate` to generate static html in `.output/public`.
-
-## Production
-
-Build the application for production:
-
+- node 直接启动 
 ```bash
-yarn build
+yarn run build && yarn run start:node
 ```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
-
-## Ref
-
-- [vitesse-nuxt3](https://github.com/antfu/vitesse-nuxt3)
-# MMGC-Nuxt3-OfficialWebSite-Frontend
