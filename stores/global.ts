@@ -32,8 +32,12 @@ export const useGlobalStore = defineStore('global', {
     },
     async setCurrentActivity() {
       if (this.config && this.config.currentActivityId) {
-        const { data } = await getActivityDetail(this.config.currentActivityId)
-        this.currentActivityData = data || null
+        try {
+          const { data } = await getActivityDetail(this.config.currentActivityId)
+          this.currentActivityData = data || null
+        } catch (error) {
+          this.currentActivityData = null
+        }
       }
     }
   }

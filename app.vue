@@ -16,9 +16,8 @@ provide(ID_INJECTION_KEY, {
   current: 0
 })
 const globalState = useGlobalStore()
-globalState.setConfig().then(() => {
-  globalState.setCurrentActivity()
-})
+await globalState.setConfig()
+await globalState.setCurrentActivity()
 </script>
 
 <style lang="scss">
