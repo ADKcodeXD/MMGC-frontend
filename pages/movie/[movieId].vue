@@ -2,6 +2,9 @@
   <div class="body" ref="body">
     <MMGCHeader class="flex-shrink-0" />
     <div class="movie-content" v-if="movieDetail">
+      <div class="flex justify-start w-full">
+        <el-button @click="backToMain">{{ $t('backToMain') }}</el-button>
+      </div>
       <div class="movie-header">
         <div class="flex items-center">
           <p class="movie-title">
@@ -164,7 +167,7 @@
         </div>
       </div>
       <div class="movie-activity-other" v-if="movieDetail.activityVo && movies.length > 0">
-        <p class="title">Day{{ movieDetail.day }}其他作品</p>
+        <p class="title">{{ $t('otherMovie', [movieDetail.day]) }}</p>
         <div class="movie-list">
           <div v-for="item in movies" :key="item.movieId" class="flex-shrink-0 w-96 mr-3">
             <MovieListCard :movie-item="item" />
@@ -239,6 +242,8 @@ const movieId = computed(() => {
 const { locale } = useCurrentLocale()
 const { t } = useI18n()
 const { userInfo } = useUserStore()
+const localeNaviGate = useLocaleNavigate()
+const { currentActivityData } = useGlobalStore()
 
 const pageParam = reactive<any>({
   page: 1,
@@ -248,7 +253,6 @@ const pageParam = reactive<any>({
 
 const total = ref(0)
 const comments = ref<CommentVo[]>([])
-
 const playSource = ref<any[]>([])
 
 const getMovieDetail = async (movieId: number) => {
@@ -264,6 +268,16 @@ const getMovieDetail = async (movieId: number) => {
       }
     })
     snsSites.value = useSnsSites(data.movieLink)
+  }
+}
+
+const backToMain = () => {
+  if (movieDetail.value?.activityVo?.activityId) {
+    localeNaviGate(`/activity/${movieDetail.value?.activityVo?.activityId}/main`, {
+      day: movieDetail.value.day
+    })
+  } else {
+    localeNaviGate(`/activity/${currentActivityData?.activityId}/main`)
   }
 }
 

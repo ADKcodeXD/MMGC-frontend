@@ -16,9 +16,11 @@ export const useOpenLink = () => {
 }
 
 export const useLocaleNavigate = () => {
-  const goLocaleUrl = (url: string) => {
+  const goLocaleUrl = (url: string, query?: any) => {
     const localeRouter = useLocaleRoute()
-    const localeRoute = localeRouter(url)
+    const localeRoute = localeRouter({ path: url, query })
+    console.log('localeRoute', localeRoute?.query)
+
     navigateTo(localeRoute?.fullPath)
   }
   return goLocaleUrl

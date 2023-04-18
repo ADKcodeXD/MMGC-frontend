@@ -1,9 +1,9 @@
 {
   "hello": "你好",
-  "cn":"中文",
-  "en":"英文",
-  "jp":"日语",
-  "current":"当前源",
+  "cn": "中文",
+  "en": "英文",
+  "jp": "日语",
+  "current": "当前源",
   "enterMatch": "进入赛事",
   "desc": "介绍",
   "mainStage": "主会场",
@@ -105,5 +105,7 @@
   "confirmDelete": "你确定要删除该评论?",
   "yourself": "你自己",
   "noOpen": "你所查看的作品暂未公开或没找到哦~",
-  "switchSource": "切换源"
+  "switchSource": "切换源",
+  "otherMovie": "Day{0}其他作品",
+  "backToMain": "返回主会场"
 }

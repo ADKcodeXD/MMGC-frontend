@@ -1,9 +1,9 @@
 {
   "hello": "こんにちは",
-  "cn":"中国語",
-  "en":"英語",
-  "jp":"日本語",
-  "current":"Source",
+  "cn": "中国語",
+  "en": "英語",
+  "jp": "日本語",
+  "current": "Source",
   "enterMatch": "詳細を見る",
   "desc": "紹介",
   "mainStage": "メインステージ",
@@ -103,5 +103,7 @@
   "deleteComment": "このコメントを削除",
   "confirmDelete": "このコメントを削除しますか？",
   "yourself": "自分",
-  "noOpen": "あなたが見ている作品は、まだリリースされていないか、見つかっていません~"
+  "noOpen": "あなたが見ている作品は、まだリリースされていないか、見つかっていません~",
+  "otherMovie": "Day{0}他の作品",
+  "backToMain": "会場へ戻って"
 }
