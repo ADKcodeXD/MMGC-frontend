@@ -41,54 +41,63 @@ const goHistory = () => {
     background-position-x: -100%;
   }
 }
-.bg {
-  width: 100vw;
-  height: 100vh;
-  background-image: url(@/assets/img/bg2.png);
-  background-size: 100% 100% cover;
-  min-width: 1024px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: move 120s infinite;
-  .logo {
+
+@media screen and (min-width: 320px) {
+  .bg {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(@/assets/img/bg2.png);
+    background-size: 100% 100% cover;
+    min-width: 320px;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 80%;
-    height: 60%;
-    &1 {
-      width: 100%;
-      height: 80%;
+    animation: move 120s infinite;
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80%;
+      height: 60%;
+      &1 {
+        width: 100%;
+        height: 80%;
+      }
+      &2 {
+        width: 286px;
+        height: 89px;
+      }
     }
-    &2 {
-      width: 286px;
-      height: 89px;
+  }
+  .oper-items {
+    position: absolute;
+    bottom: 50px;
+    right: 10px;
+    font-size: $veryBigFontSize;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    .item {
+      color: $themeNotActiveColor;
+      transition: 0.4s all ease;
+      margin-bottom: 10px;
+    }
+    .item:hover {
+      color: #fff;
+      cursor: pointer;
+      transform: translateX(-10px);
+      background-color: $themeColor;
+      padding: 0 5px 0 20px;
+    }
+    .sub {
+      font-size: $normalFontSize;
     }
   }
 }
-.oper-items {
-  position: absolute;
-  bottom: 50px;
-  right: 10px;
-  font-size: $veryBigFontSize;
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-  .item {
-    color: $themeNotActiveColor;
-    transition: 0.4s all ease;
-    margin-bottom: 10px;
-  }
-  .item:hover {
-    color: #fff;
-    cursor: pointer;
-    transform: translateX(-10px);
-    background-color: $themeColor;
-    padding: 0 5px 0 20px;
-  }
-  .sub {
-    font-size: $normalFontSize;
+
+@media screen and (min-width: 1024px) {
+  .bg {
+    min-width: 1024px;
   }
 }
 </style>

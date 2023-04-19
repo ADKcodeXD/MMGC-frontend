@@ -28,15 +28,23 @@ const activityId = parseInt(route.params.activityId.toString())
 </script>
 
 <style lang="scss" scoped>
-.body {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-image: url(@/assets/img/bg.png);
-  background-size: cover;
-  filter: brightness(0.8);
-  min-width: 1024px;
-  overflow: hidden;
+@media screen and (min-width: 320px) {
+  .body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: url(@/assets/img/bg.png);
+    background-size: cover;
+    filter: brightness(0.8);
+    min-width: 320px;
+    overflow: hidden;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .bg {
+    min-width: 1024px;
+  }
 }
 </style>

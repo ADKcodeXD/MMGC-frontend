@@ -12,6 +12,15 @@
       <div class="circle"></div>
       <p class="text-xl font-bold pl-8">{{ $t(item.name) }}</p>
     </div>
+    <div
+      class="achor-item-mobile"
+      v-for="(item, index) in achorList"
+      :key="index"
+      :class="{ current: pageState.current === index + 1 }"
+      @click="move(index + 1)"
+    >
+      <p class="decorate">#{{ index + 1 }}</p>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -35,19 +44,26 @@ const move = (index: number) => {
 @media screen and (min-width: 320px) {
   .achor {
     position: absolute;
-    top: 40%;
-    right: 0;
-    width: 200px;
+    bottom: 0;
+    left: 0;
     display: flex;
     cursor: pointer;
-    flex-direction: column;
+    flex-direction: row;
     color: $themeNotActiveColor;
     &-item {
       position: absolute;
-      display: flex;
+      display: none;
       align-items: center;
       margin-bottom: 50px;
       transition: all ease 0.5s;
+      &.current {
+        color: $themeColor;
+        text-shadow: 0 0 50px $themeColor;
+      }
+    }
+    &-item-mobile {
+      display: flex;
+      margin: 0 10px;
       &.current {
         color: $themeColor;
         text-shadow: 0 0 50px $themeColor;
@@ -71,7 +87,22 @@ const move = (index: number) => {
 
 @media screen and (min-width: 1440px) {
   .achor {
-    width: 300px;
+    position: absolute;
+    top: 40%;
+    right: 0;
+    bottom: unset;
+    left: unset;
+    width: 200px;
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    color: $themeNotActiveColor;
+    &-item {
+      display: flex;
+    }
+    &-item-mobile {
+      display: none;
+    }
   }
 }
 </style>

@@ -22,19 +22,26 @@ const { currentActivityData } = globalState
 </script>
 
 <style lang="scss" scoped>
-.body {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  min-width: 1024px;
-  overflow: hidden;
+@media screen and (min-width: 320px) {
+  .body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    overflow: hidden;
+  }
+  .back {
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+    overflow: hidden;
+    z-index: -11;
+  }
 }
-.back {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  z-index: -11;
+@media screen and (min-width: 1024px) {
+  .body {
+    min-width: 1024px;
+  }
 }
 </style>
