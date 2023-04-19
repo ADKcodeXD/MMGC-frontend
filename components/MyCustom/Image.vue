@@ -1,5 +1,5 @@
 <template>
-  <ElImage :fit="fit" :lazy="isLazy" :src="img || ''">
+  <ElImage :fit="fit" :lazy="isLazy" :src="img + (isAdd ? quatily : '') || ''">
     <template #placeholder>
       <div class="gray">
         <MyCustomLoading />
@@ -19,10 +19,43 @@ interface MyElimageProp {
   fit?: '' | 'fill' | 'none' | 'contain' | 'cover' | 'scale-down'
   zip?: 'none' | '0.8x' | '0.6x' | '0.4x' | '0.2x'
 }
-withDefaults(defineProps<MyElimageProp>(), {
+const props = withDefaults(defineProps<MyElimageProp>(), {
   img: '',
   isLazy: false,
-  fit: 'contain'
+  fit: 'contain',
+  zip: '0.6x'
+})
+
+const quatily = computed(() => {
+  let quality = ''
+  switch (props.zip) {
+    case 'none':
+      quality = ''
+      break
+    case '0.2x':
+      quality = '?imageMogr2/thumbnail/100x/quality/30'
+      break
+    case '0.4x':
+      quality = '?imageMogr2/thumbnail/300x/quality/30'
+      break
+    case '0.6x':
+      quality = '?imageMogr2/thumbnail/640x/quality/60'
+      break
+    case '0.8x':
+      quality = '?imageMogr2/thumbnail/1080x/quality/80'
+      break
+  }
+  return quality
+})
+
+/**
+ * 判断是否是oss图片 如果是才加上压缩参数
+ */
+const isAdd = computed(() => {
+  let Reg = new RegExp(/^http(s|):\/\/.*\/[0-9a-zA-Z-]*.(jpeg|jpg|png|webp)$/, 'i')
+  if (Reg.test(props.img || '')) {
+    return true
+  } else return false
 })
 </script>
 
