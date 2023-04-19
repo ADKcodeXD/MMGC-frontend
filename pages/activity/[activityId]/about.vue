@@ -77,7 +77,10 @@
                   </div>
                   <div class="flex items-center my-2" v-if="activityData.staff.others">
                     <p class="staff-label">{{ $t('commiter') }}:</p>
-                    <div v-if="activityData.staff && activityData.staff.others" class="flex">
+                    <div
+                      v-if="activityData.staff && activityData.staff.others"
+                      class="flex flex-wrap"
+                    >
                       <MemberPop
                         :member-vo="item"
                         v-for="item in activityData.staff.others"
@@ -206,8 +209,9 @@ watchEffect(() => {
       align-items: center;
       justify-content: center;
       width: 100%;
+      max-height: 100%;
       height: 100%;
-      overflow: hidden;
+      overflow: auto;
       .desc-like {
         padding-top: 5%;
         justify-self: flex-start;
@@ -218,6 +222,7 @@ watchEffect(() => {
       }
       .staff-label {
         width: 100px;
+        flex-shrink: 0;
       }
     }
     .cm-section {
@@ -266,6 +271,14 @@ watchEffect(() => {
 @media screen and (min-width: 1440px) {
   .fullpage {
     width: 80%;
+    .section {
+      height: 100%;
+      overflow: auto;
+      .desc-like {
+        overflow-y: hidden;
+        width: 80%;
+      }
+    }
   }
 }
 </style>

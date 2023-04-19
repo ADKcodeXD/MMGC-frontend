@@ -1,5 +1,5 @@
 <template>
-  <div class="show">
+  <div class="show w-full">
     <div class="MMGC-header">
       <section class="MMGC-logo" @click="goWelcome">
         <MyCustomImage :img="activityData?.activityLogo" />

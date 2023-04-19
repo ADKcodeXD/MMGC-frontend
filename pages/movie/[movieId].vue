@@ -393,7 +393,7 @@ onMounted(async () => {
     background-size: cover;
     background-attachment: fixed;
     filter: brightness(0.8);
-    min-width: 1024px;
+    min-width: 320px;
     .movie-content {
       width: 96%;
       display: flex;
@@ -500,6 +500,8 @@ onMounted(async () => {
 
 @media screen and (min-width: 1440px) {
   .body {
+    min-width: 1024px;
+
     .movie-content {
       width: 70%;
       .movie-play {
