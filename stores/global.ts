@@ -4,24 +4,27 @@ import { getActivityDetail } from '~~/composables/apis/activity'
 import { getConfig } from '~~/composables/apis/config'
 export const useGlobalStore = defineStore('global', {
   state: () => {
-    const urlLocale = useRoute().fullPath.split('/')[1]
-    if (urlLocale === 'en' || urlLocale === 'jp') {
-      const { $i18n } = useNuxtApp()
-      $i18n.setLocale(urlLocale)
-      const locale = useCookie('locale', {
-        maxAge: 3600 * 3600
-      })
-      locale.value = urlLocale
-    } else {
-      const { $i18n } = useNuxtApp()
-      $i18n.setLocale('cn')
-      const locale = useCookie('locale', {
-        maxAge: 3600 * 3600
-      })
-      locale.value = 'cn'
+    const func = () => {
+      const urlLocale = useRoute().fullPath.split('/')[1]
+      if (urlLocale === 'en' || urlLocale === 'jp') {
+        const { $i18n } = useNuxtApp()
+        $i18n.setLocale(urlLocale)
+        const locale = useCookie('locale', {
+          maxAge: 3600 * 3600
+        })
+        locale.value = urlLocale
+      } else {
+        const { $i18n } = useNuxtApp()
+        $i18n.setLocale('cn')
+        const locale = useCookie('locale', {
+          maxAge: 3600 * 3600
+        })
+        locale.value = 'cn'
+      }
+      return urlLocale
     }
     return {
-      localeState: useCookie('locale').value || 'cn',
+      localeState: func() || useCookie('locale').value || 'cn',
       documentReadyState: true,
       config: null,
       currentActivityData: null
