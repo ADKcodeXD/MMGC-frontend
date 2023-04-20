@@ -8,7 +8,7 @@
         :volume="0.6"
         :playback-rates="[0.5, 1, 1.5, 2]"
         style="width: 100%; height: 100%"
-        :poster="cover || ''"
+        :poster="coverzip || ''"
         :on-play="onPlay"
         :playsinline="true"
         @abort="onAbort"
@@ -24,14 +24,20 @@
 import { VideoPlayer } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
 import videojs from 'video.js'
+import { calcZip } from '~~/utils'
 
 const player = ref()
 const props = defineProps<{
   videoUrl: string | any[]
   cover?: string
 }>()
-
 const { locale } = useCurrentLocale()
+
+const coverzip = computed(() => {
+  if (props.cover) {
+    return calcZip(props.cover, '0.6x')
+  }
+})
 
 const sources = computed(() => {
   if (Array.isArray(props.videoUrl)) {

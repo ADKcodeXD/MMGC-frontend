@@ -13,6 +13,8 @@
   </ElImage>
 </template>
 <script setup lang="ts">
+import { calcZip } from '~~/utils'
+
 interface MyElimageProp {
   img?: string | null // 图片的链接
   isLazy?: boolean // 是否懒加载
@@ -27,25 +29,7 @@ const props = withDefaults(defineProps<MyElimageProp>(), {
 })
 
 const quatily = computed(() => {
-  let quality = ''
-  switch (props.zip) {
-    case 'none':
-      quality = ''
-      break
-    case '0.2x':
-      quality = '?imageMogr2/thumbnail/100x/quality/30'
-      break
-    case '0.4x':
-      quality = '?imageMogr2/thumbnail/300x/quality/30'
-      break
-    case '0.6x':
-      quality = '?imageMogr2/thumbnail/640x/quality/60'
-      break
-    case '0.8x':
-      quality = '?imageMogr2/thumbnail/1080x/quality/80'
-      break
-  }
-  return quality
+  return calcZip(props.img, props.zip)
 })
 
 /**

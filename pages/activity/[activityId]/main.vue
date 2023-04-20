@@ -106,7 +106,7 @@
       class="background"
       v-if="currentDayItem"
       :style="{
-        backgroundImage: `linear-gradient(to left,#000,transparent),url(${currentDayItem.themeCover})`
+        backgroundImage: `linear-gradient(to left,#000,transparent),url(${coverzip})`
       }"
     />
   </div>
@@ -117,8 +117,15 @@ import { DayVo } from 'Activity'
 import { MovieVo } from 'Movie'
 import { getActivityDays } from '~~/composables/apis/activity'
 import { getMovieByActivityId } from '~~/composables/apis/movie'
+import { calcZip } from '~~/utils'
 definePageMeta({
   key: route => route.fullPath
+})
+
+const coverzip = computed(() => {
+  if (currentDayItem.value) {
+    return calcZip(currentDayItem.value.themeCover, '0.8x')
+  }
 })
 
 const { locale } = useCurrentLocale()
