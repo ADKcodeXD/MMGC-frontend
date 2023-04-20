@@ -59,8 +59,7 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     'nuxt-icon',
     'nuxt-swiper',
-    'nuxt-lodash',
-    'nuxt-simple-sitemap',
+    'nuxt-lodash'
   ],
   i18n: {
     locales: ['cn', 'en', 'jp'],
@@ -82,11 +81,7 @@ export default defineNuxtConfig({
       apiLocal: process.env.NUXT_PUBLIC_API_LOCAL || 'http://localhost:8055'
     }
   },
-  plugins: ['~~/plugins/pinia-plugin-persist.client'],
-  sitemap: {
-    // automatically chunk into multiple sitemaps
-    sitemaps: true,
-  },
+  plugins: ['~~/plugins/pinia-plugin-persist.client']
   // unocss: {
   //   uno: true,
   //   attributify: true,
