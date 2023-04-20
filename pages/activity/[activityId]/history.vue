@@ -6,7 +6,7 @@
       :key="activity.activityId"
       @click="gotoActivity(`/activity/${activity.activityId}`)"
     >
-      <div class="w-72 h-full">
+      <div class="img">
         <MyCustomImage :img="activity.activityLogo" />
       </div>
       <div class="info px-2">
@@ -37,28 +37,67 @@ const gotoActivity = useLocaleNavigate()
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  justify-self: flex-start;
-  align-self: self-start;
-}
-.activity-content {
-  width: 100%;
-  border: 1px solid $themeColor;
-  height: 140px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  padding: 3px;
-  cursor: pointer;
-  display: flex;
-  &:hover {
-    background-color: #2e1b01c7;
+@media screen and (min-width: 320px) {
+  .wrapper {
+    width: 97%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    justify-self: flex-start;
+    align-self: self-start;
   }
-  .info {
-    color: $themeColor;
+  .activity-content {
+    width: 100%;
+    border: 1px solid $themeColor;
+    height: 200px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    padding: 3px;
+    cursor: pointer;
+    display: flex;
+    .img {
+      width: 40%;
+      height: 100%;
+      flex-shrink: 0;
+    }
+    &:hover {
+      background-color: #2e1b01c7;
+    }
+    .info {
+      color: $themeColor;
+    }
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    justify-self: flex-start;
+    align-self: self-start;
+  }
+  .activity-content {
+    width: 100%;
+    border: 1px solid $themeColor;
+    height: 140px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    padding: 3px;
+    cursor: pointer;
+    display: flex;
+    .img {
+      width: 20%;
+      height: 100%;
+      flex-shrink: 0;
+    }
+    &:hover {
+      background-color: #2e1b01c7;
+    }
+    .info {
+      color: $themeColor;
+    }
   }
 }
 </style>

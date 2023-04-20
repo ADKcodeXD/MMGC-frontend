@@ -47,11 +47,13 @@
     @include tagfunc();
     background-color: $secondryColor;
     color: $whiteColor;
+    @include showLine(1);
   }
   &-day {
     @include tagfunc();
     background-color: $hintColor;
     color: $whiteColor;
+    @include showLine(1);
   }
 }
 

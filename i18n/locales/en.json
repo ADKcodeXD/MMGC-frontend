@@ -106,5 +106,7 @@
   "yourself": "Me",
   "noOpen": "The work you are looking at has not been released yet or has not been found~",
   "otherMovie": "Day{0}Other Movie",
-  "backToMain": "Back To Main"
+  "backToMain": "Back To Main",
+  "clickDown": "Click Down",
+  "clickup": "Click Up"
 }

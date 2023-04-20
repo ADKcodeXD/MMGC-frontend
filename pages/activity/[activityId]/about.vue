@@ -216,7 +216,7 @@ watchEffect(() => {
         padding-top: 5%;
         justify-self: flex-start;
         align-self: flex-start;
-        width: 80%;
+        width: 95%;
         color: $whiteColor;
         font-size: $normalFontSize;
       }
@@ -241,7 +241,7 @@ watchEffect(() => {
         .inner-container {
           display: flex;
           flex-direction: column;
-          width: 80%;
+          width: 95%;
           height: 100%;
           .set {
             color: $themeNotActiveColor;
@@ -262,7 +262,7 @@ watchEffect(() => {
     .desc-like {
       align-items: flex-start;
       justify-content: flex-start;
-      width: 80%;
+      width: 95%;
       overflow-y: hidden;
     }
   }
@@ -277,6 +277,13 @@ watchEffect(() => {
       .desc-like {
         overflow-y: hidden;
         width: 80%;
+      }
+    }
+    .cm-section {
+      .video-cm {
+        .inner-container {
+          width: 80%;
+        }
       }
     }
   }

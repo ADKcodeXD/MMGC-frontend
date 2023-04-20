@@ -107,5 +107,7 @@
   "noOpen": "你所查看的作品暂未公开或没找到哦~",
   "switchSource": "切换源",
   "otherMovie": "Day{0}其他作品",
-  "backToMain": "返回主会场"
+  "backToMain": "返回主会场",
+  "clickDown": "点击下页",
+  "clickup": "点击上页"
 }

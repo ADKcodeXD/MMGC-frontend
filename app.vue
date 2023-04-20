@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="root">
     <Transition name="page" mode="out-in">
-      <div :key="$route.path">
+      <div :key="$route.path" class="w-full h-full">
         <NuxtPage />
       </div>
     </Transition>

@@ -196,16 +196,16 @@ const logout = () => {
       cursor: pointer;
       transition: color 0.4s ease;
       margin: 0 8px;
+      width: 54px;
       a {
         display: flex;
         flex-direction: column;
         align-items: center;
         line-height: 1rem;
         font-size: 0.6rem;
+        max-width: 54px;
         p {
-          text-overflow: hidden;
-          white-space: nowrap;
-          overflow: hidden;
+          @include showLine(1);
         }
       }
       &:hover {
@@ -260,15 +260,13 @@ const logout = () => {
     font-size: $bigFontSize;
     font-weight: 600;
     .nav-item {
-      cursor: pointer;
-      transition: color 0.4s ease;
       margin: 0 4px;
+      width: 140px;
       a {
-        display: flex;
         flex-direction: row;
-        align-items: center;
         font-size: $bigFontSize;
         line-height: $bigFontSize;
+        max-width: 140px;
       }
       &:hover {
         color: $themeColor;

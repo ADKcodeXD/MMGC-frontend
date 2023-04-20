@@ -16,7 +16,7 @@
           <p class="sub-title" v-else>{{ $t('author') }}:{{ movieDetail?.authorName }}</p>
         </div>
       </div>
-      <div class="flex my-2 h-6 text-xs">
+      <div class="movie-tag">
         <div class="tag-primary" v-if="movieDetail.activityVo">
           {{ $t('activityMovie', [movieDetail.activityVo.activityId]) }}
         </div>
@@ -401,6 +401,7 @@ onMounted(async () => {
 
       .movie-header {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: space-between;
         .movie-title {
@@ -409,9 +410,16 @@ onMounted(async () => {
           font-weight: 600;
         }
       }
+      .movie-tag {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 3px 0;
+      }
       .movie-info {
         display: flex;
         align-items: center;
+        flex-direction: column;
         .info-center {
           display: inline-flex;
           align-items: center;
@@ -420,7 +428,7 @@ onMounted(async () => {
       .movie-play {
         border-radius: 20px;
         overflow: hidden;
-        height: 520px;
+        height: 300px;
         margin-top: 10px;
         width: 100%;
       }
@@ -430,6 +438,7 @@ onMounted(async () => {
       .movie-oper {
         margin-top: 5px;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         align-items: center;
         font-size: $midFontSize;
@@ -498,7 +507,7 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1024px) {
   .body {
     min-width: 1024px;
 
@@ -506,6 +515,30 @@ onMounted(async () => {
       width: 70%;
       .movie-play {
         height: 600px;
+      }
+      .movie-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .movie-tag {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        margin: 3px 0;
+      }
+      .movie-info {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        .info-center {
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+      .movie-oper {
+        flex-direction: row;
       }
     }
   }

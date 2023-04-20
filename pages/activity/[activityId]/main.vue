@@ -55,7 +55,7 @@
         <p class="self-start movie-title">{{ $t('movieList') }}</p>
         <Transition mode="out-in">
           <div class="movie-item-container relative" v-if="!isLoading">
-            <div v-for="item in movies" :key="item.movieId" style="width: 80%">
+            <div v-for="item in movies" :key="item.movieId" class="movieCard">
               <MovieListCard :movie-item="item" />
             </div>
           </div>
@@ -66,6 +66,9 @@
       </div>
     </div>
     <!-- 导航 -->
+    <div class="nav-arrow nav-prev" @click="prevDay">
+      <Icon name="ant-design:arrow-left-outlined" />
+    </div>
     <div class="nav">
       <div
         v-for="(day, index) in days"
@@ -90,6 +93,9 @@
         </p>
       </div>
     </div>
+    <div class="nav-arrow nav-next" @click="nextDay">
+      <Icon name="ant-design:arrow-right-outlined" />
+    </div>
     <!-- 滚轮滑动 -->
     <Transition>
       <div class="mouse-roll" v-if="pageState.current === 1">
@@ -98,6 +104,20 @@
           <Icon name="material-symbols:keyboard-double-arrow-down-rounded" class="anime" />
         </div>
         <p class="text-xs mt-3">{{ $t('wheelMouse') }}</p>
+      </div>
+    </Transition>
+    <Transition>
+      <div class="click-roll" v-if="pageState.current === 1" @click="move(2)">
+        <div>
+          <Icon name="material-symbols:keyboard-double-arrow-down-rounded" class="anime" />
+        </div>
+        <p class="text-xs mt-1">{{ $t('clickDown') }}</p>
+      </div>
+      <div class="click-roll" v-else @click="move(1)">
+        <div>
+          <Icon name="material-symbols:keyboard-double-arrow-up-rounded" class="anime-up" />
+        </div>
+        <p class="text-xs mt-1">{{ $t('clickup') }}</p>
       </div>
     </Transition>
     <!-- 背景 -->
@@ -124,7 +144,7 @@ definePageMeta({
 
 const coverzip = computed(() => {
   if (currentDayItem.value) {
-    return calcZip(currentDayItem.value.themeCover, '0.8x')
+    return calcZip(currentDayItem.value.themeCover || '', '0.8x')
   }
 })
 
@@ -161,7 +181,7 @@ const pauseItem = () => {
 const currentDayItem = computed(() => {
   return days.value?.find(item => item.day === currentDay.value) || null
 })
-const { fullpageEl, container, onMouseWheel, pageState } = useFullPageWheel(2)
+const { fullpageEl, container, onMouseWheel, pageState, move } = useFullPageWheel(2)
 
 const route = useRoute()
 const router = useRouter()
@@ -175,7 +195,7 @@ const clalTransform = (index: number) => {
     const targetIndex = days.value.findIndex(target => target.day === currentDay.value)
     if (targetIndex === -1) return ''
     const dis = index - targetIndex
-    return `transform: translateX(${dis * 300}px) scale(${1 - Math.abs(dis) * 0.2});opacity: ${
+    return `transform: translateX(${dis * 250}px) scale(${1 - Math.abs(dis) * 0.2});opacity: ${
       1 - Math.abs(dis) * 0.3
     };`
   }
@@ -203,6 +223,30 @@ const handleSwitchDay = (day: number) => {
   currentDay.value = day
 }
 
+const nextDay = () => {
+  if (days.value && days.value.length > 0) {
+    const targetIndex = days.value.findIndex(target => target.day === currentDay.value)
+    if (targetIndex === -1) return
+    if (targetIndex === days.value.length - 1) {
+      currentDay.value = days.value[0].day as any
+    } else {
+      currentDay.value = days.value[targetIndex + 1].day as any
+    }
+  }
+}
+
+const prevDay = () => {
+  if (days.value && days.value.length > 0) {
+    const targetIndex = days.value.findIndex(target => target.day === currentDay.value)
+    if (targetIndex === -1) return
+    if (targetIndex === 0) {
+      currentDay.value = days.value[days.value.length - 1].day as any
+    } else {
+      currentDay.value = days.value[targetIndex - 1].day as any
+    }
+  }
+}
+
 const getVideoByDay = async (day: number) => {
   isLoading.value = true
   const { data } = await getMovieByActivityId(props.activityId, day)
@@ -228,7 +272,7 @@ watch(
 <style lang="scss" scoped>
 @media screen and (min-width: 320px) {
   .main {
-    min-width: 1024px;
+    min-width: 320px;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -242,8 +286,8 @@ watch(
         display: flex;
         justify-content: center;
         .movie-content {
-          height: 75%;
-          width: 80%;
+          height: 80%;
+          width: 95%;
           overflow: hidden;
           .kanban {
             width: 100%;
@@ -255,12 +299,12 @@ watch(
             background-color: rgb(36, 1, 1);
             .video-content {
               width: 100%;
-              height: 80%;
+              height: 60%;
             }
             .descinfo {
               padding: 10px;
               display: flex;
-              height: 20%;
+              flex: 1;
               justify-content: space-between;
               width: 100%;
               .right {
@@ -290,18 +334,24 @@ watch(
         display: flex;
         align-items: center;
         flex-direction: column;
+        z-index: 1;
         .movie-title {
           margin-left: 5%;
+          margin-bottom: 10px;
           font-size: $bigFontSize;
           color: $themeColor;
         }
         .movie-item-container {
           width: 100%;
           display: grid;
-          grid-template-columns: repeat(3, 350px);
+          height: 85%;
+          grid-template-columns: repeat(2, 50%);
           overflow-y: auto;
           align-items: center;
           justify-items: center;
+          .movieCard {
+            width: 95%;
+          }
         }
       }
     }
@@ -325,21 +375,48 @@ watch(
         .sub-title {
           font-size: $smallFontSize;
           max-width: 200px;
+          display: none;
           text-align: center;
           &.active {
-            max-width: 400px;
+            max-width: 200px;
             color: $tipColor;
-            font-size: $bigFontSize;
+            font-size: $normalFontSize;
             @include showLine(2);
           }
         }
         .active {
           color: $themeColor;
-          font-size: $veryBigFontSize;
+          font-size: $bigFontSize;
           text-shadow: 0 0 10px $themeColor;
         }
       }
     }
+    .nav-arrow {
+      position: absolute;
+      font-size: $bigFontSize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      z-index: 1;
+      border-radius: 50%;
+      border: $textColor 1px solid;
+      bottom: 5%;
+      &:hover {
+        background-color: $shadowColor;
+      }
+      &.nav-prev {
+        left: 10%;
+        color: $textColor;
+      }
+      &.nav-next {
+        right: 10%;
+        color: $textColor;
+      }
+    }
+
     .background {
       position: absolute;
       top: 0;
@@ -353,18 +430,36 @@ watch(
       transition: all ease 0.5s;
     }
     .mouse-roll {
+      display: none;
       position: absolute;
       bottom: 100px;
       right: 50px;
       transform: translateX(-50%);
       color: #fff;
-      display: flex;
       flex-direction: column;
       align-items: flex-end;
       font-size: $veryBigFontSize;
       width: 100px;
       .anime {
         animation: down 3s infinite;
+      }
+    }
+    .click-roll {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 10px;
+      color: #fff;
+      font-size: $veryBigFontSize;
+      width: 100px;
+      .anime {
+        animation: down 3s infinite;
+      }
+      .anime-up {
+        animation: up 3s infinite;
       }
     }
     :deep(.el-carousel__item) {
@@ -382,6 +477,12 @@ watch(
           height: 90%;
           width: 80%;
           overflow: hidden;
+          .kanban {
+            .video-content {
+              width: 100%;
+              height: 80%;
+            }
+          }
         }
       }
       .video-list {
@@ -389,11 +490,32 @@ watch(
           margin-left: 13%;
         }
         .movie-item-container {
+          height: unset;
           width: 80%;
           grid-template-columns: repeat(3, 33%);
           grid-auto-flow: row;
         }
       }
+    }
+    .mouse-roll {
+      display: flex;
+    }
+    .nav {
+      left: 50%;
+      .day-item {
+        .sub-title {
+          display: block;
+          &.active {
+            max-width: 400px;
+          }
+        }
+        .active {
+          font-size: $veryBigFontSize;
+        }
+      }
+    }
+    .click-roll {
+      display: none;
     }
   }
 }
@@ -409,6 +531,21 @@ watch(
   }
   100% {
     transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
     opacity: 0;
   }
 }

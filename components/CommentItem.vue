@@ -4,14 +4,17 @@
     :class="{ 'children-item': isChildren }"
     :style="{ marginLeft: `${(level - 1) * 6}px` }"
   >
-    <div class="flex justify-between items-end">
-      <div class="flex h-12 flex-shrink-0" :class="{ 'h-8': isChildren }">
-        <MemberPop
-          :member-vo="comment.memberVo"
-          v-if="comment.memberVo && !isChildren"
-          :size="36"
-        />
-        <div>
+    <div class="flex justify-between items-end flex-wrap">
+      <div class="flex flex-shrink-0 break-all max-w-4/5" :class="{ 'h-8': isChildren }">
+        <div class="flex-shrink-0">
+          <MemberPop
+            :member-vo="comment.memberVo"
+            v-if="comment.memberVo && !isChildren"
+            :size="36"
+          />
+        </div>
+
+        <div class="w-full">
           <p class="flex items-end">
             {{ comment.memberVo?.memberName }}
             <span class="sub-title ml-2" v-if="comment.memberVo?.username"
@@ -33,11 +36,13 @@
               {{ $t('author') }}
             </span>
           </p>
-          <p class="sub-title" v-if="!isChildren">{{ comment.memberVo?.desc }}</p>
-          <p class="sub-title" v-else>{{ comment.createTime }}</p>
+          <p class="break-all text-light-900 text-xs" v-if="!isChildren">
+            {{ comment.memberVo?.desc }}
+          </p>
+          <p class="sub-title flex-shrink-0" v-else>{{ comment.createTime }}</p>
         </div>
       </div>
-      <div class="flex flex-col items-end">
+      <div class="flex flex-col items-end flex-shrink-0">
         <el-popconfirm :title="$t('confirmDelete')" @confirm="deleteMyComment">
           <template #reference>
             <ElButton

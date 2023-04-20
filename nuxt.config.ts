@@ -59,7 +59,8 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     'nuxt-icon',
     'nuxt-swiper',
-    'nuxt-lodash'
+    'nuxt-lodash',
+    'nuxt-simple-sitemap',
   ],
   i18n: {
     locales: ['cn', 'en', 'jp'],
@@ -75,13 +76,17 @@ export default defineNuxtConfig({
   components: true,
   runtimeConfig: {
     public: {
-      apiBase: 'https://mirai-mad.com',
-      apiPrefix: '/mmgcApi',
-      apiLocal: 'http://localhost:8055'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://mirai-mad.com',
+      siteUrl: process.env.NUXT_PUBLIC_API_BASE || 'https://mirai-mad.com',
+      apiPrefix: process.env.NUXT_PUBLIC_API_PREFIX || '/mmgcApi',
+      apiLocal: process.env.NUXT_PUBLIC_API_LOCAL || 'http://localhost:8055'
     }
   },
-  plugins: ['~~/plugins/pinia-plugin-persist.client']
-
+  plugins: ['~~/plugins/pinia-plugin-persist.client'],
+  sitemap: {
+    // automatically chunk into multiple sitemaps
+    sitemaps: true,
+  },
   // unocss: {
   //   uno: true,
   //   attributify: true,

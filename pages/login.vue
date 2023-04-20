@@ -187,42 +187,52 @@ const submitFn = async () => {
 }
 </script>
 <style lang="scss" scoped>
-.bg {
-  background-image: url(@/assets/img/bg2.png);
-  background-size: 100% 100% cover;
-  height: 100vh;
-  min-width: 1024px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: move 120s infinite linear;
-  .header {
-    padding: 1rem;
+@media screen and (min-width: 320px) {
+  .bg {
+    background-image: url(@/assets/img/bg2.png);
+    background-size: 100% 100% cover;
+    height: 100%;
+    min-width: 320px;
+    overflow: hidden;
     display: flex;
-    width: 100%;
-    align-items: flex-start;
-  }
-  .login-container {
-    width: 47%;
-    height: 70%;
-    background-color: rgba(70, 21, 2, 0.205);
-    border-radius: 2rem;
-    display: flex;
-    overflow-y: auto;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 0 100px rgba(238, 71, 5, 0.473);
-    .form {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
+    flex-direction: column;
+    align-items: center;
+    animation: move 120s infinite linear;
+    .header {
       padding: 1rem;
-      justify-content: space-between;
+      display: flex;
+      width: 100%;
+      align-items: flex-start;
+    }
+    .login-container {
+      width: 90%;
+      height: 80%;
+      background-color: rgba(70, 21, 2, 0.205);
+      border-radius: 2rem;
+      display: flex;
+      overflow-y: auto;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 100px rgba(238, 71, 5, 0.473);
+      .form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem;
+        justify-content: space-between;
+      }
     }
   }
+  :deep(.el-form-item__label) {
+    color: #fff;
+  }
 }
-:deep(.el-form-item__label) {
-  color: #fff;
+
+@media screen and (min-width: 1440px) {
+  .bg {
+    .login-container {
+      width: 47%;
+    }
+  }
 }
 @keyframes move {
   0% {

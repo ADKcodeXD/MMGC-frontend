@@ -23,6 +23,13 @@ html {
 }
 body {
   margin: 0;
+  height: 100%;
+}
+#__nuxt {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 a {
   font-weight: 400;
