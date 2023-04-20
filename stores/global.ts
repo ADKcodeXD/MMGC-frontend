@@ -13,6 +13,7 @@ export const useGlobalStore = defineStore('global', {
           maxAge: 3600 * 3600
         })
         locale.value = urlLocale
+        return urlLocale
       } else {
         const { $i18n } = useNuxtApp()
         $i18n.setLocale('cn')
@@ -20,8 +21,8 @@ export const useGlobalStore = defineStore('global', {
           maxAge: 3600 * 3600
         })
         locale.value = 'cn'
+        return 'cn'
       }
-      return urlLocale
     }
     return {
       localeState: func() || useCookie('locale').value || 'cn',
