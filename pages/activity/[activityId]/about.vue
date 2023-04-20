@@ -57,7 +57,10 @@
                   </div>
                   <div class="flex items-center my-2" v-if="activityData.staff.judges">
                     <p class="staff-label">{{ $t('judge') }}:</p>
-                    <div v-if="activityData.staff && activityData.staff.judges" class="flex">
+                    <div
+                      v-if="activityData.staff && activityData.staff.judges"
+                      class="flex flex-wrap"
+                    >
                       <MemberPop
                         :member-vo="item"
                         v-for="item in activityData.staff.judges"
@@ -67,7 +70,10 @@
                   </div>
                   <div class="flex items-center my-2" v-if="activityData.staff.translator">
                     <p class="staff-label">{{ $t('translator') }}:</p>
-                    <div v-if="activityData.staff && activityData.staff.translator" class="flex">
+                    <div
+                      v-if="activityData.staff && activityData.staff.translator"
+                      class="flex flex-wrap"
+                    >
                       <MemberPop
                         :member-vo="item"
                         v-for="item in activityData.staff.translator"
