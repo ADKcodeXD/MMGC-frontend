@@ -1,5 +1,5 @@
 <template>
-  <ElImage :fit="fit" :lazy="isLazy" :src="img + (isAdd ? quatily : '') || ''">
+  <ElImage :fit="fit" :lazy="isLazy" :src="isAdd ? quatily : img || ''">
     <template #placeholder>
       <div class="gray">
         <MyCustomLoading />
@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<MyElimageProp>(), {
 })
 
 const quatily = computed(() => {
-  return calcZip(props.img, props.zip)
+  return calcZip(props.img || '', props.zip)
 })
 
 /**
