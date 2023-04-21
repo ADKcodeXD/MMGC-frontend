@@ -29,21 +29,35 @@ export const removeItem = (key: string): void => {
 
 export const calcZip = (img: string, key: string) => {
   let quality
+  const RegQiniu = new RegExp(/^http(s|):\/\/assets.*\/[0-9a-zA-Z-]*.(jpeg|jpg|png|webp|gif)$/, 'i')
+  const RegTencent = new RegExp(
+    /^http(s|):\/\/mirai-mad.*\/[0-9a-zA-Z-]*.(jpeg|jpg|png|webp)$/,
+    'i'
+  )
+  let tencentFlag = false
+  let qiniuFlag = false
+  if (RegQiniu.test(img)) {
+    qiniuFlag = true
+  } else if (RegTencent.test(img)) {
+    tencentFlag = true
+  } else {
+    return img
+  }
   switch (key) {
     case 'none':
       quality = ''
       break
     case '0.2x':
-      quality = '?imageMogr2/thumbnail/100x/quality/30'
+      quality = tencentFlag ? '?imageMogr2/thumbnail/100x/quality/40' : '?imageView2/2/w/100/q/40'
       break
     case '0.4x':
-      quality = '?imageMogr2/thumbnail/300x/quality/30'
+      quality = tencentFlag ? '?imageMogr2/thumbnail/300x/quality/50' : '?imageView2/2/w/300/q/50'
       break
     case '0.6x':
-      quality = '?imageMogr2/thumbnail/640x/quality/60'
+      quality = tencentFlag ? '?imageMogr2/thumbnail/640x/quality/70' : '?imageView2/2/w/640/q/70'
       break
     case '0.8x':
-      quality = '?imageMogr2/thumbnail/1080x/quality/80'
+      quality = tencentFlag ? '?imageMogr2/thumbnail/1080x/quality/80' : '?imageView2/2/w/1080/q/85'
       break
   }
   return `${img}${quality}`

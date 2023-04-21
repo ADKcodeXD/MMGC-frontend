@@ -1,15 +1,21 @@
 <template>
   <el-popover placement="top" :width="300" trigger="hover" :show-after="100" transition="popshow">
     <template #reference>
-      <ElAvatar :src="memberVo.avatar || undefined" class="mx-1" :size="size || 32">{{
-        noAvatar
-      }}</ElAvatar>
+      <ElAvatar
+        :src="calcZip(memberVo.avatar, '0.4x') || undefined"
+        class="mx-1"
+        :size="size || 32"
+        >{{ noAvatar }}</ElAvatar
+      >
     </template>
     <template #default>
       <div class="flex">
-        <ElAvatar :src="memberVo.avatar || undefined" :size="80" class="flex-shrink-0">{{
-          noAvatar
-        }}</ElAvatar>
+        <ElAvatar
+          :src="calcZip(memberVo.avatar, '0.4x') || undefined"
+          :size="80"
+          class="flex-shrink-0"
+          >{{ noAvatar }}</ElAvatar
+        >
         <div class="ml-2">
           <p class="text-2xl">{{ memberVo.memberName }}</p>
           <p class="text-xs">@{{ memberVo.email || memberVo.username }}</p>
@@ -35,6 +41,7 @@
 </template>
 <script setup lang="ts">
 import { MemberVo } from 'Member'
+import { calcZip } from '~~/utils'
 
 const props = defineProps<{
   memberVo: MemberVo
