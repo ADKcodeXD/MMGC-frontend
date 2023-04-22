@@ -78,7 +78,7 @@
             </template>
           </div>
         </div>
-        <div class="flex">
+        <div class="download-or-other">
           <div
             class="flex items-center mr-4 justify-center"
             v-if="movieDetail.movieLink && snsSites.length > 0"
@@ -443,6 +443,17 @@ onMounted(async () => {
         align-items: center;
         font-size: $midFontSize;
         color: $themeColor;
+        .download-or-other {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .download {
+            font-size: $bigFontSize;
+            color: $themeColor;
+            font-weight: 600;
+            cursor: pointer;
+          }
+        }
         .operitem {
           border-radius: 35px;
           font-size: $smallFontSize;
@@ -470,12 +481,6 @@ onMounted(async () => {
             color: $whiteColor;
             background-color: $secondryColor;
           }
-        }
-        .download {
-          font-size: $bigFontSize;
-          color: $themeColor;
-          font-weight: 600;
-          cursor: pointer;
         }
       }
       .movie-list {
@@ -525,7 +530,7 @@ onMounted(async () => {
       .movie-tag {
         display: flex;
         flex-wrap: wrap;
-        justify-content: start;
+        justify-content: flex-start;
         margin: 3px 0;
       }
       .movie-info {
@@ -539,6 +544,11 @@ onMounted(async () => {
       }
       .movie-oper {
         flex-direction: row;
+        .download-or-other {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
       }
     }
   }

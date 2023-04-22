@@ -10,7 +10,7 @@
         <MyCustomImage :img="activity.activityLogo" />
       </div>
       <div class="info px-2">
-        <div class="flex items-center">
+        <div class="info-header">
           <p class="title">
             {{ activity.activityName[locale] || activity.activityName['cn'] }}
           </p>
@@ -50,6 +50,7 @@ const gotoActivity = useLocaleNavigate()
     width: 100%;
     border: 1px solid $themeColor;
     height: 200px;
+    overflow-y: hidden;
     margin-bottom: 10px;
     border-radius: 6px;
     padding: 3px;
@@ -65,6 +66,19 @@ const gotoActivity = useLocaleNavigate()
     }
     .info {
       color: $themeColor;
+      .title {
+        @include showLine(2);
+        margin: 3px 0;
+      }
+      [class^='tag'] {
+        margin: 0;
+        margin-bottom: 5px;
+      }
+      .info-header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   }
 }
@@ -97,6 +111,19 @@ const gotoActivity = useLocaleNavigate()
     }
     .info {
       color: $themeColor;
+      .title {
+        @include showLine(1);
+        margin: 10px 0;
+      }
+      [class^='tag'] {
+        margin-bottom: 0;
+        margin: 0 4px;
+      }
+      .info-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
     }
   }
 }

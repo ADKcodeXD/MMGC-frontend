@@ -54,7 +54,7 @@
     </div>
     <div class="MMGC-mobile">
       <section class="MMGC-logo" @click="goWelcome">
-        <MyCustomImage :img="activityData?.activityLogo" />
+        <Icon name="ant-design:home-outlined" />
       </section>
       <nav class="MMGC-nav">
         <p class="nav-item">
@@ -181,8 +181,9 @@ const logout = () => {
     }
   }
   .MMGC-logo {
-    width: 8rem;
     height: 3rem;
+    font-size: 2rem;
+    color: $themeColor;
     cursor: pointer;
   }
   .MMGC-nav {
@@ -195,15 +196,15 @@ const logout = () => {
     .nav-item {
       cursor: pointer;
       transition: color 0.4s ease;
-      margin: 0 8px;
-      width: 54px;
+      margin: 0 6px;
+      width: 50px;
       a {
         display: flex;
         flex-direction: column;
         align-items: center;
         line-height: 1rem;
         font-size: 0.6rem;
-        max-width: 54px;
+        max-width: 50px;
         p {
           @include showLine(1);
         }
@@ -221,6 +222,7 @@ const logout = () => {
     display: flex;
     flex-shrink: 0;
     justify-content: space-around;
+    align-items: center;
     .oper-item {
       cursor: pointer;
       display: flex;
@@ -261,12 +263,12 @@ const logout = () => {
     font-weight: 600;
     .nav-item {
       margin: 0 4px;
-      width: 140px;
+      width: unset;
       a {
         flex-direction: row;
         font-size: $bigFontSize;
         line-height: $bigFontSize;
-        max-width: 140px;
+        max-width: unset;
       }
       &:hover {
         color: $themeColor;

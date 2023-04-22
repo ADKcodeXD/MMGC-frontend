@@ -49,6 +49,8 @@ const move = (index: number) => {
     display: flex;
     cursor: pointer;
     flex-direction: row;
+    max-width: 100%;
+    overflow-x: auto;
     color: $themeNotActiveColor;
     &-item {
       position: absolute;
@@ -92,7 +94,9 @@ const move = (index: number) => {
     right: 0;
     bottom: unset;
     left: unset;
-    width: 200px;
+    width: 300px;
+    max-width: unset;
+    overflow-x: unset;
     display: flex;
     cursor: pointer;
     flex-direction: column;

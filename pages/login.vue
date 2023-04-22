@@ -18,7 +18,6 @@
           <Transition mode="out-in">
             <el-form
               label-position="left"
-              label-width="200px"
               :model="loginForm"
               status-icon
               ref="loginRef"
@@ -37,7 +36,6 @@
             </el-form>
             <el-form
               label-position="left"
-              label-width="200px"
               :model="registerForm"
               class="mt-5 flex-1"
               status-icon
@@ -206,7 +204,7 @@ const submitFn = async () => {
     }
     .login-container {
       width: 90%;
-      height: 80%;
+      height: 600px;
       background-color: rgba(70, 21, 2, 0.205);
       border-radius: 2rem;
       display: flex;
@@ -223,6 +221,8 @@ const submitFn = async () => {
     }
   }
   :deep(.el-form-item__label) {
+    max-width: 200px;
+    @include showLine(2);
     color: #fff;
   }
 }
@@ -231,7 +231,13 @@ const submitFn = async () => {
   .bg {
     .login-container {
       width: 47%;
+      height: 85%;
     }
+  }
+  :deep(.el-form-item__label) {
+    width: 200px;
+    @include showLine(2);
+    color: #fff;
   }
 }
 @keyframes move {

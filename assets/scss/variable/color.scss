@@ -31,6 +31,7 @@ $hintColor: var(--hintColor, rgb(27, 121, 245));
   --el-bg-color-overlay: var(--shadowColor, rgba(36, 2, 2, 0.856));
   --el-border-color: var(--tipColorDark, rgb(97, 97, 97));
   --el-border-color-light: var(--tipColorDark, rgb(97, 97, 97));
-  --el-popover-border-color: var(--tipColorDark, rgb(97, 97, 97));
+  --el-popover-border-color: var(--tipColorDark, rgb(65, 63, 63));
+  --el-border-color-lighter: var(--tipColorDark, rgb(65, 63, 63));
   --el-input-border: var(--tipColorDark, rgb(97, 97, 97));
 }
