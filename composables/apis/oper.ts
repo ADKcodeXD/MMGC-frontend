@@ -8,7 +8,7 @@ export const likeVideo = async (movieId: number) => {
     true
   )
   return {
-    data: data && data.data,
+    data: data,
     refresh
   }
 }
@@ -23,7 +23,7 @@ export const pollVideo = async (movieId: number) => {
     true
   )
   return {
-    data: data && data.data,
+    data: data,
     refresh
   }
 }
@@ -38,7 +38,7 @@ export const cancelVideoLike = async (movieId: number) => {
     true
   )
   return {
-    data: data && data.data,
+    data: data,
     refresh
   }
 }

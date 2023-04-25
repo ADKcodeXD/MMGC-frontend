@@ -303,8 +303,10 @@ const likeOrUnLike = async () => {
     ElMessage.success(t('cancelLike'))
     movieDetail.value.loginVo.isLike = !movieDetail.value.loginVo?.isLike
   } else if (movieDetail.value) {
-    await likeVideo(movieDetail.value.movieId)
-    ElMessage.success(t('likeSuccess'))
+    const { data } = await likeVideo(movieDetail.value.movieId)
+    if (data?.code === 200) {
+      ElMessage.success(t('likeSuccess'))
+    }
     if (movieDetail.value.loginVo)
       movieDetail.value.loginVo.isLike = !movieDetail.value.loginVo?.isLike
   }
@@ -322,9 +324,11 @@ const pollMovie = () => {
   } else {
     ElMessageBox.confirm('你确定要给该作品投票吗?（当日内的作品一个用户只能投一票）', '提示').then(
       async () => {
-        await pollVideo(movieId.value)
-        await getMovieDetail(movieId.value)
-        ElMessage.success(t('pollSuccess'))
+        const { data } = await pollVideo(movieId.value)
+        if (data?.code === 200) {
+          await getMovieDetail(movieId.value)
+          ElMessage.success(t('pollSuccess'))
+        }
       }
     )
   }
@@ -339,13 +343,16 @@ const sentComment = async () => {
     ElMessage.warning(t('commentContentEmpty'))
     return
   }
-  await addComment({
+  const { data } = await addComment({
     content: content.value,
     movieId: movieId.value
   })
-  await getComment()
-  ElMessage.success(t('commentSuccess'))
-  content.value = ''
+  if (data?.code !== 200) {
+    await getComment()
+    content.value = ''
+    ElMessage.success(t('commentSuccess'))
+    return
+  }
 }
 
 const getComment = async (prams?: any) => {

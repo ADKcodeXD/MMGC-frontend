@@ -15,7 +15,7 @@ export const getCommentList = async (pageParams: PageParams & { movieId: number 
 export const addComment = async (commmentParams: CommentParams) => {
   const { data, refresh } = await xFetch<null>('/api/comment/addComment', 'post', commmentParams)
   return {
-    data: data && data.data,
+    data: data,
     refresh
   }
 }

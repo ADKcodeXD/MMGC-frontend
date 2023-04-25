@@ -32,7 +32,7 @@ export const xFetch = async <T>(
             })
           }
         }
-        throw new Error(data.msg)
+        return data
       } else {
         return data
       }
