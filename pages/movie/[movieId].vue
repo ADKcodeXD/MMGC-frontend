@@ -347,12 +347,10 @@ const sentComment = async () => {
     content: content.value,
     movieId: movieId.value
   })
-  if (data?.code !== 200) {
-    await getComment()
-    content.value = ''
-    ElMessage.success(t('commentSuccess'))
-    return
-  }
+  await getComment()
+  content.value = ''
+  ElMessage.success(t('commentSuccess'))
+  return
 }
 
 const getComment = async (prams?: any) => {
