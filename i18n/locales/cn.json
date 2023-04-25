@@ -109,5 +109,6 @@
   "otherMovie": "Day{0}其他作品",
   "backToMain": "返回主会场",
   "clickDown": "点击下页",
-  "clickup": "点击上页"
+  "clickup": "点击上页",
+  "pollTip": "你确定要给该作品投票吗?（当日内的作品一个用户只能投两票）"
 }

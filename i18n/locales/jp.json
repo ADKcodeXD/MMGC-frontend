@@ -107,5 +107,6 @@
   "otherMovie": "Day{0}他の作品",
   "backToMain": "会場へ戻って",
   "clickDown": "Click Down",
-  "clickup": "Click Up"
+  "clickup": "Click Up",
+  "pollTip": "この作品に投票しますか? (1ユーザーが1日に投票できる作品は2作品までです)"
 }

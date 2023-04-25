@@ -108,5 +108,6 @@
   "otherMovie": "Day{0}Other Movie",
   "backToMain": "Back To Main",
   "clickDown": "Click Down",
-  "clickup": "Click Up"
+  "clickup": "Click Up",
+  "pollTip": "Are you sure you want to vote for this work? (One user can only vote for two works within the day)"
 }

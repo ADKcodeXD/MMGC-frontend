@@ -292,10 +292,6 @@ const getVideoByDay = async () => {
 }
 
 const likeOrUnLike = async () => {
-  if (!userInfo || !userInfo?.memberId) {
-    ElMessage.warning(t('loginFirst'))
-    return
-  }
   if (isLike.value) return
   isLike.value = true
   if (movieDetail.value && movieDetail.value.loginVo?.isLike) {
@@ -315,14 +311,10 @@ const likeOrUnLike = async () => {
 }
 
 const pollMovie = () => {
-  if (!userInfo || !userInfo?.memberId) {
-    ElMessage.warning(t('loginFirst'))
-    return
-  }
   if (movieDetail.value && movieDetail.value?.loginVo?.isPoll) {
     ElMessage.warning(t('pollLimit'))
   } else {
-    ElMessageBox.confirm('你确定要给该作品投票吗?（当日内的作品一个用户只能投一票）', '提示').then(
+    ElMessageBox.confirm(t('pollTip'), '提示').then(
       async () => {
         const { data } = await pollVideo(movieId.value)
         if (data?.code === 200) {
