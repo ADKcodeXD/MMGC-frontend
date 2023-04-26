@@ -31,7 +31,7 @@
                     <p class="sub-title">{{ item.movieDesc[locale] || item.movieDesc['cn'] }}</p>
                   </div>
 
-                  <div class="flex">
+                  <div class="flex" v-if="item.isPublic">
                     <div class="flex items-center operitem" @click="likeOrUnLike(item)">
                       <template v-if="item.loginVo?.isLike">
                         <Icon name="ant-design:like-filled" class="text-3xl" />
