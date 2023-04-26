@@ -26,14 +26,39 @@
               </div>
               <div class="descinfo">
                 <div class="left">
-                  <p class="title-movie">{{ item.movieName[locale] || item.movieName['cn'] }}</p>
-                  <p class="sub-title">{{ item.movieDesc[locale] || item.movieDesc['cn'] }}</p>
+                  <div>
+                    <p class="title-movie">{{ item.movieName[locale] || item.movieName['cn'] }}</p>
+                    <p class="sub-title">{{ item.movieDesc[locale] || item.movieDesc['cn'] }}</p>
+                  </div>
+
+                  <div class="flex">
+                    <div class="flex items-center operitem" @click="likeOrUnLike(item)">
+                      <template v-if="item.loginVo?.isLike">
+                        <Icon name="ant-design:like-filled" class="text-3xl" />
+                        <p class="operitem-font">{{ item.likeNums }}</p>
+                      </template>
+                      <template v-else>
+                        <Icon name="ant-design:like-outlined" class="text-3xl" />
+                        <p class="operitem-font">{{ $t('like') }}</p>
+                      </template>
+                    </div>
+                    <div class="flex items-center mx-2 operitem" @click="pollMovie(item)">
+                      <template v-if="item.loginVo?.isPoll">
+                        <Icon name="ant-design:profile-filled" class="text-3xl" />
+                        <p class="operitem-font">{{ item.pollNums }}</p>
+                      </template>
+                      <template v-else>
+                        <Icon name="ant-design:profile-outlined" class="text-3xl" />
+                        <p class="operitem-font">{{ $t('polls') }}</p>
+                      </template>
+                    </div>
+                  </div>
                 </div>
                 <div class="right">
                   <div class="flex items-center mt-3">
                     <p class="text-light-50 mr-3">{{ $t('author') }}</p>
                     <MemberPop v-if="item.author" :member-vo="item.author" />
-                    <p v-else class="text-light-50" :title="item.authorName">
+                    <p v-else class="text-light-50 text" :title="item.authorName">
                       {{ item.authorName }}
                     </p>
                   </div>
@@ -42,6 +67,7 @@
                   }}</ElButton>
                 </div>
               </div>
+              <div class="text h-4"></div>
             </el-carousel-item>
           </el-carousel>
           <p class="title" v-else-if="movies.length === 0 && !isLoading">
@@ -137,6 +163,8 @@ import { DayVo } from 'Activity'
 import { MovieVo } from 'Movie'
 import { getActivityDays } from '~~/composables/apis/activity'
 import { getMovieByActivityId } from '~~/composables/apis/movie'
+import { cancelVideoLike, likeVideo, pollVideo } from '~~/composables/apis/oper'
+import getMovieDetail from '~~/server/api/movie/getMovieDetail'
 import { calcZip } from '~~/utils'
 definePageMeta({
   key: route => route.fullPath
@@ -159,6 +187,7 @@ const currentDay = ref(0)
 const canAutoPlay = ref(true)
 const players = ref<any>([])
 const background = ref<HTMLElement>()
+const { t } = useI18n()
 
 const setItemRefs = (el: any) => {
   if (el) {
@@ -186,6 +215,7 @@ const { fullpageEl, container, onMouseWheel, pageState, move } = useFullPageWhee
 const route = useRoute()
 const router = useRouter()
 const localeRoute = useLocaleRoute()
+const isLike = ref(false)
 const day = computed(() => {
   return parseInt(route.query.day?.toString() || '') || -1
 })
@@ -255,6 +285,40 @@ const getVideoByDay = async (day: number) => {
   isLoading.value = false
 }
 
+const likeOrUnLike = async (movieItem: MovieVo) => {
+  if (isLike.value) return
+  isLike.value = true
+  if (movieItem && movieItem.loginVo?.isLike) {
+    await cancelVideoLike(movieItem.movieId)
+    ElMessage.success(t('cancelLike'))
+    movieItem.likeNums--
+    movieItem.loginVo.isLike = !movieItem.loginVo?.isLike
+  } else if (movieItem) {
+    const { data } = await likeVideo(movieItem.movieId)
+    if (data?.code === 200) {
+      ElMessage.success(t('likeSuccess'))
+    }
+    if (movieItem.loginVo) movieItem.loginVo.isLike = !movieItem.loginVo?.isLike
+    movieItem.likeNums++
+  }
+  isLike.value = false
+}
+
+const pollMovie = (movieItem: MovieVo) => {
+  if (movieItem && movieItem?.loginVo?.isPoll) {
+    ElMessage.warning(t('pollLimit'))
+  } else {
+    ElMessageBox.confirm(t('pollTip'), '提示').then(async () => {
+      const { data } = await pollVideo(movieItem.movieId)
+      if (data?.code === 200) {
+        if (movieItem.loginVo) movieItem.loginVo.isPoll = true
+        ElMessage.success(t('pollSuccess'))
+        movieItem.pollNums++
+      }
+    })
+  }
+}
+
 watchEffect(async () => {
   await getDays()
   await getVideoByDay(currentDay.value)
@@ -311,10 +375,43 @@ watch(
                 display: flex;
                 flex-direction: column;
                 align-items: flex-end;
+                flex: 1;
                 flex-shrink: 0;
                 justify-content: space-between;
                 height: 100%;
+                .text {
+                  @include showLine(2);
+                }
               }
+              .left {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .operitem {
+                  color: $themeColor;
+                  border-radius: 35px;
+                  font-size: $smallFontSize;
+                  padding: 4px 8px;
+                  cursor: pointer;
+                  width: 90px;
+                  position: relative;
+                  transition: all ease 0.3s;
+                  &:hover {
+                    color: $whiteColor;
+                    background-color: $secondryColor;
+                    width: 100px;
+                    .operitem-font {
+                      opacity: 1;
+                      left: 60px;
+                    }
+                  }
+                  &.active {
+                    color: $whiteColor;
+                    background-color: $secondryColor;
+                  }
+                }
+              }
+
               .title-movie {
                 color: $themeColor;
                 font-size: $bigFontSize;
@@ -480,7 +577,7 @@ watch(
           .kanban {
             .video-content {
               width: 100%;
-              height: 80%;
+              height: 75%;
             }
           }
         }
@@ -548,5 +645,11 @@ watch(
     transform: translateY(-100%);
     opacity: 0;
   }
+}
+:deep(.el-carousel__indicators--horizontal) {
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  margin-left: 16px;
 }
 </style>

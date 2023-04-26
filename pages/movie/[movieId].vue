@@ -314,15 +314,13 @@ const pollMovie = () => {
   if (movieDetail.value && movieDetail.value?.loginVo?.isPoll) {
     ElMessage.warning(t('pollLimit'))
   } else {
-    ElMessageBox.confirm(t('pollTip'), '提示').then(
-      async () => {
-        const { data } = await pollVideo(movieId.value)
-        if (data?.code === 200) {
-          await getMovieDetail(movieId.value)
-          ElMessage.success(t('pollSuccess'))
-        }
+    ElMessageBox.confirm(t('pollTip'), '提示').then(async () => {
+      const { data } = await pollVideo(movieId.value)
+      if (data?.code === 200) {
+        await getMovieDetail(movieId.value)
+        ElMessage.success(t('pollSuccess'))
       }
-    )
+    })
   }
 }
 
@@ -456,15 +454,9 @@ onMounted(async () => {
           font-size: $smallFontSize;
           padding: 4px 8px;
           cursor: pointer;
-          width: 40px;
+          width: 90px;
           position: relative;
           transition: all ease 0.3s;
-          &-font {
-            position: absolute;
-            opacity: 0;
-            left: 0;
-            transition: all ease 0.3s;
-          }
           &:hover {
             color: $whiteColor;
             background-color: $secondryColor;
