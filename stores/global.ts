@@ -27,7 +27,9 @@ export const useGlobalStore = defineStore('global', {
     return {
       localeState: func() || useCookie('locale').value || 'cn',
       documentReadyState: true,
-      config: null,
+      config: {
+        currentActivityId: 2023
+      },
       currentActivityData: null
     } as {
       localeState: 'cn' | 'en' | 'jp'

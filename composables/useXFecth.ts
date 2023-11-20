@@ -1,3 +1,5 @@
+import { useUserStore } from '~~/stores/user'
+
 export const xFetch = async <T>(
   url: string,
   method = 'get',
@@ -5,12 +7,13 @@ export const xFetch = async <T>(
   isQuery = false,
   headers?: Record<string, any>
 ) => {
+  const { clearToken } = useUserStore()
   const { data, refresh, error } = await useFetch<ResResult<T>>(url, {
     onResponseError({ response }) {
       if (response._data) {
         const data = response._data
         if (data.data.code === 401) {
-          throw new Error('no login')
+          clearToken()
         } else {
           if (process.client) {
             ElMessage({

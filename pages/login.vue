@@ -7,9 +7,6 @@
     </div>
     <div class="flex-1 w-full h-full flex justify-center pt-10">
       <div class="login-container">
-        <!-- <div class="img-container">
-          <MyCustomImage :img="Bg" fit="cover" />
-        </div> -->
         <div class="form">
           <div>
             <p class="title">{{ $t('logintoMMGC') }}</p>
