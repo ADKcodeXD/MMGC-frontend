@@ -2,22 +2,22 @@
   <div class="w-full h-full">
     <div class="bg">
       <div class="logo1">
-        <MyCustomImage :img="activityData?.activityCover" />
+        <MyCustomImage :img="activityData?.activityCover" @load="loadCount++" />
       </div>
       <div class="logo2">
-        <MyCustomImage :img="activityData?.activityLogo" />
+        <MyCustomImage :img="activityData?.activityLogo" @load="loadCount++" />
       </div>
       <div class="denglong">
-        <MyCustomImage :img="Denglong" />
+        <MyCustomImage :img="Denglong" @load="loadCount++" />
       </div>
       <div class="border-img">
-        <MyCustomImage :img="BorderImg" fit="cover" />
+        <MyCustomImage :img="BorderImg" fit="cover" @load="loadCount++" />
       </div>
       <div class="xinfeng">
-        <MyCustomImage :img="Xinfeng" fit="cover" />
+        <MyCustomImage :img="Xinfeng" fit="cover" @load="loadCount++" />
       </div>
       <div class="xinfeng-second">
-        <MyCustomImage :img="Paper" fit="cover" />
+        <MyCustomImage :img="Paper" fit="cover" @load="loadCount++" />
       </div>
       <div class="circle1"></div>
       <div class="circle2"></div>
@@ -40,6 +40,7 @@ import Paper from '~~/assets/2024/paper.png'
 
 const localeRoute = useLocaleRoute()
 const globalState = useGlobalStore()
+const loadCount = ref(0)
 const { activityData } = useActivityDetail(globalState.config!.currentActivityId)
 const goActivity = () => {
   const route = localeRoute(`/activity/${activityData.value?.activityId}`)
@@ -49,6 +50,10 @@ const goHistory = () => {
   const route = localeRoute(`/activity/${activityData.value?.activityId}/history`)
   navigateTo(route?.fullPath || '/')
 }
+
+watchEffect(() => {
+  if (loadCount.value === 5) globalState.unloading()
+})
 </script>
 
 <style lang="scss" scoped>

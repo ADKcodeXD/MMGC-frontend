@@ -1,5 +1,6 @@
 <template>
   <NuxtLayout name="root">
+    <LoadingPage2 />
     <Transition name="page" mode="out-in">
       <div :key="$route.path" class="w-full h-full">
         <NuxtPage />

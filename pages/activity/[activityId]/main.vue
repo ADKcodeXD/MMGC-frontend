@@ -58,7 +58,7 @@
                   <div class="flex items-center mt-3">
                     <p class="text-light-50 mr-3">{{ $t('author') }}</p>
                     <MemberPop v-if="item.author" :member-vo="item.author" />
-                    <p v-else class="text-light-50 text" :title="item.authorName">
+                    <p v-else class="text-light-50 text" :title="item.authorName || ''">
                       {{ item.authorName }}
                     </p>
                   </div>
@@ -165,9 +165,40 @@ import { getActivityDays } from '~~/composables/apis/activity'
 import { getMovieByActivityId } from '~~/composables/apis/movie'
 import { cancelVideoLike, likeVideo, pollVideo } from '~~/composables/apis/oper'
 import getMovieDetail from '~~/server/api/movie/getMovieDetail'
+import { useGlobalStore } from '~~/stores/global'
 import { calcZip } from '~~/utils'
 definePageMeta({
   key: route => route.fullPath
+})
+
+const props = defineProps<{
+  activityId: number
+}>()
+
+const days = ref<DayVo[]>()
+const movies = ref<MovieVo[]>([])
+const isLoading = ref(false)
+const isLike = ref(false)
+const currentDay = ref(0)
+const canAutoPlay = ref(true)
+const players = ref<any>([])
+const background = ref<HTMLElement>()
+
+const { t } = useI18n()
+const { locale } = useCurrentLocale()
+const { fullpageEl, container, onMouseWheel, pageState, move } = useFullPageWheel(2)
+const { unloading } = useGlobalStore()
+const localeNaviGate = useLocaleNavigate()
+const route = useRoute()
+const router = useRouter()
+const localeRoute = useLocaleRoute()
+
+const day = computed(() => {
+  return parseInt(route.query.day?.toString() || '') || -1
+})
+
+const currentDayItem = computed(() => {
+  return days.value?.find(item => item.day === currentDay.value) || null
 })
 
 const coverzip = computed(() => {
@@ -176,49 +207,11 @@ const coverzip = computed(() => {
   }
 })
 
-const { locale } = useCurrentLocale()
-const props = defineProps<{
-  activityId: number
-}>()
-const days = ref<DayVo[]>()
-const movies = ref<MovieVo[]>([])
-const isLoading = ref(false)
-const currentDay = ref(0)
-const canAutoPlay = ref(true)
-const players = ref<any>([])
-const background = ref<HTMLElement>()
-const { t } = useI18n()
-
 const setItemRefs = (el: any) => {
   if (el) {
     players.value.push(el)
   }
 }
-
-const localeNaviGate = useLocaleNavigate()
-
-const goToMovieDetail = (movieId: number) => {
-  localeNaviGate(`/movie/${movieId}`)
-}
-
-const pauseItem = () => {
-  players.value.forEach((player: any) => {
-    player.pause()
-  })
-}
-
-const currentDayItem = computed(() => {
-  return days.value?.find(item => item.day === currentDay.value) || null
-})
-const { fullpageEl, container, onMouseWheel, pageState, move } = useFullPageWheel(2)
-
-const route = useRoute()
-const router = useRouter()
-const localeRoute = useLocaleRoute()
-const isLike = ref(false)
-const day = computed(() => {
-  return parseInt(route.query.day?.toString() || '') || -1
-})
 
 const clalTransform = (index: number) => {
   if (days.value && days.value.length > 0) {
@@ -232,21 +225,14 @@ const clalTransform = (index: number) => {
   return ''
 }
 
-const getDays = async () => {
-  const { data } = await getActivityDays(props.activityId)
-  if (data && data.length > 0) {
-    days.value = data
-    if (day.value && day.value !== -1) {
-      currentDay.value = day.value
-      return
-    } else {
-      if (days.value[0].day) {
-        currentDay.value = days.value[0].day
-        const locale = localeRoute(route.fullPath)
-        router.replace({ path: locale?.fullPath, query: { day: days.value[0].day } })
-      }
-    }
-  }
+const goToMovieDetail = (movieId: number) => {
+  localeNaviGate(`/movie/${movieId}`)
+}
+
+const pauseItem = () => {
+  players.value.forEach((player: any) => {
+    player.pause()
+  })
 }
 
 const handleSwitchDay = (day: number) => {
@@ -274,6 +260,28 @@ const prevDay = () => {
     } else {
       currentDay.value = days.value[targetIndex - 1].day as any
     }
+  }
+}
+
+const getDays = async () => {
+  isLoading.value = true
+  try {
+    const { data } = await getActivityDays(props.activityId)
+    if (data && data.length > 0) {
+      days.value = data
+      if (day.value && day.value !== -1) {
+        currentDay.value = day.value
+        return
+      } else {
+        if (days.value[0].day) {
+          currentDay.value = days.value[0].day
+          const locale = localeRoute(route.fullPath)
+          router.replace({ path: locale?.fullPath, query: { day: days.value[0].day } })
+        }
+      }
+    }
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -322,6 +330,7 @@ const pollMovie = (movieItem: MovieVo) => {
 watchEffect(async () => {
   await getDays()
   await getVideoByDay(currentDay.value)
+  unloading()
 })
 
 watch(

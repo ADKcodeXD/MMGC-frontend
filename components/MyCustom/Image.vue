@@ -1,5 +1,5 @@
 <template>
-  <ElImage :fit="fit" :lazy="isLazy" :src="isAdd ? quatily : img || ''">
+  <ElImage :fit="fit" :lazy="isLazy" :src="isAdd ? quatily : img || ''" @load="$emit('load')">
     <template #placeholder>
       <div class="gray">
         <MyCustomLoading />
@@ -27,6 +27,8 @@ const props = withDefaults(defineProps<MyElimageProp>(), {
   fit: 'contain',
   zip: '0.6x'
 })
+
+defineEmits(['load'])
 
 const quatily = computed(() => {
   return calcZip(props.img || '', props.zip)

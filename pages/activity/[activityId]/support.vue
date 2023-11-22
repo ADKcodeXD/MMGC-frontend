@@ -64,16 +64,18 @@
     <AchorList :page-state="pageState" @move="move" :achor-list="achorList" />
   </div>
 </template>
+
 <script setup lang="ts">
-import { ActivityVo } from 'Activity'
 import _ from 'lodash'
+import { useGlobalStore } from '~~/stores/global'
+const achorList = ref<any>([])
+
 const attrs: { activityId: number } = useAttrs() as any
 const { locale } = useCurrentLocale()
 const { activityData, getActivity } = useActivityDetail(attrs.activityId)
-await getActivity(attrs.activityId)
-const achorList = ref<any>([])
-
 const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(1)
+const { unloading } = useGlobalStore()
+
 const length = (activityData: any) => {
   let len = 1
   const list: { name: string }[] = []
@@ -87,6 +89,9 @@ const length = (activityData: any) => {
   achorList.value = list
   return len
 }
+
+await getActivity(attrs.activityId)
+unloading()
 
 watchEffect(() => {
   const len = length(activityData.value || {})

@@ -29,11 +29,13 @@
 
 <script setup lang="ts">
 import { useGlobalStore } from '~~/stores/global'
-
-const { activityList } = useActivityList()
-const { config } = useGlobalStore()
+const { activityList, isLoading } = useActivityList()
+const { config, unloading } = useGlobalStore()
 const { locale } = useCurrentLocale()
 const gotoActivity = useLocaleNavigate()
+watchEffect(() => {
+  if (!isLoading.value) unloading()
+})
 </script>
 
 <style lang="scss" scoped>

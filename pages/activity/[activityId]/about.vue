@@ -11,11 +11,13 @@
                   <Aplayer :video-url="currentItem.link" />
                   <div class="flex justify-between items-end h-32">
                     <div>
-                      <p class="title" :title="currentItem.title">{{ currentItem.title }}</p>
+                      <p class="title" :title="currentItem.title || ''">{{ currentItem.title }}</p>
                       <p class="tip text-light-50 mb-2">
                         {{ $t('author') }}:{{ currentItem.cmEditor }}
                       </p>
-                      <p class="sub-title" :title="currentItem.desc">{{ currentItem.desc }}</p>
+                      <p class="sub-title" :title="currentItem.desc || ''">
+                        {{ currentItem.desc }}
+                      </p>
                     </div>
                     <div class="flex">
                       <p class="cursor-pointer set" @click="prevCm" v-if="currentCMIndex !== 0">
@@ -132,37 +134,29 @@
 <script setup lang="ts">
 import { ActivityVo } from 'Activity'
 import _ from 'lodash'
+import { useGlobalStore } from '~~/stores/global'
+
+const attrs: { activityId: number } = useAttrs() as any
+const { locale } = useCurrentLocale()
+const { activityData, isLoading } = useActivityDetail(attrs.activityId)
+const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(1)
+const { unloading } = useGlobalStore()
 
 const currentCMIndex = ref(0)
 const isPrev = ref(false)
+const achorList = ref<any>([])
 
 const prevCm = () => {
   if (currentCMIndex.value === 0) return
   isPrev.value = true
   currentCMIndex.value--
 }
+
 const nextCm = () => {
   if (currentCMIndex.value === activityData.value!.activityCM!.length - 1) return
   isPrev.value = false
   currentCMIndex.value++
 }
-
-const currentItem = computed(() => {
-  if (activityData.value) {
-    if (activityData.value.activityCM) {
-      return activityData.value.activityCM[currentCMIndex.value]
-    }
-  }
-  return null
-})
-
-const attrs: { activityId: number } = useAttrs() as any
-
-const { locale } = useCurrentLocale()
-const achorList = ref<any>([])
-const { activityData, getActivity, isLoading } = useActivityDetail(attrs.activityId)
-
-const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(1)
 
 const length = (activityData: Partial<ActivityVo>) => {
   const keys = _.keys(activityData) as Array<keyof ActivityVo>
@@ -193,9 +187,24 @@ const length = (activityData: Partial<ActivityVo>) => {
   return len
 }
 
+const currentItem = computed(() => {
+  if (activityData.value) {
+    if (activityData.value.activityCM) {
+      return activityData.value.activityCM[currentCMIndex.value]
+    }
+  }
+  return null
+})
+
 watchEffect(() => {
   const len = length(activityData.value || {})
   pageState.len = len
+})
+
+watchEffect(() => {
+  if (!isLoading.value) {
+    unloading()
+  }
 })
 </script>
 

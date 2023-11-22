@@ -4,16 +4,22 @@ import { getActivityDetail, getActivityList } from './apis/activity'
 export const useActivityList = () => {
   const activityList = ref<PageResult<ActivityVo>>()
   let refreshFn = null
+  const isLoading = ref(false)
   const pageParams = reactive<PageParams>({
     page: 1,
     pageSize: 20
   })
 
   const getActivityListFn = async (pageParams: PageParams) => {
-    const { data, refresh } = await getActivityList(pageParams)
-    if (data) {
-      activityList.value = data
-      refreshFn = refresh
+    isLoading.value = true
+    try {
+      const { data, refresh } = await getActivityList(pageParams)
+      if (data) {
+        activityList.value = data
+        refreshFn = refresh
+      }
+    } finally {
+      isLoading.value = false
     }
   }
 
@@ -28,7 +34,8 @@ export const useActivityList = () => {
   return {
     activityList,
     refreshFn,
-    pageParams
+    pageParams,
+    isLoading
   }
 }
 

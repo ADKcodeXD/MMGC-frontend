@@ -5,7 +5,7 @@
         <NuxtPage :activityId="activityId" />
       </NuxtLayout>
       <template #fallback>
-        <LoadingPage />
+        <LoadingPage2 />
       </template>
     </Suspense>
   </div>
@@ -14,17 +14,6 @@
 <script setup lang="ts">
 const route = useRoute()
 const activityId = parseInt(route.params.activityId.toString())
-// const { activityData, getActivity } = useActivityDetail(activityId)
-// const body = ref<HTMLElement>()
-// onMounted(async () => {
-//   const bg = new Image()
-//   await getActivity(activityId)
-//   bg.src = activityData.value?.activityBackgroundImg || ''
-//   bg.onload = () => {
-//     if (body.value && activityData.value)
-//       body.value.style.backgroundImage = `url(${activityData.value.activityBackgroundImg})`
-//   }
-// })
 </script>
 
 <style lang="scss" scoped>

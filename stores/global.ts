@@ -26,16 +26,16 @@ export const useGlobalStore = defineStore('global', {
     }
     return {
       localeState: func() || useCookie('locale').value || 'cn',
-      documentReadyState: true,
       config: {
         currentActivityId: 2023
       },
-      currentActivityData: null
+      currentActivityData: null,
+      isLoadingState: false
     } as {
       localeState: 'cn' | 'en' | 'jp'
-      documentReadyState: boolean
       config: ConfigVo | null
       currentActivityData: ActivityVo | null
+      isLoadingState: boolean
     }
   },
   actions: {
@@ -51,6 +51,12 @@ export const useGlobalStore = defineStore('global', {
     async setConfig() {
       const { data } = await getConfig()
       this.config = data
+    },
+    unloading() {
+      this.isLoadingState = false
+    },
+    loading() {
+      this.isLoadingState = true
     },
     async setCurrentActivity() {
       if (this.config && this.config.currentActivityId) {

@@ -99,22 +99,17 @@ import { useUserStore } from '~~/stores/user'
 import { UserApi } from '~~/composables/apis/user'
 import { getCode } from '~~/composables/apis/email'
 import _ from 'lodash'
+
+definePageMeta({
+  needLoading: false
+})
+
 const isRegister = ref(false)
 const isSend = ref(false)
 const time = ref(60)
 const registerRef = ref()
 const loginRef = ref()
 const isLoading = ref(false)
-const localeRoute = useLocaleRoute()
-
-const { t } = useI18n()
-
-const { createMessage } = useMessage()
-
-const goWelcome = () => {
-  const route = localeRoute('/welcome')
-  navigateTo(route?.fullPath)
-}
 
 const loginForm = reactive<{ username: string; password: string }>({
   username: '',
@@ -130,7 +125,15 @@ const registerForm = reactive<MemberParams & { rePassword: string }>({
   email: ''
 })
 
+const localeRoute = useLocaleRoute()
+const { t } = useI18n()
+const { createMessage } = useMessage()
 const { rulesRegister, ruleslogin } = useLoginRules(registerForm, t)
+
+const goWelcome = () => {
+  const route = localeRoute('/welcome')
+  navigateTo(route?.fullPath)
+}
 
 const getCodeFn = async () => {
   try {
@@ -181,6 +184,7 @@ const submitFn = async () => {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 @media screen and (min-width: 320px) {
   .bg {
