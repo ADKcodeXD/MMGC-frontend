@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Conditional Deploy to Server
 
 on:
   push:
@@ -12,14 +12,44 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Deploy to Server
+      - name: Try Git Pull on Server
+        id: git-pull
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY  }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /www/wwwroot/MMGC-frontend
-            git pull
+            git pull || exit 1
+
+      - name: Clear Remote Directory if Git Pull Fails
+        if: steps.git-pull.outcome == 'failure'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            rm -rf /www/wwwroot/MMGC-frontend/*
+
+      - name: Copy Repository to Server if Git Pull Fails
+        if: steps.git-pull.outcome == 'failure'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: '.'
+          target: '/www/wwwroot/MMGC-frontend'
+
+      - name: Install and Build on Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /www/wwwroot/MMGC-frontend
             npm install
             npm run start:build

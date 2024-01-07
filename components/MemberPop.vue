@@ -3,7 +3,7 @@
     <template #reference>
       <ElAvatar
         :src="calcZip(memberVo?.avatar || '', '0.4x') || undefined"
-        class="mx-1"
+        class="mx-1 flex-shrink-0"
         :size="size || 32"
         >{{ noAvatar }}</ElAvatar
       >

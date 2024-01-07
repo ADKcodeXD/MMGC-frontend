@@ -24,6 +24,11 @@
           </p>
           <ElTooltip
             placement="top"
+            :enterable="true"
+            popper-class="maxwidth"
+            :popper-options="{
+              popperStyle: { maxWidth: '500px' }
+            }"
             :content="movieItem.movieDesc[locale] || movieItem.movieDesc['cn']"
           >
             <p class="sub-title ml-4">
@@ -139,5 +144,12 @@ const { pollMovie, likeOrUnLike, goToMovieDetail } = useMovieOperate()
       }
     }
   }
+}
+</style>
+
+<style lang="scss" scoped>
+.maxwidth {
+  max-width: 500px;
+  word-wrap: break-word;
 }
 </style>
