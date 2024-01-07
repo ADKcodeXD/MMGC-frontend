@@ -17,14 +17,19 @@
     <div class="desc-pannel">
       <p class="desc-title">{{ movieItem.movieName[locale] || movieItem.movieName['cn'] }}</p>
       <div class="flex justify-between">
-        <div class="flex items-end">
+        <div class="flex items-end max-w-11/12">
           <MemberPop v-if="movieItem.author" :member-vo="movieItem.author" :size="30" />
-          <p class="text-light-50 break-words text-xl">
-            {{ movieItem.author?.memberName || movieItem.authorName }}
+          <p class="text-light-50 text-xl">
+            {{ (movieItem.author && movieItem.author?.memberName) || movieItem.authorName }}
           </p>
-          <p class="sub-title ml-4">
-            {{ movieItem.movieDesc[locale] || movieItem.movieDesc['cn'] }}
-          </p>
+          <ElTooltip
+            placement="top"
+            :content="movieItem.movieDesc[locale] || movieItem.movieDesc['cn']"
+          >
+            <p class="sub-title ml-4">
+              {{ movieItem.movieDesc[locale] || movieItem.movieDesc['cn'] }}
+            </p>
+          </ElTooltip>
         </div>
         <ElButton
           link
@@ -115,7 +120,6 @@ const { pollMovie, likeOrUnLike, goToMovieDetail } = useMovieOperate()
     display: flex;
     justify-items: center;
     align-items: center;
-    backdrop-filter: blur(4px);
     opacity: 0;
     padding: 12px 0;
     z-index: 1;

@@ -25,16 +25,16 @@ import { VideoPlayer } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
 import videojs from 'video.js'
 import { calcZip } from '~~/utils'
+import _ from 'lodash-es'
 
 const props = defineProps<{
-  videoUrl: string | any[]
+  videoUrl: string | any[] | any
   cover?: string
 }>()
 const emit = defineEmits(['onPlay', 'onAbort', 'onPause'])
-
-const player = ref()
-
 const { locale } = useCurrentLocale()
+const { t } = useI18n()
+const player = ref()
 
 const coverzip = computed(() => {
   if (props.cover) {
@@ -43,8 +43,17 @@ const coverzip = computed(() => {
 })
 
 const sources = computed(() => {
-  if (Array.isArray(props.videoUrl)) {
-    return props.videoUrl.map(item => {
+  if (_.isObjectLike(props.videoUrl)) {
+    const keys = _.keys(props.videoUrl)
+    return keys.map(key => {
+      return {
+        src: props.videoUrl[key],
+        type: 'video/mp4',
+        label: t(key)
+      }
+    })
+  } else if (_.isArrayLike(props.videoUrl)) {
+    return props.videoUrl.map((item: any) => {
       return {
         src: item.url,
         type: 'video/mp4',
@@ -61,6 +70,7 @@ const sources = computed(() => {
     ]
   }
 })
+
 const onPlay = () => {
   emit('onPlay')
 }
