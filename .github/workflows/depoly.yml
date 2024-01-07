@@ -52,4 +52,4 @@ jobs:
           script: |
             cd /www/wwwroot/MMGC-frontend
             npm install
-            npm run start:build
+            pm2 delete MMGCApp && npm run start:build
