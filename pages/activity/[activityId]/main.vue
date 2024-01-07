@@ -1,7 +1,6 @@
 <template>
   <div class="main" ref="fullpageEl">
-    <!-- 全屏滚动 -->
-    <div class="fullpage-container" ref="container" @mousewheel="onMouseWheel">
+    <div class="fullpage-container" ref="container">
       <div class="video-container">
         <Transition :name="currentAnime" mode="out-in">
           <div class="video-content" v-if="movies.length">
@@ -28,7 +27,7 @@
                       :content="movieItem['movieName'][locale] || movieItem['movieName']['cn']"
                       placement="top"
                     >
-                      <p class="sub-title max-w-3/5">
+                      <p class="sub-title max-w-2/3">
                         {{ movieItem['movieName'][locale] || movieItem['movieName']['cn'] }}
                       </p>
                     </ElTooltip>
@@ -50,7 +49,7 @@
           <MyCustomLoading v-else />
         </Transition>
       </div>
-      <div class="nav">
+      <div class="nav" v-if="days?.length">
         <Icon
           name="ant-design:caret-left-filled"
           cursor="pointer"

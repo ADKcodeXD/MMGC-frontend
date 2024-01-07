@@ -49,7 +49,7 @@ const sources = computed(() => {
       return {
         src: props.videoUrl[key],
         type: 'video/mp4',
-        label: t(key)
+        label: key
       }
     })
   } else if (_.isArray(props.videoUrl)) {

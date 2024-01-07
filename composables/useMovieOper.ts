@@ -34,11 +34,11 @@ export const useMovieOperate = () => {
       } else {
         ElMessageBox.confirm(t('pollTip'), '提示').then(async () => {
           const { data } = await pollVideo(movieItem.movieId)
+          movieItem.loginVo && (movieItem.loginVo.isPoll = true)
           if (data?.code === 200) {
             ElMessage.success(t('pollSuccess'))
           }
         })
-        movieItem.loginVo.isPoll = true
       }
     } finally {
       isLoading.value = false

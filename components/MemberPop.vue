@@ -2,7 +2,7 @@
   <el-popover placement="top" :width="300" trigger="hover" :show-after="100" transition="popshow">
     <template #reference>
       <ElAvatar
-        :src="calcZip(memberVo.avatar, '0.4x') || undefined"
+        :src="calcZip(memberVo?.avatar || '', '0.4x') || undefined"
         class="mx-1"
         :size="size || 32"
         >{{ noAvatar }}</ElAvatar
@@ -11,7 +11,7 @@
     <template #default>
       <div class="flex">
         <ElAvatar
-          :src="calcZip(memberVo.avatar, '0.4x') || undefined"
+          :src="calcZip(memberVo?.avatar || '', '0.4x') || undefined"
           :size="80"
           class="flex-shrink-0"
           >{{ noAvatar }}</ElAvatar
