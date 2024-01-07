@@ -19,7 +19,7 @@
       <div class="flex justify-between">
         <div class="flex items-end max-w-11/12">
           <MemberPop v-if="movieItem.author" :member-vo="movieItem.author" :size="30" />
-          <p class="text-light-50 text-xl">
+          <p class="text-light-50 text-xl whitespace-nowrap">
             {{ (movieItem.author && movieItem.author?.memberName) || movieItem.authorName }}
           </p>
           <ElTooltip

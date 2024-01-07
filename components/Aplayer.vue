@@ -2,7 +2,7 @@
   <ClientOnly>
     <div class="w-full h-full">
       <video-player
-        :src="sources.find(item => item.label === locale)?.src || sources[0].src"
+        :src="currentSrc"
         :loop="false"
         controls
         :volume="0.6"
@@ -43,7 +43,7 @@ const coverzip = computed(() => {
 })
 
 const sources = computed(() => {
-  if (_.isObjectLike(props.videoUrl)) {
+  if (_.isObject(props.videoUrl)) {
     const keys = _.keys(props.videoUrl)
     return keys.map(key => {
       return {
@@ -52,7 +52,7 @@ const sources = computed(() => {
         label: t(key)
       }
     })
-  } else if (_.isArrayLike(props.videoUrl)) {
+  } else if (_.isArray(props.videoUrl)) {
     return props.videoUrl.map((item: any) => {
       return {
         src: item.url,
@@ -69,6 +69,10 @@ const sources = computed(() => {
       }
     ]
   }
+})
+
+const currentSrc = computed(() => {
+  return sources.value.find(item => item.label === locale)?.src || sources.value[0].src
 })
 
 const onPlay = () => {
