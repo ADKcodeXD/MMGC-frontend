@@ -18,6 +18,9 @@
       </div>
       <div class="xinfeng-second">
         <MyCustomImage :img="Paper" fit="cover" @load="loadCount++" />
+        <div class="gif">
+          <MyCustomImage :img="Gif" fit="cover" @load="loadCount++" />
+        </div>
       </div>
       <div class="circle1"></div>
       <div class="circle2"></div>
@@ -37,6 +40,7 @@ import Denglong from '~~/assets/2024/denglong.png'
 import BorderImg from '~~/assets/2024/border.png'
 import Xinfeng from '~~/assets/2024/xinfeng.png'
 import Paper from '~~/assets/2024/paper.png'
+import Gif from '~~/assets/2024/123456.gif'
 
 const localeRoute = useLocaleRoute()
 const globalState = useGlobalStore()
@@ -52,7 +56,7 @@ const goHistory = () => {
 }
 
 watchEffect(() => {
-  if (loadCount.value === 5) globalState.unloading()
+  if (loadCount.value === 6) globalState.unloading()
 })
 </script>
 
@@ -152,11 +156,20 @@ watchEffect(() => {
       left: 0;
       bottom: 0;
     }
+
     .xinfeng-second {
       position: absolute;
       width: 45%;
       z-index: 3;
       animation: rotate-back-and-forth 15s ease-in-out infinite;
+      .gif {
+        position: absolute;
+        top: 48px;
+        left: 618px;
+        background-blend-mode: color-dodge;
+        mix-blend-mode: multiply;
+        transform: scale(1.6);
+      }
     }
     .circle1,
     .circle2,

@@ -9,7 +9,6 @@
     <div class="back">
       <MyCustomImage fit="cover" :img="currentActivityData?.activityBackgroundImg || placeHolder" />
     </div>
-    <!-- <MMGCFooter /> -->
   </div>
 </template>
 

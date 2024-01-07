@@ -1,8 +1,8 @@
 <template>
-  <Transition name="circle" mode="out-in">
+  <Transition name="circle">
     <div
       class="flex items-center justify-center flex-col fixed top-0 left-0 bottom-0 right-0 loadingwrapper"
-      v-if="state.isLoadingState"
+      v-if="isLoadingState"
     >
       <div class="glow">
         <div class="logo2"></div>
@@ -14,28 +14,32 @@
     </div>
   </Transition>
 </template>
+
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '~~/stores/global'
 
 const loadingPencentage = ref(0)
 const interval = ref<any>()
 const timeout = ref<any>()
-const state = useGlobalStore()
+const { isLoadingState } = storeToRefs(useGlobalStore())
+const { unloading } = useGlobalStore()
+
 watch(
-  () => state.isLoadingState,
+  isLoadingState,
   () => {
-    if (!state.isLoadingState) {
+    if (!isLoadingState.value) {
       loadingPencentage.value = 100
     } else {
       loadingPencentage.value = 0
       if (process.client) {
         interval.value = setInterval(() => {
-          if (!state.isLoadingState) loadingPencentage.value += 10
+          if (!isLoadingState.value) loadingPencentage.value += 10
           if (loadingPencentage.value < 99) loadingPencentage.value++
           else clearInterval(interval.value)
         }, 40)
         timeout.value = setTimeout(() => {
-          state.unloading()
+          unloading()
           clearTimeout(timeout.value)
         }, 10000)
       }
@@ -59,6 +63,9 @@ watch(
     top: 50%;
     transform: translate(-50%, -50%);
     overflow: hidden;
+    transition: width 0.6s cubic-bezier(0, 0.99, 0.27, 0.98),
+      height 0.6s cubic-bezier(0, 0.99, 0.27, 0.98), filter 0.3s ease-in-out,
+      opacity 0.3s ease-in-out;
   }
   .glow {
     width: 300px;
@@ -170,6 +177,7 @@ watch(
     transform: scale3d(1, 1, 1);
   }
 }
+
 @keyframes jello-vertical {
   0% {
     -webkit-transform: scale3d(1, 1, 1);
@@ -199,12 +207,6 @@ watch(
     -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
   }
-}
-
-.circle-enter-active,
-.circle-leave-active {
-  transition: width 0.6s cubic-bezier(0, 0.99, 0.27, 0.98),
-    height 0.6s cubic-bezier(0, 0.99, 0.27, 0.98), filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .circle-enter-from,

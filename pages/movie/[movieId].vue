@@ -57,7 +57,7 @@
       </div>
       <div class="movie-oper">
         <div class="flex">
-          <div class="flex items-center operitem" @click="likeOrUnLike">
+          <div class="flex items-center operitem" @click="likeOrUnLike(movieDetail)">
             <template v-if="movieDetail.loginVo?.isLike">
               <Icon name="ant-design:like-filled" class="text-3xl" />
               <p class="operitem-font">{{ movieDetail.likeNums }}</p>
@@ -67,7 +67,7 @@
               <p class="operitem-font">{{ $t('like') }}</p>
             </template>
           </div>
-          <div class="flex items-center mx-2 operitem" @click="pollMovie">
+          <div class="flex items-center mx-2 operitem" @click="pollMovie(movieDetail)">
             <template v-if="movieDetail.loginVo?.isPoll">
               <Icon name="ant-design:profile-filled" class="text-3xl" />
               <p class="operitem-font">{{ movieDetail.pollNums }}</p>
@@ -218,6 +218,7 @@
     <p class="title" v-else>{{ $t('noOpen') }}</p>
   </div>
 </template>
+
 <script setup lang="ts">
 import { MovieVo } from 'Movie'
 import { getMovieByActivityId, getMovieDetailById } from '~~/composables/apis/movie'
@@ -234,26 +235,27 @@ const movies = ref<MovieVo[]>([])
 const openlink = useOpenLink()
 const snsSites = ref()
 const body = ref()
-const isLike = ref(false)
 const content = ref('')
-const movieId = computed(() => {
-  return parseInt(route.params.movieId.toString()) || 0
-})
+
 const { locale } = useCurrentLocale()
 const { t } = useI18n()
 const { userInfo } = useUserStore()
 const localeNaviGate = useLocaleNavigate()
 const { currentActivityData } = useGlobalStore()
+const { pollMovie, likeOrUnLike } = useMovieOperate()
 
-const pageParam = reactive<any>({
-  page: 1,
-  pageSize: 10,
-  movieId: movieId.value
+const movieId = computed(() => {
+  return parseInt(route.params.movieId.toString()) || 0
 })
 
 const total = ref(0)
 const comments = ref<CommentVo[]>([])
 const playSource = ref<any[]>([])
+const pageParam = reactive<any>({
+  page: 1,
+  pageSize: 10,
+  movieId: movieId.value
+})
 
 const getMovieDetail = async (movieId: number) => {
   const { data } = await getMovieDetailById(movieId)
@@ -291,39 +293,6 @@ const getVideoByDay = async () => {
   }
 }
 
-const likeOrUnLike = async () => {
-  if (isLike.value) return
-  isLike.value = true
-  if (movieDetail.value && movieDetail.value.loginVo?.isLike) {
-    await cancelVideoLike(movieDetail.value.movieId)
-    ElMessage.success(t('cancelLike'))
-    movieDetail.value.loginVo.isLike = !movieDetail.value.loginVo?.isLike
-  } else if (movieDetail.value) {
-    const { data } = await likeVideo(movieDetail.value.movieId)
-    if (data?.code === 200) {
-      ElMessage.success(t('likeSuccess'))
-    }
-    if (movieDetail.value.loginVo)
-      movieDetail.value.loginVo.isLike = !movieDetail.value.loginVo?.isLike
-  }
-  await getMovieDetail(movieId.value)
-  isLike.value = false
-}
-
-const pollMovie = () => {
-  if (movieDetail.value && movieDetail.value?.loginVo?.isPoll) {
-    ElMessage.warning(t('pollLimit'))
-  } else {
-    ElMessageBox.confirm(t('pollTip'), '提示').then(async () => {
-      const { data } = await pollVideo(movieId.value)
-      if (data?.code === 200) {
-        await getMovieDetail(movieId.value)
-        ElMessage.success(t('pollSuccess'))
-      }
-    })
-  }
-}
-
 const sentComment = async () => {
   if (!userInfo || !userInfo?.memberId) {
     ElMessage.warning(t('loginFirst'))
@@ -354,6 +323,7 @@ const getComment = async (prams?: any) => {
     total.value = data.total
   }
 }
+
 watchEffect(() => {
   getMovieDetail(movieId.value).then(() => {
     getVideoByDay()

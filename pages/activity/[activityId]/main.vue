@@ -3,150 +3,93 @@
     <!-- 全屏滚动 -->
     <div class="fullpage-container" ref="container" @mousewheel="onMouseWheel">
       <div class="video-container">
-        <Transition mode="out-in">
-          <el-carousel
-            class="movie-content"
-            :interval="4000"
-            :autoplay="canAutoPlay"
-            v-if="movies.length > 0 && !isLoading"
-            height="100%"
-            @change="pauseItem"
-          >
-            <el-carousel-item class="kanban" v-for="item in movies" :key="item.movieId">
-              <div class="video-content">
-                <Aplayer
-                  v-if="item.moviePlaylink"
-                  :video-url="item.moviePlaylink[locale] || item.moviePlaylink['cn']"
-                  :cover="item.movieCover"
-                  :ref="setItemRefs"
-                  @on-play="canAutoPlay = false"
-                  @on-pause="canAutoPlay = true"
-                />
-                <MyCustomImage v-else :img="item.movieCover" />
+        <Transition :name="currentAnime" mode="out-in">
+          <div class="video-content" v-if="movies.length">
+            <Transition name="left-to-right" mode="out-in">
+              <div v-if="activeVideo" class="flex-1" :key="activeVideo.movieId">
+                <MovieShowItem :movie-item="activeVideo" />
               </div>
-              <div class="descinfo">
-                <div class="left">
-                  <div>
-                    <p class="title-movie">{{ item.movieName[locale] || item.movieName['cn'] }}</p>
-                    <p class="sub-title">{{ item.movieDesc[locale] || item.movieDesc['cn'] }}</p>
+              <ElEmpty v-else />
+            </Transition>
+            <ElScrollbar>
+              <div class="list-wrapper">
+                <div
+                  class="movie-list-card my-2"
+                  :class="{ active: activeVideo.movieId === movieItem.movieId }"
+                  v-for="movieItem in movies"
+                  :key="movieItem.movieId"
+                  @click="activeVideo = movieItem"
+                >
+                  <div class="movie-cover">
+                    <MyCustomImage :img="movieItem.movieCover" />
                   </div>
+                  <div class="flex justify-between items-center mt-2">
+                    <ElTooltip
+                      :content="movieItem['movieName'][locale] || movieItem['movieName']['cn']"
+                      placement="top"
+                    >
+                      <p class="sub-title max-w-3/5">
+                        {{ movieItem['movieName'][locale] || movieItem['movieName']['cn'] }}
+                      </p>
+                    </ElTooltip>
 
-                  <div class="flex" v-if="item.isPublic">
-                    <div class="flex items-center operitem" @click="likeOrUnLike(item)">
-                      <template v-if="item.loginVo?.isLike">
-                        <Icon name="ant-design:like-filled" class="text-3xl" />
-                        <p class="operitem-font">{{ item.likeNums }}</p>
-                      </template>
-                      <template v-else>
-                        <Icon name="ant-design:like-outlined" class="text-3xl" />
-                        <p class="operitem-font">{{ $t('like') }}</p>
-                      </template>
-                    </div>
-                    <div class="flex items-center mx-2 operitem" @click="pollMovie(item)">
-                      <template v-if="item.loginVo?.isPoll">
-                        <Icon name="ant-design:profile-filled" class="text-3xl" />
-                        <p class="operitem-font">{{ item.pollNums }}</p>
-                      </template>
-                      <template v-else>
-                        <Icon name="ant-design:profile-outlined" class="text-3xl" />
-                        <p class="operitem-font">{{ $t('polls') }}</p>
-                      </template>
-                    </div>
+                    <MemberPop
+                      class="flex-shrink-0"
+                      :member-vo="movieItem.author"
+                      v-if="movieItem.author"
+                    />
+                    <p class="sub-title" v-else>{{ movieItem['authorName'] }}</p>
                   </div>
-                </div>
-                <div class="right">
-                  <div class="flex items-center mt-3">
-                    <p class="text-light-50 mr-3">{{ $t('author') }}</p>
-                    <MemberPop v-if="item.author" :member-vo="item.author" />
-                    <p v-else class="text-light-50 text" :title="item.authorName || ''">
-                      {{ item.authorName }}
-                    </p>
-                  </div>
-                  <ElButton type="primary" @click="goToMovieDetail(item.movieId)">{{
-                    $t('viewDetail')
-                  }}</ElButton>
                 </div>
               </div>
-              <div class="text h-4"></div>
-            </el-carousel-item>
-          </el-carousel>
+            </ElScrollbar>
+          </div>
           <p class="title" v-else-if="movies.length === 0 && !isLoading">
             {{ $t('notFoundDays') }}
           </p>
           <MyCustomLoading v-else />
         </Transition>
       </div>
-
-      <div class="video-list">
-        <p class="self-start movie-title">{{ $t('movieList') }}</p>
-        <Transition mode="out-in">
-          <div class="movie-item-container relative" v-if="!isLoading">
-            <div v-for="item in movies" :key="item.movieId" class="movieCard">
-              <MovieListCard :movie-item="item" />
-            </div>
-          </div>
-          <div v-else class="h-full w-4/5 items-center">
-            <MyCustomLoading />
-          </div>
+      <div class="nav">
+        <Icon
+          name="ant-design:caret-left-filled"
+          cursor="pointer"
+          class="arrow"
+          @click="prevDay"
+        ></Icon>
+        <ElDropdown @command="handleSwitchDay" placement="top">
+          <Transition :name="currentAnime" mode="out-in">
+            <p class="text-light-50 text-4xl mx-2" :key="currentDay">Day {{ currentDay }}</p>
+          </Transition>
+          <template #dropdown>
+            <ElDropdownMenu>
+              <ElDropdownItem v-for="(day, index) in days" :key="index" :command="day.day"
+                >Day {{ day.day }}
+                {{
+                  day.themeName && (day.themeName[locale] || day.themeName['cn'])
+                }}</ElDropdownItem
+              >
+            </ElDropdownMenu>
+          </template>
+        </ElDropdown>
+        <Icon
+          name="ant-design:caret-right-filled"
+          cursor="pointer"
+          class="arrow"
+          @click="nextDay"
+        ></Icon>
+        <Transition :name="currentAnime" mode="out-in">
+          <p class="ml-4 text-2xl text-light-50" :key="currentDay">
+            {{
+              currentDayItem &&
+              currentDayItem?.themeName &&
+              (currentDayItem.themeName[locale] || currentDayItem.themeName['cn'])
+            }}
+          </p>
         </Transition>
       </div>
     </div>
-    <!-- 导航 -->
-    <div class="nav-arrow nav-prev" @click="prevDay">
-      <Icon name="ant-design:arrow-left-outlined" />
-    </div>
-    <div class="nav">
-      <div
-        v-for="(day, index) in days"
-        :key="index"
-        class="relative day-item"
-        :style="clalTransform(index)"
-        @click="handleSwitchDay(day.day || 0)"
-      >
-        <p
-          class="title-click"
-          :class="{ active: currentDay === day.day }"
-          :title="day.themeName![locale] || day.themeName!['cn']"
-        >
-          Day {{ index + 1 }} {{ day.themeName![locale] || day.themeName!['cn'] }}
-        </p>
-        <p
-          class="sub-title"
-          :class="{ active: currentDay === day.day }"
-          :title="day.themeDesc![locale] || day.themeDesc!['cn']"
-        >
-          {{ day.themeDesc![locale] || day.themeDesc!['cn'] }}
-        </p>
-      </div>
-    </div>
-    <div class="nav-arrow nav-next" @click="nextDay">
-      <Icon name="ant-design:arrow-right-outlined" />
-    </div>
-    <!-- 滚轮滑动 -->
-    <Transition>
-      <div class="mouse-roll" v-if="pageState.current === 1">
-        <div>
-          <Icon name="mingcute:mouse-fill" />
-          <Icon name="material-symbols:keyboard-double-arrow-down-rounded" class="anime" />
-        </div>
-        <p class="text-xs mt-3">{{ $t('wheelMouse') }}</p>
-      </div>
-    </Transition>
-    <Transition>
-      <div class="click-roll" v-if="pageState.current === 1" @click="move(2)">
-        <div>
-          <Icon name="material-symbols:keyboard-double-arrow-down-rounded" class="anime" />
-        </div>
-        <p class="text-xs mt-1">{{ $t('clickDown') }}</p>
-      </div>
-      <div class="click-roll" v-else @click="move(1)">
-        <div>
-          <Icon name="material-symbols:keyboard-double-arrow-up-rounded" class="anime-up" />
-        </div>
-        <p class="text-xs mt-1">{{ $t('clickup') }}</p>
-      </div>
-    </Transition>
-    <!-- 背景 -->
+
     <div
       ref="background"
       class="background"
@@ -163,8 +106,6 @@ import { DayVo } from 'Activity'
 import { MovieVo } from 'Movie'
 import { getActivityDays } from '~~/composables/apis/activity'
 import { getMovieByActivityId } from '~~/composables/apis/movie'
-import { cancelVideoLike, likeVideo, pollVideo } from '~~/composables/apis/oper'
-import getMovieDetail from '~~/server/api/movie/getMovieDetail'
 import { useGlobalStore } from '~~/stores/global'
 import { calcZip } from '~~/utils'
 definePageMeta({
@@ -178,17 +119,14 @@ const props = defineProps<{
 const days = ref<DayVo[]>()
 const movies = ref<MovieVo[]>([])
 const isLoading = ref(false)
-const isLike = ref(false)
 const currentDay = ref(0)
-const canAutoPlay = ref(true)
+const activeVideo = ref<Partial<MovieVo>>({})
 const players = ref<any>([])
 const background = ref<HTMLElement>()
+const currentAnime = ref('left-ro-right')
 
-const { t } = useI18n()
 const { locale } = useCurrentLocale()
-const { fullpageEl, container, onMouseWheel, pageState, move } = useFullPageWheel(2)
 const { unloading } = useGlobalStore()
-const localeNaviGate = useLocaleNavigate()
 const route = useRoute()
 const router = useRouter()
 const localeRoute = useLocaleRoute()
@@ -206,34 +144,6 @@ const coverzip = computed(() => {
     return calcZip(currentDayItem.value.themeCover || '', '0.8x')
   }
 })
-
-const setItemRefs = (el: any) => {
-  if (el) {
-    players.value.push(el)
-  }
-}
-
-const clalTransform = (index: number) => {
-  if (days.value && days.value.length > 0) {
-    const targetIndex = days.value.findIndex(target => target.day === currentDay.value)
-    if (targetIndex === -1) return ''
-    const dis = index - targetIndex
-    return `transform: translateX(${dis * 250}px) scale(${1 - Math.abs(dis) * 0.2});opacity: ${
-      1 - Math.abs(dis) * 0.3
-    };`
-  }
-  return ''
-}
-
-const goToMovieDetail = (movieId: number) => {
-  localeNaviGate(`/movie/${movieId}`)
-}
-
-const pauseItem = () => {
-  players.value.forEach((player: any) => {
-    player.pause()
-  })
-}
 
 const handleSwitchDay = (day: number) => {
   currentDay.value = day
@@ -289,42 +199,9 @@ const getVideoByDay = async (day: number) => {
   isLoading.value = true
   const { data } = await getMovieByActivityId(props.activityId, day)
   movies.value = data?.result || []
+  activeVideo.value = (movies.value && movies.value[0]) || {}
   players.value = []
   isLoading.value = false
-}
-
-const likeOrUnLike = async (movieItem: MovieVo) => {
-  if (isLike.value) return
-  isLike.value = true
-  if (movieItem && movieItem.loginVo?.isLike) {
-    await cancelVideoLike(movieItem.movieId)
-    ElMessage.success(t('cancelLike'))
-    movieItem.likeNums--
-    movieItem.loginVo.isLike = !movieItem.loginVo?.isLike
-  } else if (movieItem) {
-    const { data } = await likeVideo(movieItem.movieId)
-    if (data?.code === 200) {
-      ElMessage.success(t('likeSuccess'))
-    }
-    if (movieItem.loginVo) movieItem.loginVo.isLike = !movieItem.loginVo?.isLike
-    movieItem.likeNums++
-  }
-  isLike.value = false
-}
-
-const pollMovie = (movieItem: MovieVo) => {
-  if (movieItem && movieItem?.loginVo?.isPoll) {
-    ElMessage.warning(t('pollLimit'))
-  } else {
-    ElMessageBox.confirm(t('pollTip'), '提示').then(async () => {
-      const { data } = await pollVideo(movieItem.movieId)
-      if (data?.code === 200) {
-        if (movieItem.loginVo) movieItem.loginVo.isPoll = true
-        ElMessage.success(t('pollSuccess'))
-        movieItem.pollNums++
-      }
-    })
-  }
 }
 
 watchEffect(async () => {
@@ -335,7 +212,9 @@ watchEffect(async () => {
 
 watch(
   currentDay,
-  () => {
+  (newVal, oldVal) => {
+    if (oldVal > newVal) currentAnime.value = 'right-to-left'
+    else currentAnime.value = 'left-to-right'
     getVideoByDay(currentDay.value)
   },
   { immediate: false }
@@ -352,174 +231,65 @@ watch(
     .fullpage-container {
       height: 100%;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       transition: all ease 0.5s;
       .video-container {
-        height: 100%;
+        height: 90%;
         width: 100%;
         display: flex;
         justify-content: center;
-        .movie-content {
-          height: 80%;
-          width: 95%;
-          overflow: hidden;
-          .kanban {
-            width: 100%;
-            height: 100%;
+        .video-content {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          .list-wrapper {
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            border-radius: 25px;
-            background-color: rgb(36, 1, 1);
-            .video-content {
+            margin-left: 24px;
+            height: 100%;
+            flex-shrink: 0;
+            width: 260px;
+            .movie-list-card {
               width: 100%;
-              height: 60%;
-            }
-            .descinfo {
-              padding: 10px;
-              display: flex;
-              flex: 1;
-              justify-content: space-between;
-              width: 100%;
-              .right {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-                flex: 1;
-                flex-shrink: 0;
-                justify-content: space-between;
-                height: 100%;
-                .text {
-                  @include showLine(2);
-                }
+              border-radius: 6px;
+              padding: 8px 8px 4px 8px;
+              cursor: pointer;
+              border: 2px solid transparent;
+              transition: all 0.2s ease-in-out;
+              &:hover {
+                background-color: rgb(59, 59, 59);
               }
-              .left {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                .operitem {
-                  color: $themeColor;
-                  border-radius: 35px;
-                  font-size: $smallFontSize;
-                  padding: 4px 8px;
-                  cursor: pointer;
-                  width: 90px;
-                  position: relative;
-                  transition: all ease 0.3s;
-                  &:hover {
-                    color: $whiteColor;
-                    background-color: $secondryColor;
-                    width: 100px;
-                    .operitem-font {
-                      opacity: 1;
-                      left: 60px;
-                    }
-                  }
-                  &.active {
-                    color: $whiteColor;
-                    background-color: $secondryColor;
-                  }
-                }
+              &.active {
+                border: 2px solid $themeColor;
+                box-shadow: 0 0 8px $themeColorBackShadow;
               }
-
-              .title-movie {
-                color: $themeColor;
-                font-size: $bigFontSize;
-                margin: 5px 0;
-                @include showLine(2);
-              }
-              .sub-title {
-                @include showLine(2);
+              .movie-cover {
+                width: 100%;
+                background-color: $themeColorBackShadow;
+                border-radius: 6px;
+                height: 100px;
+                border: $themeColor 2px solid;
+                outline: #fff 2px solid;
               }
             }
           }
         }
       }
-      .video-list {
-        width: 100%;
-        height: 100%;
+      .nav {
         display: flex;
         align-items: center;
-        flex-direction: column;
-        z-index: 1;
-        .movie-title {
-          margin-left: 5%;
-          margin-bottom: 10px;
-          font-size: $bigFontSize;
-          color: $themeColor;
-        }
-        .movie-item-container {
-          width: 100%;
-          display: grid;
-          height: 85%;
-          grid-template-columns: repeat(2, 50%);
-          overflow-y: auto;
-          align-items: center;
-          justify-items: center;
-          .movieCard {
-            width: 95%;
+        margin-top: 1rem;
+        .arrow {
+          color: #fff;
+          transition: all 0.2s ease-in-out;
+          font-size: 36px;
+          &:hover {
+            color: $themeColor;
+            font-size: 40px;
           }
         }
-      }
-    }
-    .nav {
-      position: absolute;
-      left: 50%;
-      bottom: 20px;
-      width: 400px;
-      height: 150px;
-      transform: translateX(-50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .day-item {
-        display: flex;
-        position: absolute;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.4s ease;
-        .sub-title {
-          font-size: $smallFontSize;
-          max-width: 200px;
-          display: none;
-          text-align: center;
-          &.active {
-            max-width: 200px;
-            color: $tipColor;
-            font-size: $normalFontSize;
-            @include showLine(2);
-          }
-        }
-        .active {
-          color: $themeColor;
-          font-size: $bigFontSize;
-          text-shadow: 0 0 10px $themeColor;
-        }
-      }
-    }
-    .nav-arrow {
-      position: absolute;
-      font-size: $bigFontSize;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      z-index: 1;
-      border-radius: 50%;
-      border: $textColor 1px solid;
-      bottom: 5%;
-      &:hover {
-        background-color: $shadowColor;
-      }
-      &.nav-prev {
-        left: 10%;
-        color: $textColor;
-      }
-      &.nav-next {
-        right: 10%;
-        color: $textColor;
       }
     }
 
@@ -535,39 +305,6 @@ watch(
       background-size: cover;
       transition: all ease 0.5s;
     }
-    .mouse-roll {
-      display: none;
-      position: absolute;
-      bottom: 100px;
-      right: 50px;
-      transform: translateX(-50%);
-      color: #fff;
-      flex-direction: column;
-      align-items: flex-end;
-      font-size: $veryBigFontSize;
-      width: 100px;
-      .anime {
-        animation: down 3s infinite;
-      }
-    }
-    .click-roll {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 10px;
-      color: #fff;
-      font-size: $veryBigFontSize;
-      width: 100px;
-      .anime {
-        animation: down 3s infinite;
-      }
-      .anime-up {
-        animation: up 3s infinite;
-      }
-    }
     :deep(.el-carousel__item) {
       border-radius: 25px;
     }
@@ -577,52 +314,6 @@ watch(
 @media screen and (min-width: 1440px) {
   .main {
     width: 90%;
-    .fullpage-container {
-      .video-container {
-        .movie-content {
-          height: 90%;
-          width: 80%;
-          overflow: hidden;
-          .kanban {
-            .video-content {
-              width: 100%;
-              height: 75%;
-            }
-          }
-        }
-      }
-      .video-list {
-        .movie-title {
-          margin-left: 13%;
-        }
-        .movie-item-container {
-          height: unset;
-          width: 80%;
-          grid-template-columns: repeat(3, 33%);
-          grid-auto-flow: row;
-        }
-      }
-    }
-    .mouse-roll {
-      display: flex;
-    }
-    .nav {
-      left: 50%;
-      .day-item {
-        .sub-title {
-          display: block;
-          &.active {
-            max-width: 400px;
-          }
-        }
-        .active {
-          font-size: $veryBigFontSize;
-        }
-      }
-    }
-    .click-roll {
-      display: none;
-    }
   }
 }
 
@@ -654,11 +345,5 @@ watch(
     transform: translateY(-100%);
     opacity: 0;
   }
-}
-:deep(.el-carousel__indicators--horizontal) {
-  position: absolute;
-  width: 100%;
-  left: 50%;
-  margin-left: 16px;
 }
 </style>

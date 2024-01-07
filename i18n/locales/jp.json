@@ -47,7 +47,7 @@
   "dayXmovie": "Day{0}作品",
   "cancelLike": "いいねを取り消しました",
   "likeSuccess": "いいねしました",
-  "pollSuccess": "投票しました",
+  "pollSuccess": "入れました",
   "pollLimit": "投票はできません",
   "loginFirst": "まずログインしてください",
   "currentactivity": "今回のイベント",
@@ -108,5 +108,6 @@
   "backToMain": "会場へ戻って",
   "clickDown": "Click Down",
   "clickup": "Click Up",
-  "pollTip": "この作品に投票しますか? (1ユーザーが1日に投票できる作品は2作品までです)"
+  "pollTip": "この作品に票を入れますか? (1ユーザーが1日に入れる作品は2作品までです)",
+  "tip": "注意"
 }

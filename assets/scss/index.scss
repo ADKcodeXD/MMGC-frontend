@@ -50,6 +50,11 @@ img {
 ::-webkit-scrollbar {
   width: 6px;
   height: 3px;
+  transition: all ease 0.2s;
+  &:hover {
+    width: 10px;
+    height: 6px;
+  }
 }
 
 ::-webkit-scrollbar-thumb {
@@ -60,6 +65,6 @@ img {
 
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: none;
-  background: #1a1101e0;
+  background: #1a110100;
   -webkit-box-shadow: none;
 }

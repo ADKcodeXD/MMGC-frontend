@@ -26,11 +26,14 @@ import 'video.js/dist/video-js.css'
 import videojs from 'video.js'
 import { calcZip } from '~~/utils'
 
-const player = ref()
 const props = defineProps<{
   videoUrl: string | any[]
   cover?: string
 }>()
+const emit = defineEmits(['onPlay', 'onAbort', 'onPause'])
+
+const player = ref()
+
 const { locale } = useCurrentLocale()
 
 const coverzip = computed(() => {
@@ -58,21 +61,31 @@ const sources = computed(() => {
     ]
   }
 })
-const emit = defineEmits(['onPlay', 'onAbort', 'onPause'])
 const onPlay = () => {
   emit('onPlay')
 }
+
 const onAbort = () => {
   emit('onAbort')
 }
+
 const onPause = () => {
   emit('onPause')
 }
+
+const pause = () => {
+  if (player.value) {
+    player.value.pause()
+    emit('onPause')
+  }
+}
+
 const handleMounted = (payload: any) => {
   player.value = payload.player
   const buttom = getButton(payload.player, sources.value)
   payload.player.controlBar.addChild(buttom, {}, 6)
 }
+
 const getButton = (player: videojs.Player, videoList: Array<any>): videojs.MenuButton => {
   const MenuButton = videojs.getComponent('MenuButton')
   const Menu = videojs.getComponent('Menu')
@@ -96,12 +109,6 @@ const getButton = (player: videojs.Player, videoList: Array<any>): videojs.MenuB
   return myMenuButton
 }
 
-const pause = () => {
-  if (player.value) {
-    player.value.pause()
-    emit('onPause')
-  }
-}
 defineExpose({ pause })
 </script>
 <style lang="scss">
