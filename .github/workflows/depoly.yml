@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /www/wwwroot/MMGC-frontend
-            git pull || exit 1
+            git pull || echo "Git pull failed, proceeding with SCP"
 
       - name: Clear Remote Directory if Git Pull Fails
         if: steps.git-pull.outcome == 'failure'
