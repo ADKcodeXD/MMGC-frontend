@@ -18,23 +18,22 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "@nuxtjs/i18n": "^8.0.0-beta.7",
     "@videojs-player/vue": "^1.0.0",
     "cross-env": "^7.0.3",
     "element-plus": "^2.2.28",
     "global": "^4.4.0",
     "h3": "^1.6.0",
-    "nuxt-swiper": "^0.1.9",
     "pinia": "^2.0.22",
     "pinia-plugin-persist": "^1.0.0",
     "video.js": "^7.21.1",
     "vue": "^3.2.39",
-    "vue-i18n": "^9.3.0-beta.16",
+    "vue-i18n": "^9.10.1",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.1",
     "@nuxt/vite-builder": "^3.0.0",
+    "@nuxtjs/i18n": "npm:@nuxtjs/i18n-edge",
     "@pinia/nuxt": "^0.4.2",
     "@types/node": "^18.15.5",
     "@types/video.js": "^7.3.51",
@@ -42,11 +41,13 @@
     "@typescript-eslint/parser": "^5.39.0",
     "@unocss/nuxt": "^0.45.21",
     "@vueuse/nuxt": "^9.2.0",
+    "dayjs-nuxt": "^2.1.9",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.6.0",
-    "nuxt": "^3.2.0",
+    "nuxt": "^3.10.0",
+    "vue-tsc": "^1.8.22",
     "nuxt-icon": "^0.2.5",
     "nuxt-lodash": "^2.4.1",
     "prettier": "^2.7.1",
@@ -63,8 +64,5 @@
         "webpack"
       ]
     }
-  },
-  "overrides": {
-    "vue-i18n": "^9.3.0-beta.16"
   }
 }

@@ -1,7 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import eslintPlugin from 'vite-plugin-eslint'
 import ElementPlus from 'unplugin-element-plus/vite'
-import { i18n } from './i18n/i18n'
 
 export default defineNuxtConfig({
   app: {
@@ -19,13 +18,16 @@ export default defineNuxtConfig({
     }
   },
   css: ['@/assets/scss/index.scss', '@/assets/scss/iconfont.scss'],
-  // build
   build: {
     transpile: ['element-plus/es']
   },
+  imports: {
+    autoImport: true
+  },
   typescript: {
     strict: true,
-    shim: false
+    shim: false,
+    typeCheck: true
   },
   vite: {
     plugins: [
@@ -42,37 +44,28 @@ export default defineNuxtConfig({
       }
     }
   },
-  nitro: {
-    // devProxy: {
-    //   '/api': {
-    //     target: 'http://localhost:8055/mmgcApi',
-    //     changeOrigin: true
-    //   }
-    // }
-  },
-  // build modules
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
     '@pinia/nuxt',
-    '@nuxtjs/i18n',
+    [
+      '@nuxtjs/i18n',
+      {
+        locales: ['cn', 'en', 'jp'],
+        detectBrowserLanguage: {
+          useCookie: true,
+          cookieKey: 'i18n_redirected',
+          redirectOn: 'root' // recommended
+        },
+        fallbackLocale: 'cn',
+        vueI18n: './i18n/i18n.ts'
+      }
+    ],
     '@element-plus/nuxt',
     'nuxt-icon',
-    'nuxt-swiper',
-    'nuxt-lodash'
+    'nuxt-lodash',
+    'dayjs-nuxt'
   ],
-  i18n: {
-    locales: ['cn', 'en', 'jp'],
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'i18n_redirected',
-      redirectOn: 'root' // recommended
-    },
-    defaultLocale: 'cn',
-    vueI18n: i18n
-  },
-  // auto import components
-  components: true,
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://mirai-mad.com',
@@ -82,11 +75,4 @@ export default defineNuxtConfig({
     }
   },
   plugins: ['~~/plugins/pinia-plugin-persist.client']
-  // unocss: {
-  //   uno: true,
-  //   attributify: true,
-  //   icons: {
-  //     scale: 1.2
-  //   }
-  // }
 })
