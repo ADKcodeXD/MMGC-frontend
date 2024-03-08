@@ -78,7 +78,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { MovieVo } from 'Movie'
+import type { MovieVo } from 'Movie'
 
 defineProps<{
   movieItem: MovieVo

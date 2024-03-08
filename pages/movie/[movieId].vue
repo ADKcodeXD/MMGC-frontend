@@ -1,218 +1,214 @@
 <template>
   <div class="body" ref="body">
     <MMGCHeader class="flex-shrink-0" />
-    <div class="movie-content" v-if="movieDetail">
-      <div class="flex justify-start w-full">
-        <el-button @click="backToMain">{{ $t('backToMain') }}</el-button>
-      </div>
-      <div class="movie-header">
+    <div class="all-wrapper" v-if="movieDetail">
+      <div class="movie-header flex flex-row items-center justify-between w-full">
         <div class="flex items-center">
-          <p class="movie-title">
-            {{ movieDetail?.movieName[locale] || movieDetail?.movieName['cn'] }}
-          </p>
-        </div>
-        <div>
-          <MemberPop :member-vo="movieDetail?.author" v-if="movieDetail?.author" :size="48" />
-          <p class="sub-title" v-else>{{ $t('author') }}:{{ movieDetail?.authorName }}</p>
-        </div>
-      </div>
-      <div class="movie-tag">
-        <div class="tag-primary" v-if="movieDetail.activityVo">
-          {{ $t('activityMovie', [movieDetail.activityVo.activityId]) }}
-        </div>
-        <div class="tag-day" v-if="movieDetail.activityVo">
-          {{ $t('dayXmovie', [movieDetail.day]) }}
-        </div>
-      </div>
-      <div class="movie-info">
-        <p class="sub-title">{{ $t('uploadAt') }}:{{ movieDetail.createTime }}</p>
-        <p class="sub-title mx-2" v-if="movieDetail.realPublishTime">
-          {{ $t('firstViewTime') }}:{{ movieDetail.realPublishTime }}
-        </p>
-        <div class="flex text-gray-200">
-          <div class="mx-2 info-center">
-            <Icon name="ant-design:like-outlined" />
-            <span>{{ movieDetail.likeNums }}</span>
-          </div>
-          <div class="mx-2 info-center">
-            <Icon name="ant-design:comment-outlined" />
-            <span>{{ movieDetail.commentNums }}</span>
-          </div>
-          <div class="mx-2 info-center">
-            <Icon name="ant-design:profile-outlined" />
-            <span>{{ movieDetail.pollNums }}</span>
-          </div>
-          <div class="mx-2 info-center">
-            <Icon name="ant-design:eye-outlined" />
-            <span>{{ movieDetail.viewNums }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="movie-play">
-        <Aplayer
-          :video-url="playSource"
-          v-if="movieDetail?.moviePlaylink"
-          :cover="movieDetail.movieCover"
-        ></Aplayer>
-      </div>
-      <div class="movie-oper">
-        <div class="flex">
-          <div class="flex items-center operitem" @click="likeOrUnLike(movieDetail)">
-            <template v-if="movieDetail.loginVo?.isLike">
-              <Icon name="ant-design:like-filled" class="text-3xl" />
-              <p class="operitem-font">{{ movieDetail.likeNums }}</p>
-            </template>
-            <template v-else>
-              <Icon name="ant-design:like-outlined" class="text-3xl" />
-              <p class="operitem-font">{{ $t('like') }}</p>
-            </template>
-          </div>
-          <div class="flex items-center mx-2 operitem" @click="pollMovie(movieDetail)">
-            <template v-if="movieDetail.loginVo?.isPoll">
-              <Icon name="ant-design:profile-filled" class="text-3xl" />
-              <p class="operitem-font">{{ movieDetail.pollNums }}</p>
-            </template>
-            <template v-else>
-              <Icon name="ant-design:profile-outlined" class="text-3xl" />
-              <p class="operitem-font">{{ $t('polls') }}</p>
-            </template>
-          </div>
-        </div>
-        <div class="download-or-other">
-          <div
-            class="flex items-center mr-4 justify-center"
-            v-if="movieDetail.movieLink && snsSites.length > 0"
-          >
-            <p class="mr-2">{{ $t('otherView') }}</p>
-            <div>
-              <div class="flex flex-wrap">
-                <div
-                  v-for="item in snsSites"
-                  :key="item.value"
-                  class="cursor-pointer"
-                  :title="`${$t('clickJump')} ${item.value}`"
-                  @click="openlink(item.value)"
-                >
-                  <Icon :name="item.icon" :style="{ color: item.color }" size="24px" class="mr-1" />
+          <img
+            src="@/assets/img/left-arrow.png"
+            style="width: 60px"
+            class="left-arrow mr-4 cursor-pointer"
+            @click="backToMain"
+          />
+          <div class="right-title">
+            <div class="flex flex-col">
+              <p class="movie-title">
+                {{ movieDetail?.movieName[locale] || movieDetail?.movieName['cn'] }}
+              </p>
+              <div class="flex">
+                <div class="tag-primary" v-if="movieDetail.activityVo">
+                  {{ $t('activityMovie', [movieDetail.activityVo.activityId]) }}
+                </div>
+                <div class="tag-day" v-if="movieDetail.activityVo">
+                  {{ $t('dayXmovie', [movieDetail.day]) }}
                 </div>
               </div>
             </div>
           </div>
-          <div v-if="movieDetail.movieDownloadLink">
-            <el-popover
-              placement="top-start"
-              :width="160"
-              trigger="click"
-              popper-class="popover"
-              transition="popshow"
-            >
-              <template #reference>
-                <p class="download">Download</p>
-              </template>
-              <div class="download-list flex flex-wrap justify-between items-center">
-                <div
-                  v-if="movieDetail?.movieDownloadLink?.google"
-                  class="down-item down-google text-5xl cursor-pointer mx-2"
-                  :title="$t('googleDownload', [movieDetail.movieDownloadLink.google])"
-                  @click="openlink(movieDetail?.movieDownloadLink?.google || '')"
-                >
-                  <Icon name="logos:google-drive" />
+        </div>
+
+        <div class="flex items-end self-end justify-end">
+          <p class="sub-title mr-4">
+            {{ $t('author') }}:{{ movieDetail?.authorName || movieDetail?.author?.memberName }}
+          </p>
+          <MemberPop :member-vo="movieDetail?.author" v-if="movieDetail?.author" :size="36" />
+        </div>
+      </div>
+      <div class="under flex w-full">
+        <div class="underleft">
+          <div class="movie-play">
+            <Aplayer
+              :video-url="playSource"
+              v-if="movieDetail?.moviePlaylink"
+              :cover="movieDetail.movieCover"
+            ></Aplayer>
+          </div>
+          <div class="flex flex-col">
+            <div class="movie-oper">
+              <div class="flex">
+                <div class="operitem">
+                  <Icon name="ant-design:eye-outlined" class="text-3xl" />
+                  <span class="operitem-font">{{ movieDetail.viewNums }}</span>
                 </div>
-                <div
-                  v-if="movieDetail?.movieDownloadLink?.baidu"
-                  class="down-item down-google text-5xl cursor-pointer mx-2"
-                  :title="$t('baiduDownload', [movieDetail.movieDownloadLink.baidu])"
-                  @click="openlink(movieDetail?.movieDownloadLink?.baidu || '')"
-                >
-                  <Icon name="simple-icons:baidu" class="text-blue-600" />
+                <div class="mx-2 operitem">
+                  <Icon name="ant-design:comment-outlined" class="text-3xl" />
+                  <span class="operitem-font">{{ movieDetail.commentNums }}</span>
                 </div>
-                <div
-                  v-if="movieDetail?.movieDownloadLink?.onedrive"
-                  class="down-item down-google text-5xl cursor-pointer mx-2"
-                  :title="$t('microsoftDownload', [movieDetail.movieDownloadLink.onedrive])"
-                  @click="openlink(movieDetail?.movieDownloadLink?.onedrive || '')"
-                >
-                  <Icon name="logos:microsoft-onedrive" />
+                <div class="flex items-center operitem" @click="likeOrUnLike(movieDetail)">
+                  <Icon
+                    :name="
+                      movieDetail.loginVo?.isLike
+                        ? 'ant-design:like-filled'
+                        : 'ant-design:like-outlined'
+                    "
+                    class="text-3xl"
+                  />
+                  <p class="operitem-font">{{ movieDetail.likeNums }}</p>
                 </div>
-                <div
-                  v-if="movieDetail?.movieDownloadLink?.google"
-                  class="down-item down-google text-5xl cursor-pointer mx-2"
-                  :title="$t('otherDownload', [movieDetail.movieDownloadLink.other])"
-                  @click="openlink(movieDetail?.movieDownloadLink?.other || '')"
-                >
-                  <Icon name="material-symbols:link-rounded" class="text-green-600" />
+                <div class="flex items-center mx-2 operitem" @click="pollMovie(movieDetail)">
+                  <Icon
+                    :name="
+                      movieDetail.loginVo?.isPoll
+                        ? 'ant-design:profile-filled'
+                        : 'ant-design:profile-outlined'
+                    "
+                    class="text-3xl"
+                  />
+                  <p class="operitem-font">{{ movieDetail.pollNums }}</p>
                 </div>
               </div>
-            </el-popover>
+              <div class="download-or-other">
+                <div
+                  class="flex items-center mr-4 justify-center"
+                  v-if="movieDetail.movieLink && snsSites.length > 0"
+                >
+                  <p class="mr-2">{{ $t('otherView') }}</p>
+                  <div>
+                    <div class="flex flex-wrap">
+                      <div
+                        v-for="item in snsSites"
+                        :key="item.value"
+                        class="cursor-pointer"
+                        :title="`${$t('clickJump')} ${item.value}`"
+                        @click="openlink(item.value)"
+                      >
+                        <Icon
+                          :name="item.icon"
+                          :style="{ color: item.color }"
+                          size="24px"
+                          class="mr-1"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="movieDetail.movieDownloadLink">
+                  <el-popover
+                    placement="top-start"
+                    :width="160"
+                    trigger="click"
+                    popper-class="popover"
+                    transition="popshow"
+                  >
+                    <template #reference>
+                      <p class="tag-day cursor-pointer">Download</p>
+                    </template>
+                    <div class="download-list flex flex-wrap justify-between items-center">
+                      <div
+                        v-if="movieDetail?.movieDownloadLink?.google"
+                        class="down-item down-google text-5xl cursor-pointer mx-2"
+                        :title="$t('googleDownload', [movieDetail.movieDownloadLink.google])"
+                        @click="openlink(movieDetail?.movieDownloadLink?.google || '')"
+                      >
+                        <Icon name="logos:google-drive" />
+                      </div>
+                      <div
+                        v-if="movieDetail?.movieDownloadLink?.baidu"
+                        class="down-item down-google text-5xl cursor-pointer mx-2"
+                        :title="$t('baiduDownload', [movieDetail.movieDownloadLink.baidu])"
+                        @click="openlink(movieDetail?.movieDownloadLink?.baidu || '')"
+                      >
+                        <Icon name="simple-icons:baidu" class="text-blue-600" />
+                      </div>
+                      <div
+                        v-if="movieDetail?.movieDownloadLink?.onedrive"
+                        class="down-item down-google text-5xl cursor-pointer mx-2"
+                        :title="$t('microsoftDownload', [movieDetail.movieDownloadLink.onedrive])"
+                        @click="openlink(movieDetail?.movieDownloadLink?.onedrive || '')"
+                      >
+                        <Icon name="logos:microsoft-onedrive" />
+                      </div>
+                      <div
+                        v-if="movieDetail?.movieDownloadLink?.google"
+                        class="down-item down-google text-5xl cursor-pointer mx-2"
+                        :title="$t('otherDownload', [movieDetail.movieDownloadLink.other])"
+                        @click="openlink(movieDetail?.movieDownloadLink?.other || '')"
+                      >
+                        <Icon name="material-symbols:link-rounded" class="text-green-600" />
+                      </div>
+                    </div>
+                  </el-popover>
+                </div>
+              </div>
+            </div>
+            <div class="infomation flex mt-2 ml-2">
+              <p class="sub-title">{{ $t('uploadAt') }}:{{ movieDetail.createTime }}</p>
+              <p class="sub-title mx-2" v-if="movieDetail.realPublishTime">
+                {{ $t('firstViewTime') }}:{{ movieDetail.realPublishTime }}
+              </p>
+            </div>
+            <p
+              class="ml-2 text-light-50 break-all overflow-auto"
+              :title="movieDetail.movieDesc[locale] || movieDetail.movieDesc['cn']"
+            >
+              {{ t('descriable') }}：{{
+                movieDetail.movieDesc[locale] || movieDetail.movieDesc['cn']
+              }}
+            </p>
           </div>
         </div>
-      </div>
-      <div class="movie-desc">
-        <div class="left">
-          <p class="title">{{ $t('detailInfo') }}</p>
-          <p class="desc my-2">
-            {{ $t('desc') }}:{{ movieDetail.movieDesc[locale] || movieDetail.movieDesc['cn'] }}
-          </p>
-          <p class="sub-title">
-            {{ $t('belongMatch') }}:{{
-              movieDetail.activityVo?.activityName[locale] ||
-              movieDetail.activityVo?.activityName.cn
-            }}
-          </p>
-          <p class="sub-title">
-            {{ $t('author') }}:{{
-              movieDetail.author ? movieDetail.author.memberName : movieDetail.authorName || ''
-            }}
-          </p>
-        </div>
-      </div>
-      <div class="movie-activity-other" v-if="movieDetail.activityVo && movies.length > 0">
-        <p class="title">{{ $t('otherMovie', [movieDetail.day]) }}</p>
-        <div class="movie-list">
-          <div v-for="item in movies" :key="item.movieId" class="flex-shrink-0 w-96 mr-3">
-            <MovieListCard :movie-item="item" />
+        <div class="underright">
+          <div class="movie-comment-area ml-4">
+            <p class="comment-area-title text-light-50 flex items-center mb-2">
+              <span class="mark block"></span>Comment Area ({{ total }})
+            </p>
+            <div class="flex-1 overflow-auto review-area">
+              <ElEmpty :description="$t('noComment')" v-if="comments.length === 0" />
+              <template v-else>
+                <ReviewItem
+                  v-for="comment in comments"
+                  :key="comment.commentId"
+                  :movie-detail="movieDetail"
+                  :comment="comment"
+                  :topPrarentId="comment.commentId"
+                  :level="1"
+                  @refresh="getCommentList"
+                >
+                </ReviewItem>
+              </template>
+            </div>
+            <ElPagination
+              layout="prev, pager, next"
+              :total="total"
+              v-model:page-size="pageParam.pageSize"
+              v-model:current-page="pageParam.page"
+            />
+            <div class="relative">
+              <ElInput
+                placeholder="请输入评论吧~"
+                :rows="2"
+                v-model="content"
+                type="textarea"
+                resize="none"
+                @focus="isFocus = true"
+                @blur="isFocus = false"
+              ></ElInput>
+              <ElButton type="danger" @click="sentComment" size="small" class="button"
+                >评!</ElButton
+              >
+            </div>
           </div>
         </div>
-      </div>
-      <div class="movie-comment">
-        <p class="title">{{ $t('commentArea') }}</p>
-        <ElInput
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 5 }"
-          show-word-limit
-          maxlength="512"
-          :placeholder="$t('sentCommentin')"
-          v-model:model-value="content"
-        />
-        <ElButton
-          type="primary"
-          class="self-end mt-2"
-          @click="sentComment"
-          :disabled="!userInfo?.memberId || !content || content.length > 512"
-          >{{ $t('sendComment') }}</ElButton
-        >
-      </div>
-      <div class="movie-comment-area">
-        <ElEmpty :description="$t('noComment')" v-if="comments.length === 0" />
-        <template v-else>
-          <CommentItem
-            v-for="comment in comments"
-            :key="comment.commentId"
-            :movie-detail="movieDetail"
-            :comment="comment"
-            :topPrarentId="comment.commentId"
-            :level="1"
-            @refresh="getComment"
-            @sent-reply="getComment"
-          >
-          </CommentItem>
-        </template>
-        <ElPagination
-          layout="prev, pager, next"
-          :total="total"
-          v-model:page-size="pageParam.pageSize"
-          v-model:current-page="pageParam.page"
-        />
       </div>
     </div>
     <p class="title" v-else>{{ $t('noOpen') }}</p>
@@ -220,13 +216,12 @@
 </template>
 
 <script setup lang="ts">
-import { MovieVo } from 'Movie'
+import type { MovieVo } from 'Movie'
 import { getMovieByActivityId, getMovieDetailById } from '~~/composables/apis/movie'
-import { likeVideo, cancelVideoLike, pollVideo } from '~~/composables/apis/oper'
 import { addComment, getCommentList } from '~~/composables/apis/comment'
 import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
-import { CommentVo } from 'Comment'
+import type { CommentVo } from 'Comment'
 import _ from 'lodash'
 
 const route = useRoute()
@@ -236,11 +231,13 @@ const openlink = useOpenLink()
 const snsSites = ref()
 const body = ref()
 const content = ref('')
+const isFocus = ref(false)
 
 const { locale } = useCurrentLocale()
 const { t } = useI18n()
 const { userInfo } = useUserStore()
 const localeNaviGate = useLocaleNavigate()
+const { unloading } = useGlobalStore()
 const { currentActivityData } = useGlobalStore()
 const { pollMovie, likeOrUnLike } = useMovieOperate()
 
@@ -302,7 +299,7 @@ const sentComment = async () => {
     ElMessage.warning(t('commentContentEmpty'))
     return
   }
-  const { data } = await addComment({
+  await addComment({
     content: content.value,
     movieId: movieId.value
   })
@@ -325,8 +322,9 @@ const getComment = async (prams?: any) => {
 }
 
 watchEffect(() => {
-  getMovieDetail(movieId.value).then(() => {
-    getVideoByDay()
+  getMovieDetail(movieId.value).then(async () => {
+    await getVideoByDay()
+    unloading()
   })
 })
 
@@ -350,6 +348,7 @@ onMounted(async () => {
   .body {
     width: 100%;
     min-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -359,28 +358,79 @@ onMounted(async () => {
     background-attachment: fixed;
     filter: brightness(0.8);
     min-width: 320px;
-    .movie-content {
-      width: 96%;
+    .all-wrapper {
+      width: 94%;
+      height: calc(100% - 128px);
       display: flex;
       flex-direction: column;
+      align-items: start;
+      overflow: auto;
+      .under {
+        height: calc(100% - 80px);
+        .underleft {
+          width: 75%;
+          height: 100%;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          .movie-play {
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+            height: 80%;
+            flex: 1;
+          }
+        }
+        .underright {
+          flex: 1;
+          .movie-comment-area {
+            height: 100%;
+            border-radius: 20px;
+            background-color: #131313;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            .review-area {
+              max-height: calc(100% - 120px);
+              flex: 1;
+              overflow: auto;
+            }
+            .mark {
+              background-color: #ffacac;
+              border-radius: 20px;
+              width: 15px;
+              height: 10px;
+              margin-right: 4px;
+            }
+            .button {
+              position: absolute;
+              right: 8px;
+              bottom: 5px;
+            }
+          }
+        }
+      }
 
       .movie-header {
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        margin-bottom: 12px;
         .movie-title {
-          color: $themeColor;
-          font-size: $veryBigFontSize;
+          font-size: $bigFontSize;
+          color: white;
           font-weight: 600;
         }
+        .left-arrow {
+          border-radius: 9px;
+          background-color: $hintColor;
+          &:hover {
+            transition: all ease 0.2s;
+            background-color: #ff5454;
+          }
+        }
       }
-      .movie-tag {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 3px 0;
-      }
+
       .movie-info {
         display: flex;
         align-items: center;
@@ -390,27 +440,19 @@ onMounted(async () => {
           align-items: center;
         }
       }
-      .movie-play {
-        border-radius: 20px;
-        overflow: hidden;
-        height: 300px;
-        margin-top: 10px;
-        width: 100%;
-      }
+
       .popover {
         padding: 0;
       }
       .movie-oper {
         margin-top: 5px;
         display: flex;
-        flex-direction: column;
         justify-content: space-between;
         align-items: center;
         font-size: $midFontSize;
         color: $themeColor;
         .download-or-other {
           display: flex;
-          flex-direction: column;
           align-items: center;
           .download {
             font-size: $bigFontSize;
@@ -424,21 +466,14 @@ onMounted(async () => {
           font-size: $smallFontSize;
           padding: 4px 8px;
           cursor: pointer;
-          width: 90px;
           position: relative;
           transition: all ease 0.3s;
           &:hover {
-            color: $whiteColor;
-            background-color: $secondryColor;
-            width: 100px;
-            .operitem-font {
-              opacity: 1;
-              left: 60px;
-            }
+            background-color: $themeColor;
+            color: white;
           }
-          &.active {
-            color: $whiteColor;
-            background-color: $secondryColor;
+          &-font {
+            margin-left: 4px;
           }
         }
       }
@@ -457,59 +492,11 @@ onMounted(async () => {
           font-size: $smallFontSize;
         }
       }
-      .movie-comment {
-        display: flex;
-        flex-direction: column;
-        &-area {
-          display: flex;
-          flex-direction: column;
-          margin-top: 20px;
-          margin-bottom: 10px;
-        }
-      }
     }
   }
 }
 
-@media screen and (min-width: 1024px) {
-  .body {
-    min-width: 1024px;
-
-    .movie-content {
-      width: 70%;
-      .movie-play {
-        height: 600px;
-      }
-      .movie-header {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .movie-tag {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        margin: 3px 0;
-      }
-      .movie-info {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        .info-center {
-          display: inline-flex;
-          align-items: center;
-        }
-      }
-      .movie-oper {
-        flex-direction: row;
-        .download-or-other {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-        }
-      }
-    }
-  }
+:deep(.el-textarea__inner) {
+  border-radius: 14px;
 }
 </style>

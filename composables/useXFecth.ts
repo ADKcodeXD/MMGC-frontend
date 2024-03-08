@@ -26,7 +26,7 @@ export const xFetch = async <T>(
     },
     onResponse({ response }) {
       const data = response._data
-      if (data.code !== 200) {
+      if (data && data.code !== 200) {
         if (process.client) {
           if (data.msg) {
             ElMessage({

@@ -1,4 +1,4 @@
-import { ActivityVo } from 'Activity'
+import type { ActivityVo } from 'Activity'
 import { defineStore } from 'pinia'
 import { getActivityDetail } from '~~/composables/apis/activity'
 import { getConfig } from '~~/composables/apis/config'

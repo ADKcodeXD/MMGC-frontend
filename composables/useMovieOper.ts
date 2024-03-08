@@ -1,4 +1,4 @@
-import { MovieVo } from 'Movie'
+import type { MovieVo } from 'Movie'
 import { cancelVideoLike, likeVideo, pollVideo } from './apis/oper'
 
 export const useMovieOperate = () => {

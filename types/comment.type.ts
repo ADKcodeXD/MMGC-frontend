@@ -1,5 +1,5 @@
 declare module 'Comment' {
-  import { MemberVo } from 'Member'
+  import type { MemberVo } from 'Member'
   interface CommentModel {
     commentId: number
     content: string // 评论内容

@@ -111,5 +111,7 @@
   "clickup": "Click Up",
   "pollTip": "Are you sure you want to vote for this work? (One user can only vote for two works within the day)",
   "tip": "Tip",
-  "more": "See More"
+  "more": "See More",
+  "delete": "Delete",
+  "gotoView": "Go to View"
 }

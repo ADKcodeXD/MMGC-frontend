@@ -44,7 +44,7 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
-import { MemberVo } from 'Member'
+import type { MemberVo } from 'Member'
 import { UserApi } from '~~/composables/apis/user'
 import { useUserStore } from '~~/stores/user'
 import { genral } from '~~/composables/useFormRules'

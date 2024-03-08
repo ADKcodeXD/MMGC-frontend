@@ -132,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-import { ActivityVo } from 'Activity'
+import type { ActivityVo } from 'Activity'
 import _ from 'lodash'
 import { useGlobalStore } from '~~/stores/global'
 

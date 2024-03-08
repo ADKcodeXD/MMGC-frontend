@@ -6,22 +6,23 @@
       </section>
       <nav class="MMGC-nav">
         <p class="nav-item">
+          <div class="active" :class="{active2:currentRoute(`/activity/${activityId}/about`)}"></div>
           <NuxtLink :to="localePath(`/activity/${activityId}/about`)"> {{ $t('desc') }} </NuxtLink>
         </p>
-        <i class="split">/</i>
         <p class="nav-item">
+          <div class="active" :class="{active2:currentRoute(`/activity/${activityId}/main`)}"></div>
           <NuxtLink :to="localePath(`/activity/${activityId}/main`)">
             {{ $t('mainStage') }}
           </NuxtLink>
         </p>
-        <i class="split">/</i>
         <p class="nav-item">
+          <div class="active" :class="{active2:currentRoute(`/activity/${activityId}/support`)}"></div>
           <NuxtLink :to="localePath(`/activity/${activityId}/support`)">
             {{ $t('organSponsor') }}
           </NuxtLink>
         </p>
-        <i class="split">/</i>
         <p class="nav-item">
+          <div class="active" :class="{active2:currentRoute(`/activity/${activityId}/history`)}"></div>
           <NuxtLink :to="localePath(`/activity/${activityId}/history`)">
             {{ $t('history') }}
           </NuxtLink>
@@ -110,12 +111,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { MemberVo } from 'Member'
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
 import lodash from 'lodash'
-import { Ref } from 'vue'
+import type { Ref } from 'vue'
+import type { MemberVo } from 'Member'
+
 const route = useRoute()
 const store = useGlobalStore()
 const localePath = useLocalePath()
@@ -128,6 +130,7 @@ const userInfo = storeToRefs(userStore).userInfo as unknown as Ref<MemberVo>
 
 const activityId =
   parseInt(route.params.activityId?.toString()) || globalStore.config?.currentActivityId
+
 let activityData = ref<any>()
 
 if (activityId === globalStore.config?.currentActivityId) {
@@ -146,6 +149,11 @@ const handleLocale = (command: 'cn' | 'jp' | 'en') => {
 const isUserInfo = computed(() => {
   return !lodash.isEmpty(userInfo.value)
 })
+
+const currentRoute = (link:any)=> {
+  const route2 = localeRoute('link')
+  return route2?.fullPath === route.fullPath
+}
 
 const goWelcome = () => {
   const route = localeRoute('/welcome')
@@ -198,6 +206,16 @@ const logout = () => {
       transition: color 0.4s ease;
       margin: 0 6px;
       width: 50px;
+      display: flex;
+      align-items: center;
+      .active {
+        width: 8px;
+        height: 16px;
+        transition: all ease 0.4s;
+        background-color: gray;
+        border-radius: 6px;
+        margin-right: 4px;
+      }
       a {
         display: flex;
         flex-direction: column;
@@ -211,6 +229,13 @@ const logout = () => {
       }
       &:hover {
         color: $themeColor;
+        .active {
+          background-color: $themeColor;
+          transform: scaleY(1.2);
+          &.active2 {
+            background-color: $themeColor;
+          }
+        }
       }
     }
     .split {
@@ -262,7 +287,7 @@ const logout = () => {
     font-size: $bigFontSize;
     font-weight: 600;
     .nav-item {
-      margin: 0 4px;
+      margin: 0 16px;
       width: unset;
       a {
         flex-direction: row;

@@ -1,4 +1,4 @@
-import { MovieVo } from 'Movie'
+import type { MovieVo } from 'Movie'
 
 export const getMovieByActivityId = async (activityId: number, day: number) => {
   const { data, refresh } = await xFetch<PageResult<MovieVo>>(

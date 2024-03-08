@@ -40,7 +40,7 @@
   </el-popover>
 </template>
 <script setup lang="ts">
-import { MemberVo } from 'Member'
+import type { MemberVo } from 'Member'
 import { calcZip } from '~~/utils'
 
 const props = defineProps<{

@@ -1,6 +1,6 @@
 import { UserApi } from './../composables/apis/user'
 import _ from 'lodash'
-import { MemberVo } from 'Member'
+import type { MemberVo } from 'Member'
 import { defineStore } from 'pinia'
 const maxAge = 1 * 60 * 60 * 24 * 2
 const expires = new Date(Date.now() + maxAge * 1000)

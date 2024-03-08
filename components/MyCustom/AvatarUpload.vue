@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage, UploadRequestOptions } from 'element-plus'
+import { ElMessage, type UploadRequestOptions } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 
 import type { UploadProps } from 'element-plus'

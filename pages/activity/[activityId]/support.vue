@@ -1,204 +1,142 @@
 <template>
-  <div class="w-full h-full flex items-center justify-center">
-    <div class="fullpage" ref="fullpageEl" v-if="activityData">
-      <div class="fullpage-container" ref="container" @mousewheel="onMouseWheel">
-        <!-- CM -->
-        <div class="section desc relative">
+  <div class="w-full h-full flex justify-center items-center">
+    <div class="nav" v-if="activityData">
+      <div class="flex items-center my-4" @click="currentActive = 0">
+        <div class="dot" :class="{ active: currentActive === 0 }"></div>
+        <p class="title-dot" :class="{ active: currentActive === 0 }">{{ $t('aboutM') }}</p>
+      </div>
+      <div
+        class="flex items-center my-4"
+        v-for="(item, index) in activityData.sponsorListVo"
+        :key="index"
+        @click="
+          () => {
+            currentActive = item.sposorId
+            currentActiveSponsor = item
+          }
+        "
+      >
+        <div class="dot" :class="{ active: currentActive === item.sposorId }"></div>
+        <p class="title-dot" :class="{ active: currentActive === item.sposorId }">
+          {{ item.sponsorName[locale] || item.sponsorName['cn'] }}
+        </p>
+      </div>
+    </div>
+    <Transition mode="out-in">
+      <template v-if="currentActive === 0">
+        <div class="desc">
           <div class="M-desc">
             <div class="title">{{ $t('aboutM') }}</div>
-
             <p class="my-2">{{ $t('MDesc') }}</p>
             <p class="my-2">{{ $t('MDesc2') }}</p>
             <p class="my-2">{{ $t('MDesc3') }}</p>
           </div>
           <div class="contact-me flex flex-col text-light-50">
-            <div class="contact">
-              <div class="wrapper">
-                <p class="label">BiliBili</p>
-              </div>
+            <div class="flex my-2">
+              <p class="tag-primary w-32">BiliBili</p>
               <a href="https://space.bilibili.com/523239">https://space.bilibili.com/523239</a>
             </div>
-            <div class="contact">
-              <div class="wrapper">
-                <p class="label">Niconico</p>
-              </div>
+            <div class="flex my-2">
+              <p class="tag-primary w-32">Niconico</p>
               <a href="https://www.nicovideo.jp/user/96755145"
                 >https://www.nicovideo.jp/user/96755145</a
               >
             </div>
-            <div class="contact">
-              <div class="wrapper">
-                <p class="label">Youtube</p>
-              </div>
+            <div class="flex my-2">
+              <p class="tag-primary w-32 mr-4">Youtube</p>
               <a href="https://www.youtube.com/channel/UCdFdBrjDrHGlDg-O67PbQYw"
                 >https://www.youtube.com/channel/UCdFdBrjDrHGlDg-O67PbQYw</a
               >
             </div>
-            <div class="contact">
-              <div class="wrapper">
-                <p class="label">Twitter</p>
-              </div>
+            <div class="flex my-2">
+              <p class="tag-primary w-32">Twitter</p>
               <a href="https://twitter.com/Mirai_MAD_Team">https://twitter.com/Mirai_MAD_Team</a>
             </div>
           </div>
         </div>
-        <div
-          class="section sponsor"
-          v-for="(item, index) in activityData.sponsorListVo"
-          :key="index"
-        >
-          <div :style="{ maxHeight: item.sponsorName.cn ? '400px' : '500px' }">
-            <MyCustomImage :img="item.sponsorLogo" />
+      </template>
+      <div v-else-if="currentActiveSponsor" class="w-full h-full flex items-center justify-center">
+        <div class="w-3/5 text-center">
+          <div :style="{ maxHeight: currentActiveSponsor.sponsorName.cn ? '400px' : '500px' }">
+            <MyCustomImage :img="currentActiveSponsor.sponsorLogo" />
           </div>
           <div class="title">
-            {{ item.sponsorName[locale] || item.sponsorName['cn'] }}
+            {{ currentActiveSponsor.sponsorName[locale] || currentActiveSponsor.sponsorName['cn'] }}
           </div>
           <div
             class="sub-title-no-line"
-            v-html="item.sponsorDesc[locale] || item.sponsorDesc['cn']"
+            v-html="
+              currentActiveSponsor.sponsorDesc[locale] || currentActiveSponsor.sponsorDesc['cn']
+            "
           />
         </div>
       </div>
-    </div>
-    <MyCustomLoading v-else />
-    <AchorList :page-state="pageState" @move="move" :achor-list="achorList" />
+      <MyCustomLoading v-else />
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
 import _ from 'lodash'
 import { useGlobalStore } from '~~/stores/global'
-const achorList = ref<any>([])
+
+const currentActive = ref(0)
+const currentActiveSponsor = ref<any>(undefined)
 
 const attrs: { activityId: number } = useAttrs() as any
 const { locale } = useCurrentLocale()
 const { activityData, getActivity } = useActivityDetail(attrs.activityId)
-const { fullpageEl, container, pageState, move, onMouseWheel } = useFullPageWheel(1)
 const { unloading } = useGlobalStore()
-
-const length = (activityData: any) => {
-  let len = 1
-  const list: { name: string }[] = []
-  list.push({ name: 'oranganDesc' })
-  if (activityData.sponsorListVo && activityData.sponsorListVo.length > 0) {
-    activityData.sponsorListVo?.forEach((item: any) => {
-      len++
-      list.push({ name: item.sponsorName[locale] || item.sponsorName['cn'] })
-    })
-  }
-  achorList.value = list
-  return len
-}
 
 await getActivity(attrs.activityId)
 unloading()
-
-watchEffect(() => {
-  const len = length(activityData.value || {})
-  pageState.len = len
-})
 </script>
 
 <style lang="scss" scoped>
-@media screen and (min-width: 320px) {
-  .fullpage {
-    height: 100%;
-    width: 95%;
-    overflow: hidden;
-    &-container {
-      height: 100%;
-      width: 100%;
-      transition: all ease 0.5s;
-      .sponsor {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        text-align: center;
+.nav {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  .dot {
+    width: 6px;
+    border-radius: 12px;
+    height: 12px;
+    background-color: rgb(199, 199, 199);
+    margin-right: 1rem;
+    transition: all ease 0.3s;
+    &.active {
+      height: 14px;
+      background-color: $themeColor;
+    }
+  }
+  .title-dot {
+    font-size: 1.3rem;
+    color: rgb(199, 199, 199);
+    transition: all ease 0.3s;
+    cursor: pointer;
+    &:hover {
+      color: $themeColor;
+      .dot {
+        background-color: $themeColor;
+        height: 16px;
       }
     }
-    .section {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      &.desc {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        .M-desc {
-          display: inline-flex;
-          flex-direction: column;
-          max-width: 900px;
-          word-wrap: break-word;
-          word-break: normal;
-          font-size: $midFontSize;
-          color: $textColor;
-          line-height: 24px;
-        }
-        .contact {
-          display: flex;
-          align-items: center;
-          margin: 4px 0;
-          a {
-            max-width: 75%;
-            word-break: break-all;
-          }
-          .wrapper {
-            width: 100px;
-            .label {
-              width: 80px;
-              padding: 0 5px;
-              background-color: $themeColor;
-              border-radius: 4px;
-              margin-right: 4px;
-              color: $backgroundColor;
-            }
-          }
-        }
-      }
-    }
-    .cm-section {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      overflow-x: hidden;
-      justify-content: flex-start;
-      .video-cm {
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        .inner-container {
-          display: flex;
-          flex-direction: column;
-          width: 80%;
-          height: 100%;
-          .set {
-            color: $themeNotActiveColor;
-            font-size: $bigFontSize;
-            margin-left: 5px;
-            &:hover {
-              color: $themeColor;
-            }
-          }
-        }
-      }
+    &.active {
+      color: $themeColor;
     }
   }
 }
 
-@media screen and (min-width: 1440px) {
-  .fullpage {
-    width: 80%;
-    .section {
-      overflow: hidden;
-      justify-content: center;
-    }
-  }
+.desc {
+  width: 60%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 </style>

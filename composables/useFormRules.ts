@@ -1,4 +1,4 @@
-import { MemberParams } from 'Member'
+import type { MemberParams } from 'Member'
 
 export const genral = (name: string, t: any) => {
   return [

@@ -1,13 +1,17 @@
-import { MemberVo } from 'Member'
+import type { MemberVo } from 'Member'
 import { useOpenLink } from './useLink'
 
 export const useMemberPop = (memberVO: MemberVo) => {
   const noAvatar = computed(() => {
+    if (!memberVO.avatar && !memberVO.memberName) {
+      return 'Null'
+    }
     if (!memberVO.avatar) {
       return memberVO.memberName.slice(0, 1)
     }
     return undefined
   })
+
   const snsSites = computed(() => {
     return useSnsSites(memberVO.snsSite)
   })

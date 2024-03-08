@@ -58,7 +58,9 @@
         ></Icon>
         <ElDropdown @command="handleSwitchDay" placement="top">
           <Transition :name="currentAnime" mode="out-in">
-            <p class="text-light-50 text-4xl mx-2" :key="currentDay">Day {{ currentDay }}</p>
+            <p class="text-light-50 text-4xl mx-2 fadeout" :key="currentDay">
+              Day {{ currentDay }}
+            </p>
           </Transition>
           <template #dropdown>
             <ElDropdownMenu>
@@ -88,21 +90,24 @@
         </Transition>
       </div>
     </div>
-
-    <div
-      ref="background"
-      class="background"
-      v-if="currentDayItem"
-      :style="{
-        backgroundImage: `linear-gradient(to left,#000,transparent),url(${coverzip})`
-      }"
-    />
+    <Transition mode="out-in">
+      <div
+        ref="background"
+        class="background"
+        v-if="currentDayItem"
+        :key="coverzip"
+        :style="{
+          transition: 'all ease 0.4s',
+          backgroundImage: `linear-gradient(to left,#000,transparent),url(${coverzip})`
+        }"
+      />
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { DayVo } from 'Activity'
-import { MovieVo } from 'Movie'
+import type { DayVo } from 'Activity'
+import type { MovieVo } from 'Movie'
 import { getActivityDays } from '~~/composables/apis/activity'
 import { getMovieByActivityId } from '~~/composables/apis/movie'
 import { useGlobalStore } from '~~/stores/global'
@@ -343,6 +348,14 @@ watch(
   100% {
     transform: translateY(-100%);
     opacity: 0;
+  }
+}
+
+.fadeout {
+  transition: 0.3s all ease-in-out;
+  &:hover {
+    color: $themeColor;
+    transform: translateY(-2px);
   }
 }
 </style>

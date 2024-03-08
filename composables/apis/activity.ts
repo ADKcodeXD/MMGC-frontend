@@ -1,4 +1,4 @@
-import { ActivityVo, DayVo } from 'Activity'
+import type { ActivityVo, DayVo } from 'Activity'
 
 export const getActivityDetail = async (activityId: number) => {
   const { data, refresh } = await xFetch<ActivityVo>(

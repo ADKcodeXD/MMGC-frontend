@@ -5,9 +5,6 @@
         v-if="movieItem.moviePlaylink"
         :video-url="movieItem.moviePlaylink"
         :cover="movieItem.movieCover"
-        :ref="setItemRefs"
-        @on-play="canAutoPlay = false"
-        @on-pause="canAutoPlay = true"
       />
       <div v-else class="w-full h-full">
         <MyCustomImage :img="movieItem.movieCover"></MyCustomImage>
@@ -72,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { MovieVo } from 'Movie'
+import type { MovieVo } from 'Movie'
 defineProps<{
   movieItem: MovieVo
 }>()

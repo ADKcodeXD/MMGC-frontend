@@ -1,46 +1,61 @@
 <template>
-  <div @mouseover="isShow = true" class="relative" v-if="memberVo">
+  <div class="relative" v-if="memberVo" ref="ref1">
     <ElAvatar :src="memberVo.avatar || undefined" class="mx-1">{{ noAvatar }}</ElAvatar>
-    <div class="popover" @mouseleave="showOff" v-show="isShow" @mouseover="isShow = true">
-      <div class="flex flex-col items-center">
-        <ElAvatar :size="60" :src="memberVo.avatar || undefined" class="mx-1">{{
-          noAvatar
-        }}</ElAvatar>
-        <p class="title mt-1" style="font-size: 24px">{{ memberVo.memberName }}</p>
-        <p>{{ memberVo.username }}</p>
-        <p v-if="snsSites.length">{{ $t('sns') }}</p>
-        <div class="flex flex-wrap">
-          <div
-            v-for="item in snsSites"
-            :key="item.value"
-            class="cursor-pointer"
-            :title="`${$t('clickJump')} ${item.value}`"
-            @click="openlink(item.value)"
-          >
-            <Icon :name="item.icon" :style="{ color: item.color }" size="16px" class="mr-1" />
+    <Transition name="up-to-down">
+      <div class="popover" ref="ref2" v-show="isHover || isHover1">
+        <div class="flex flex-col">
+          <div class="flex items-center justify-between">
+            <ElAvatar :size="52" :src="memberVo.avatar || undefined">{{ noAvatar }}</ElAvatar>
+            <div class="flex flex-col ml-2">
+              <p class="name1">{{ memberVo.memberName }}</p>
+              <p class="username">@{{ memberVo.username }}</p>
+            </div>
+          </div>
+          <div class="flex flex-col mt-4">
+            <p class="text-light-50 text-lg">{{ $t('sns') }}</p>
+            <div class="flex flex-wrap" v-if="snsSites.length">
+              <div
+                v-for="item in snsSites"
+                :key="item.value"
+                class="cursor-pointer mx-1"
+                :title="`${$t('clickJump')} ${item.value}`"
+                @click="openlink(item.value)"
+              >
+                <Icon :name="item.icon" :style="{ color: item.color }" size="16px" class="mr-1" />
+              </div>
+            </div>
+            <p v-else>暂未关联社交媒体</p>
           </div>
         </div>
-      </div>
-      <div class="wrapper">
-        <div class="btn" @click="editMyInfo"><Icon name="ion:edit"></Icon>{{ $t('update') }}</div>
-        <div class="btn" @click="logout">
-          <Icon name="ion:log-out-outline"></Icon>{{ $t('logout') }}
+
+        <div class="wrapper">
+          <div class="btn bg-blue-500" @click="editMyInfo">
+            <Icon name="ion:edit"></Icon>{{ $t('update') }}
+          </div>
+          <div class="btn bg-red-500" @click="logout">
+            <Icon name="ion:log-out-outline"></Icon>{{ $t('logout') }}
+          </div>
         </div>
+        <MyInfoEdit ref="editRef" />
       </div>
-      <MyInfoEdit ref="editRef" />
-    </div>
+    </Transition>
   </div>
 </template>
 <script setup lang="ts">
 import _ from 'lodash'
-import { MemberVo } from 'Member'
+import type { MemberVo } from 'Member'
+
 const props = defineProps<{
   memberVo: MemberVo
 }>()
-const { openlink, noAvatar, snsSites } = useMemberPop(props.memberVo)
 const emit = defineEmits(['logout'])
+const { openlink, noAvatar, snsSites } = useMemberPop(props.memberVo)
 const isShow = ref(false)
+const ref2 = ref()
+const ref1 = ref()
 
+const isHover = useElementHover(ref2)
+const isHover1 = useElementHover(ref1)
 const editRef = ref()
 
 const logout = () => {
@@ -60,15 +75,16 @@ const showOff = _.debounce(() => {
 <style lang="scss" scoped>
 .popover {
   position: absolute;
-  padding: 3px;
+  padding: 8px 8px;
   top: 120%;
-  right: -50%;
+  right: -45%;
   width: 12rem;
-  height: 15rem;
-  border-radius: 30px;
+  height: 13rem;
+  border-radius: 16px;
   color: $themeNotActiveColor;
   box-shadow: 0 0 10px rgba(223, 62, 13, 0.212);
   display: flex;
+  border: 2px solid $themeColor;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
@@ -76,9 +92,18 @@ const showOff = _.debounce(() => {
   backdrop-filter: blur(5px);
   z-index: 1;
   overflow: hidden;
+  .name1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    @include showLine(2);
+  }
+  .username {
+    font-size: 0.8rem;
+    color: rgb(192, 192, 192);
+  }
   .wrapper {
-    width: 105%;
-    transform: translateY(4px);
+    width: 100%;
     flex-shrink: 0;
     .btn {
       width: 100%;
@@ -88,13 +113,12 @@ const showOff = _.debounce(() => {
       padding: 0 20px;
       height: 28px;
       font-size: 14px;
-      border-bottom: 1px solid;
-      background-color: rgba(39, 24, 1, 0.342);
+      border-radius: 16px;
+      margin: 4px 0;
       transition: 0.4s ease all;
-      color: $themeNotActiveColor;
+      color: white;
       &:hover {
         color: $themeColor;
-        background-color: rgba(39, 24, 1, 0.87);
       }
     }
   }

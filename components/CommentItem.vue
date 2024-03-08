@@ -107,7 +107,7 @@
 </template>
 <script lang="ts" setup>
 import { CommentParams, CommentVo } from 'Comment'
-import { MovieVo } from 'Movie'
+import type { MovieVo } from 'Movie'
 import { useUserStore } from '~~/stores/user'
 import { deleteComment, addComment } from '~~/composables/apis/comment'
 import { children } from 'dom7'

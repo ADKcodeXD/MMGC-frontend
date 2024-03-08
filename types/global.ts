@@ -1,4 +1,4 @@
-import { MemberVo } from 'Member'
+import type { MemberVo } from 'Member'
 
 declare global {
   type NormalObject = {

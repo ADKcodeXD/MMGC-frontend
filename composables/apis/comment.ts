@@ -1,4 +1,4 @@
-import { CommentParams, CommentVo } from 'Comment'
+import type { CommentParams, CommentVo } from 'Comment'
 
 export const getCommentList = async (pageParams: PageParams & { movieId: number }) => {
   const { data, refresh } = await xFetch<PageResult<CommentVo>>(

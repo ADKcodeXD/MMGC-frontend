@@ -1,4 +1,4 @@
-import { ActivityVo } from 'Activity'
+import type { ActivityVo } from 'Activity'
 import _ from 'lodash'
 import { getActivityDetail, getActivityList } from './apis/activity'
 export const useActivityList = () => {
