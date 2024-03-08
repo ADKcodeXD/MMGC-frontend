@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /www/wwwroot/MMGC-frontend
+            cd /www/wwwroot/MMGC/MMGC-frontend
             git pull || echo "Git pull failed, proceeding with SCP"
 
       - name: Clear Remote Directory if Git Pull Fails
@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            rm -rf /www/wwwroot/MMGC-frontend/*
+            rm -rf /www/wwwroot/MMGC/MMGC-frontend/*
 
       - name: Copy Repository to Server if Git Pull Fails
         if: steps.git-pull.outcome == 'failure'
@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: '.'
-          target: '/www/wwwroot/MMGC-frontend'
+          target: '/www/wwwroot/MMGC/MMGC-frontend'
 
       - name: Install and Build on Server
         uses: appleboy/ssh-action@master
@@ -50,6 +50,6 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /www/wwwroot/MMGC-frontend
+            cd /www/wwwroot/MMGC/MMGC-frontend
             npm install
             pm2 delete MMGCApp && npm run start:build
