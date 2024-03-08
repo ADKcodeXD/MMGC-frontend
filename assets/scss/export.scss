@@ -45,8 +45,8 @@
 .tag {
   &-primary {
     @include tagfunc();
-    background-color: $secondryColor;
     color: $whiteColor;
+    background-color: #ff5454;
     @include showLine(1);
   }
   &-day {
@@ -57,10 +57,28 @@
   }
 }
 
-:deep(.el-popover) {
+.el-dropdown {
+  cursor: pointer;
+}
+
+.el-message-box {
+  border-radius: 28px !important;
+  border: 2px solid $themeColor !important;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+.el-popper {
   padding: 5px;
+  max-width: 40vw;
 }
 
 :deep(.el-avatar) {
   cursor: pointer;
+}
+
+.el-button {
+  border-radius: 8px;
 }

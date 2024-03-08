@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'english';
+  src: url(../english.ttf);
+}
+
+@font-face {
+  font-family: 'chinese';
+  src: url(../chinese.ttc);
+}
+
+@font-face {
+  font-family: 'japanese';
+  src: url(../Japanese.ttf);
+}
+
 html,
 body,
 ul,
@@ -18,8 +33,9 @@ html {
   height: 100%;
   font-size: 14px;
   color: var(--textColor);
-  font: 1em/1.4 'Microsoft Yahei', 'PingFang SC', 'Avenir', 'Segoe UI', 'Hiragino Sans GB',
-    'STHeiti', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
+  font: 1em/1.4 'english', 'japanese', 'chinese', 'Microsoft Yahei', 'PingFang SC', 'Avenir',
+    'Segoe UI', 'Hiragino Sans GB', 'STHeiti', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei',
+    sans-serif;
 }
 body {
   margin: 0;

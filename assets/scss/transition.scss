@@ -34,6 +34,18 @@
   transform: scale(0);
 }
 
+.up-to-down-enter-active,
+.up-to-down-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.up-to-down-enter-from,
+.up-to-down-leave-to {
+  opacity: 0;
+  transform-origin: 80% 0%;
+  transform: scale(0);
+}
+
 .left-to-right-enter-active {
   transition: transform 0.7s cubic-bezier(0, 0.84, 0.26, 0.98),
     opacity 0.7s cubic-bezier(0, 0.84, 0.26, 0.98);

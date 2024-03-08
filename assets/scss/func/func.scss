@@ -14,8 +14,11 @@
 
 @mixin tagfunc() {
   display: inline-flex;
-  padding: 5px 10px;
+  align-items: center;
+  text-align: center;
+  padding: 2px 16px;
   font-size: $normalFontSize;
-  border-radius: 3px;
+  border-radius: 14px;
   margin-right: 5px;
+  font-weight: bold;
 }
