@@ -6,44 +6,33 @@ on:
       - master
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Try Git Pull on Server
-        id: git-pull
-        uses: appleboy/ssh-action@master
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /www/wwwroot/MMGC/MMGC-frontend
-            git pull || echo "Git pull failed, proceeding with SCP"
+          node-version: '18' # 使用你项目的Node.js版本
 
-      - name: Clear Remote Directory if Git Pull Fails
-        if: steps.git-pull.outcome == 'failure'
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            rm -rf /www/wwwroot/MMGC/MMGC-frontend/*
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Copy Repository to Server if Git Pull Fails
-        if: steps.git-pull.outcome == 'failure'
+      - name: Build Project
+        run: npm run build
+
+      - name: Copy Build Artifacts to Server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: '.'
+          source: '.output/' # 确保这是你的build命令生成的文件夹
           target: '/www/wwwroot/MMGC/MMGC-frontend'
 
-      - name: Install and Build on Server
+      - name: Install Dependencies on Server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -51,5 +40,15 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /www/wwwroot/MMGC/MMGC-frontend
-            npm install
-            pm2 delete MMGCApp && npm run start:build
+            npm install # 如果服务器上需要安装依赖
+
+      - name: Start Application on Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /www/wwwroot/MMGC/MMGC-frontend
+            pm2 delete MMGCApp || true # 如果应用没有运行，忽略错误
+            npm run start
