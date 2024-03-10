@@ -6,6 +6,13 @@
   "author": "ADK & Mirai Mad Team",
   "license": "MIT",
   "private": true,
+  "bugs": {
+    "url": "https://github.com/ADKcodeXD/MMGC-frontend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ADKcodeXD/MMGC-frontend.git"
+  },
   "scripts": {
     "dev": "nuxi dev --dotenv env/.env.development",
     "dev:prod": "nuxi dev --dotenv env/.env.production",
