@@ -25,6 +25,9 @@ jobs:
 
       - name: List output directory contents
         run: ls -R .output/
+      
+      - name: List output directory contents
+        run: ls -R .nuxt/
 
       - name: Copy Build Artifacts to Server
         uses: appleboy/scp-action@master
@@ -32,7 +35,7 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: '.output/'
+          source: '.output/ .nuxt/'
           target: '/www/wwwroot/MMGC/MMGC-frontend'
 
       - name: Install Dependencies on Server
