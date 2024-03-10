@@ -1,8 +1,4 @@
 {
   // https://v3.nuxtjs.org/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "resolveJsonModule": true, // 启用对JSON模块的支持
-    "esModuleInterop": true
-  },
 }
