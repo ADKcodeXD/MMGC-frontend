@@ -23,9 +23,6 @@
             placement="top"
             :enterable="true"
             popper-class="maxwidth"
-            :popper-options="{
-              popperStyle: { maxWidth: '500px' }
-            }"
             :content="movieItem.movieDesc[locale] || movieItem.movieDesc['cn']"
           >
             <p class="sub-title ml-4">
@@ -71,7 +68,7 @@
 <script setup lang="ts">
 import type { MovieVo } from 'Movie'
 defineProps<{
-  movieItem: MovieVo
+  movieItem: MovieVo | any
 }>()
 
 const { locale } = useCurrentLocale()

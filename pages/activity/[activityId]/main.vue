@@ -64,7 +64,7 @@
           </Transition>
           <template #dropdown>
             <ElDropdownMenu>
-              <ElDropdownItem v-for="(day, index) in days" :key="index" :command="day.day"
+              <ElDropdownItem v-for="(day, index) in days" :key="index" :command="day.day || 0"
                 >Day {{ day.day }}
                 {{
                   day.themeName && (day.themeName[locale] || day.themeName['cn'])

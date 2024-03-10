@@ -21,7 +21,6 @@
               :rules="ruleslogin"
               class="mt-5 flex-1"
               @submit.native.prevent
-              @validate="validateLogin"
               v-if="!isRegister"
             >
               <el-form-item :label="$t('username')" prop="username">
@@ -38,7 +37,6 @@
               status-icon
               :rules="rulesRegister"
               @submit.native.prevent
-              @validate="validateLogin"
               ref="registerRef"
               v-else
             >

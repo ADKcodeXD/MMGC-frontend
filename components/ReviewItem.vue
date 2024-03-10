@@ -18,7 +18,7 @@
     </div>
     <div class="flex-shrink-0 translate-y-4">
       <MemberPop :member-vo="comment.memberVo" v-if="comment.memberVo" :size="28" />
-      <MemberPop v-else :member-vo="{}" :size="28" />
+      <MemberPop v-else :size="28" />
     </div>
   </div>
 </template>

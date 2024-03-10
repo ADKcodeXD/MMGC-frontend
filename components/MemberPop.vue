@@ -17,10 +17,10 @@
           >{{ noAvatar }}</ElAvatar
         >
         <div class="ml-2">
-          <p class="text-2xl">{{ memberVo.memberName }}</p>
-          <p class="text-xs">@{{ memberVo.email || memberVo.username }}</p>
-          <p class="text-gray-400">{{ memberVo.desc }}</p>
-          <div v-if="memberVo.snsSite">
+          <p class="text-2xl">{{ memberVo?.memberName }}</p>
+          <p class="text-xs">@{{ memberVo?.email || memberVo?.username }}</p>
+          <p class="text-gray-400">{{ memberVo?.desc }}</p>
+          <div v-if="memberVo?.snsSite">
             <p class="my-2 text-xs">{{ $t('sns') }}</p>
             <div class="flex flex-wrap">
               <div
@@ -44,7 +44,7 @@ import type { MemberVo } from 'Member'
 import { calcZip } from '~~/utils'
 
 const props = defineProps<{
-  memberVo: MemberVo
+  memberVo?: MemberVo
   size?: number
 }>()
 const { openlink, noAvatar, snsSites } = useMemberPop(props.memberVo)

@@ -90,7 +90,7 @@
         >{{ $t('sendComment') }}</ElButton
       >
     </div>
-    <div class="children" v-if="comment.children && children.length > 0">
+    <div class="children" v-if="comment.children && comment.children.length > 0">
       <CommentItem
         v-for="child in comment.children"
         :key="child.commentId"
@@ -106,11 +106,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { CommentParams, CommentVo } from 'Comment'
+import type { CommentParams, CommentVo } from 'Comment'
 import type { MovieVo } from 'Movie'
 import { useUserStore } from '~~/stores/user'
 import { deleteComment, addComment } from '~~/composables/apis/comment'
-import { children } from 'dom7'
 const { userInfo } = useUserStore()
 const props = defineProps<{
   comment: CommentVo

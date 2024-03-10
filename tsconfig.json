@@ -1,4 +1,14 @@
 {
   // https://v3.nuxtjs.org/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

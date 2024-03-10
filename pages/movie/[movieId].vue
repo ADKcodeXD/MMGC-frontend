@@ -363,7 +363,7 @@ onMounted(async () => {
       height: calc(100% - 128px);
       display: flex;
       flex-direction: column;
-      align-items: start;
+      align-items: flex-start;
       overflow: auto;
       .under {
         height: calc(100% - 80px);

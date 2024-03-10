@@ -1,5 +1,5 @@
 export const myFetch = $fetch.create({
-  onRequest({ request, options }) {
+  onRequest({ request, options }: any) {
     const token = useCookie('token')
     const { apiBase, apiPrefix } = useRuntimeConfig()
     request = apiPrefix + request

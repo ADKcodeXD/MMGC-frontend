@@ -1,7 +1,7 @@
 import type { MemberVo } from 'Member'
 import { useOpenLink } from './useLink'
 
-export const useMemberPop = (memberVO: MemberVo) => {
+export const useMemberPop = (memberVO: any) => {
   const noAvatar = computed(() => {
     if (!memberVO.avatar && !memberVO.memberName) {
       return 'Null'
