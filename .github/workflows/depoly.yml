@@ -32,7 +32,7 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: '.output/ .nuxt/'
+          source: '.output/'
           target: '/www/wwwroot/MMGC/MMGC-frontend'
 
       - name: Install Dependencies on Server
