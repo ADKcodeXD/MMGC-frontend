@@ -40,7 +40,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /www/wwwroot/MMGC/MMGC-frontend
-            npm install # 如果服务器上需要安装依赖
+            git pull
+            pnpm install
 
       - name: Start Application on Server
         uses: appleboy/ssh-action@master
@@ -50,5 +51,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /www/wwwroot/MMGC/MMGC-frontend
-            pm2 delete MMGCApp || true # 如果应用没有运行，忽略错误
-            npm run start
+            pm2 delete MMGCApp || true
+            pnpm run start
