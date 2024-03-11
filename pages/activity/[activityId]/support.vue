@@ -56,8 +56,8 @@
         </div>
       </template>
       <div v-else-if="currentActiveSponsor" class="w-full h-full flex items-center justify-center">
-        <div class="w-3/5 text-center">
-          <div :style="{ maxHeight: currentActiveSponsor.sponsorName.cn ? '400px' : '500px' }">
+        <div class="w-4/5 flex flex-col items-center justify-center text-center">
+          <div style="max-height: 400px">
             <MyCustomImage :img="currentActiveSponsor.sponsorLogo" />
           </div>
           <div class="title">

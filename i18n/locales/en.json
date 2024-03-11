@@ -113,5 +113,8 @@
   "tip": "Tip",
   "more": "See More",
   "delete": "Delete",
-  "gotoView": "Go to View"
+  "gotoView": "Go to View",
+  "enterreview": "Please send a review for this video~",
+  "ping": "Send",
+  "comment-area": "Comment Area"
 }

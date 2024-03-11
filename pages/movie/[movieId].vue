@@ -170,7 +170,7 @@
         <div class="underright">
           <div class="movie-comment-area ml-4">
             <p class="comment-area-title text-light-50 flex items-center mb-2">
-              <span class="mark block"></span>Comment Area ({{ total }})
+              <span class="mark block"></span>{{ $t('comment-area') }} ({{ total }})
             </p>
             <div class="flex-1 overflow-auto review-area">
               <ElEmpty :description="$t('noComment')" v-if="comments.length === 0" />
@@ -195,7 +195,7 @@
             />
             <div class="relative">
               <ElInput
-                placeholder="请输入评论吧~"
+                :placeholder="$t('enterreview')"
                 :rows="2"
                 v-model="content"
                 type="textarea"
@@ -203,9 +203,9 @@
                 @focus="isFocus = true"
                 @blur="isFocus = false"
               ></ElInput>
-              <ElButton type="danger" @click="sentComment" size="small" class="button"
-                >评!</ElButton
-              >
+              <ElButton type="danger" @click="sentComment" size="small" class="button">{{
+                $t('ping')
+              }}</ElButton>
             </div>
           </div>
         </div>

@@ -33,7 +33,6 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(['onPlay', 'onAbort', 'onPause'])
 const { locale } = useCurrentLocale()
-const { t } = useI18n()
 const player = ref()
 
 const coverzip = computed(() => {
@@ -43,21 +42,21 @@ const coverzip = computed(() => {
 })
 
 const sources = computed(() => {
-  if (_.isObject(props.videoUrl)) {
+  if (_.isArray(props.videoUrl)) {
+    return props.videoUrl.map((item: any) => {
+      return {
+        src: item.url,
+        type: 'video/mp4',
+        label: item.label
+      }
+    })
+  } else if (_.isObject(props.videoUrl)) {
     const keys = _.keys(props.videoUrl)
     return keys.map(key => {
       return {
         src: props.videoUrl[key],
         type: 'video/mp4',
         label: key
-      }
-    })
-  } else if (_.isArray(props.videoUrl)) {
-    return props.videoUrl.map((item: any) => {
-      return {
-        src: item.url,
-        type: 'video/mp4',
-        label: item.label
       }
     })
   } else {

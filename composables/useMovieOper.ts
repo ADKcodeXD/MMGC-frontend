@@ -23,6 +23,7 @@ export const useMovieOperate = () => {
       isLoading.value = false
     }
     movieItem.loginVo.isLike = !movieItem.loginVo.isLike
+    if (movieItem.likeNums) movieItem.likeNums += movieItem.loginVo.isLike ? 1 : -1
   }
 
   const pollMovie = (movieItem: MovieVo) => {
@@ -32,11 +33,12 @@ export const useMovieOperate = () => {
       if (movieItem && movieItem.loginVo.isPoll) {
         ElMessage.warning(t('pollLimit'))
       } else {
-        ElMessageBox.confirm(t('pollTip'), '提示').then(async () => {
+        ElMessageBox.confirm(t('pollTip'), t('tip')).then(async () => {
           const { data } = await pollVideo(movieItem.movieId)
-          movieItem.loginVo && (movieItem.loginVo.isPoll = true)
-          if (data?.code === 200) {
+          if (data?.code === 200 && movieItem.loginVo) {
+            movieItem.loginVo && (movieItem.loginVo.isPoll = true)
             ElMessage.success(t('pollSuccess'))
+            if (movieItem.pollNums) movieItem.pollNums += movieItem.loginVo.isPoll ? 1 : -1
           }
         })
       }

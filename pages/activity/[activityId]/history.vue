@@ -38,35 +38,11 @@
             type="primary"
             class="mt-2"
             @click="gotoActivity(`/activity/${activity.activityId}`)"
-            >前往查看</ElButton
+            >{{ $t('gotoView') }}</ElButton
           >
         </div>
       </div>
     </div>
-    <!-- <div
-      class="activity-content"
-      v-for="activity in activityList?.result"
-      :key="activity.activityId"
-      @click="gotoActivity(`/activity/${activity.activityId}`)"
-    >
-      <div class="img">
-        <MyCustomImage :img="activity.activityLogo" />
-      </div>
-      <div class="info px-2">
-        <div class="info-header">
-          <p class="title">
-            {{ activity.activityName[locale] || activity.activityName['cn'] }}
-          </p>
-          <span class="tag-primary ml-2"> {{ $t('xxActivity', [activity.activityId]) }}</span>
-          <span class="tag-day ml-2" v-if="config?.currentActivityId === activity.activityId">
-            {{ $t('currentactivity') }}</span
-          >
-        </div>
-        <p v-if="activity.startTime && activity.endTime">
-          {{ $t('startAndEndTime') }}:{{ activity.startTime }} - {{ activity.endTime }}
-        </p>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -75,7 +51,7 @@ import { useGlobalStore } from '~~/stores/global'
 import { useDayjs } from '#dayjs'
 import loading from '@/assets/img/1_1.gif'
 const { activityList, isLoading } = useActivityList()
-const { config, unloading } = useGlobalStore()
+const { unloading } = useGlobalStore()
 const { locale } = useCurrentLocale()
 const gotoActivity = useLocaleNavigate()
 const dayjs = useDayjs()
@@ -85,6 +61,7 @@ const isOngoing = (dateStr1: any, dateStr2: any) => {
   const dateRange1 = dayjs(dateStr1).toDate().getTime()
   const dateRange2 = dayjs(dateStr2).toDate().getTime()
   const date = new Date().getTime()
+  if (date < dateRange1) return true
   return date < dateRange2 && date > dateRange1
 }
 
@@ -150,6 +127,7 @@ watchEffect(() => {
   }
   .img {
     width: 150px;
+    min-width: 150px;
     margin-right: 2rem;
   }
 }

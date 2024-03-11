@@ -182,7 +182,7 @@ const getDays = async () => {
   try {
     const { data } = await getActivityDays(props.activityId)
     if (data && data.length > 0) {
-      days.value = data
+      days.value = data.sort((a: any, b: any) => a.sortIndex - b.sortIndex)
       if (day.value && day.value !== -1) {
         currentDay.value = day.value
         return
