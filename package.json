@@ -5,7 +5,7 @@
   "description": "Mirai Mad Team Offcial Website by ADK. Used Nuxt3 to supprot SEO",
   "author": "ADK & Mirai Mad Team",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "bugs": {
     "url": "https://github.com/ADKcodeXD/MMGC-frontend/issues"
   },
@@ -14,7 +14,7 @@
     "url": "https://github.com/ADKcodeXD/MMGC-frontend.git"
   },
   "scripts": {
-    "dev": "nuxi dev --dotenv env/.env.development",
+    "dev": "nuxi dev --dotenv env/.env.development --host",
     "dev:prod": "nuxi dev --dotenv env/.env.production",
     "build": "nuxi build",
     "preview": "nuxi preview",
@@ -47,6 +47,8 @@
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "@unocss/nuxt": "^0.45.21",
+    "@varlet/nuxt": "^0.0.8",
+    "@varlet/ui": "^3.1.2",
     "@vueuse/nuxt": "^9.2.0",
     "dayjs-nuxt": "^2.1.9",
     "eslint": "^8.25.0",
@@ -54,7 +56,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.6.0",
     "nuxt": "^3.10.0",
-    "vue-tsc": "^1.8.22",
     "nuxt-icon": "^0.4.1",
     "nuxt-lodash": "^2.4.1",
     "prettier": "^2.7.1",
@@ -63,7 +64,8 @@
     "unplugin-element-plus": "^0.4.1",
     "vite": "^3.1.1",
     "vite-plugin-eslint": "^1.8.1",
-    "vue-eslint-parser": "^8.0.0"
+    "vue-eslint-parser": "^8.0.0",
+    "vue-tsc": "^1.8.22"
   },
   "pnpm": {
     "peerDependencyRules": {
