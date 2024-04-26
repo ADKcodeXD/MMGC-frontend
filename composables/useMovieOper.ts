@@ -51,10 +51,15 @@ export const useMovieOperate = () => {
     localeNaviGate(`/movie/${movieId}`)
   }
 
+  const goToMovieDetailMobile = (movieId: number) => {
+    localeNaviGate(`/mobile/movie/${movieId}`)
+  }
+
   return {
     pollMovie,
     likeOrUnLike,
     isLoading,
-    goToMovieDetail
+    goToMovieDetail,
+    goToMovieDetailMobile
   }
 }

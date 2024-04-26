@@ -17,7 +17,7 @@ export const useLoginPage = () => {
     password: ''
   })
 
-  const registerForm = reactive<MemberParams & { rePassword: string }>({
+  const registerForm = reactive<any>({
     username: '',
     password: '',
     verifyCode: undefined,
@@ -58,7 +58,9 @@ export const useLoginPage = () => {
     }
   }
 
-  const submitFn = async () => {
+  const submitFn = async (isMobile?: boolean) => {
+    const router = useRouter()
+
     if (isRegister.value) {
       await registerRef.value.validate()
       registerForm.verifyCode = parseInt(registerForm.verifyCode!.toString())
@@ -68,8 +70,8 @@ export const useLoginPage = () => {
         const userStore = useUserStore()
         await userStore.setToken(token)
         await userStore.getUserInfo()
-        const router = useRouter()
-        router.push('/')
+        const route = localeRoute(`${isMobile ? '/mobile' : ''}/welcome`)
+        navigateTo(route?.fullPath)
       }
     } else {
       await loginRef.value.validate()
@@ -79,8 +81,8 @@ export const useLoginPage = () => {
         const userStore = useUserStore()
         userStore.setToken(token)
         await userStore.getUserInfo()
-        const router = useRouter()
-        router.push('/')
+        const route = localeRoute(`${isMobile ? '/mobile' : ''}/welcome`)
+        navigateTo(route?.fullPath)
       }
     }
   }

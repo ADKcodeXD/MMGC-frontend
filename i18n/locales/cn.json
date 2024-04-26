@@ -117,5 +117,17 @@
   "gotoView": "前往查看",
   "enterreview": "请输入评论吧~",
   "ping": "评",
-  "comment-area": "评论区"
+  "comment-area": "评论区",
+  "enterDetail": "进入作品详情页",
+  "progress": "进行中!",
+  "owaru": "已谢幕!",
+  "works": "作品",
+  "activityMovies": "{0}活动",
+  "weiruandownload": "微软OneDrive下载链接",
+  "otherDownloadlink": "其他下载链接",
+  "baiduDownloadLnk": "百度下载链接",
+  "googleDownloadLink": "谷歌下载链接",
+  "loginorRegister": "登陆&注册",
+  "SnsAccountSet": "社交媒体账号设置",
+  "personalWebsite": "个人网站"
 }

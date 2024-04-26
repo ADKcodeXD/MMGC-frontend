@@ -5,7 +5,9 @@
       <div class="popover" ref="ref2" v-show="isHover || isHover1">
         <div class="flex flex-col">
           <div class="flex items-center justify-between">
-            <ElAvatar :size="52" :src="memberVo.avatar || undefined">{{ noAvatar }}</ElAvatar>
+            <ElAvatar :size="52" :src="memberVo.avatar || undefined" class="flex-shrink-0">{{
+              noAvatar
+            }}</ElAvatar>
             <div class="flex flex-col ml-2">
               <p class="name1">{{ memberVo.memberName }}</p>
               <p class="username">@{{ memberVo.username }}</p>
@@ -79,7 +81,7 @@ const showOff = _.debounce(() => {
   top: 120%;
   right: -45%;
   width: 12rem;
-  height: 13rem;
+  min-height: 13rem;
   border-radius: 16px;
   color: $themeNotActiveColor;
   box-shadow: 0 0 10px rgba(223, 62, 13, 0.212);
@@ -95,6 +97,7 @@ const showOff = _.debounce(() => {
   .name1 {
     font-size: 1.5rem;
     font-weight: 600;
+    word-break: break-all;
     color: white;
     @include showLine(2);
   }

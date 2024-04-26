@@ -75,7 +75,7 @@
             <el-button type="primary" round :dark="true" @click="isRegister = !isRegister">{{
               isRegister ? $t('login') : $t('register')
             }}</el-button>
-            <el-button type="primary" round :dark="true" @click="submitFn">{{
+            <el-button type="primary" round :dark="true" @click="() => submitFn()">{{
               $t('submit')
             }}</el-button>
           </div>

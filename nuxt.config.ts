@@ -47,6 +47,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@unocss/nuxt',
     '@pinia/nuxt',
+    '@varlet/nuxt',
     [
       '@nuxtjs/i18n',
       {

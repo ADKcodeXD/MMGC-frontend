@@ -6,26 +6,26 @@
       </section>
       <nav class="MMGC-nav">
         <p class="nav-item">
-          <div class="active" :class="{active2:currentRoute(`/activity/${activityId}/about`)}"></div>
-          <NuxtLink :to="localePath(`/activity/${activityId}/about`)"> {{ $t('desc') }} </NuxtLink>
+        <div class="active" :class="{ active2: currentRoute(`/activity/${activityId}/about`) }"></div>
+        <NuxtLink :to="localePath(`/activity/${activityId}/about`)"> {{ $t('desc') }} </NuxtLink>
         </p>
         <p class="nav-item">
-          <div class="active" :class="{active2:currentRoute(`/activity/${activityId}/main`)}"></div>
-          <NuxtLink :to="localePath(`/activity/${activityId}/main`)">
-            {{ $t('mainStage') }}
-          </NuxtLink>
+        <div class="active" :class="{ active2: currentRoute(`/activity/${activityId}/main`) }"></div>
+        <NuxtLink :to="localePath(`/activity/${activityId}/main`)">
+          {{ $t('mainStage') }}
+        </NuxtLink>
         </p>
         <p class="nav-item">
-          <div class="active" :class="{active2:currentRoute(`/activity/${activityId}/support`)}"></div>
-          <NuxtLink :to="localePath(`/activity/${activityId}/support`)">
-            {{ $t('organSponsor') }}
-          </NuxtLink>
+        <div class="active" :class="{ active2: currentRoute(`/activity/${activityId}/support`) }"></div>
+        <NuxtLink :to="localePath(`/activity/${activityId}/support`)">
+          {{ $t('organSponsor') }}
+        </NuxtLink>
         </p>
         <p class="nav-item">
-          <div class="active" :class="{active2:currentRoute(`/activity/${activityId}/history`)}"></div>
-          <NuxtLink :to="localePath(`/activity/${activityId}/history`)">
-            {{ $t('history') }}
-          </NuxtLink>
+        <div class="active" :class="{ active2: currentRoute(`/activity/${activityId}/history`) }"></div>
+        <NuxtLink :to="localePath(`/activity/${activityId}/history`)">
+          {{ $t('history') }}
+        </NuxtLink>
         </p>
       </nav>
       <section class="MMGC-oper">
@@ -61,8 +61,8 @@
         <p class="nav-item">
           <NuxtLink :to="localePath(`/activity/${activityId}/about`)">
             <Icon name="tabler:file-description" size="1rem"></Icon>
-            <p>{{ $t('desc') }}</p></NuxtLink
-          >
+            <p>{{ $t('desc') }}</p>
+          </NuxtLink>
         </p>
         <p class="nav-item">
           <NuxtLink :to="localePath(`/activity/${activityId}/main`)">
@@ -110,13 +110,10 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '~~/stores/global'
 import { useUserStore } from '~~/stores/user'
-import lodash from 'lodash'
-import type { Ref } from 'vue'
-import type { MemberVo } from 'Member'
 
 const route = useRoute()
 const store = useGlobalStore()
@@ -125,9 +122,7 @@ const switchLocalePath = useSwitchLocalePath()
 const localeRoute = useLocaleRoute()
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
-
-const userInfo = storeToRefs(userStore).userInfo as unknown as Ref<MemberVo>
-
+const { logout, userInfo, isUserInfo } = useMyInfo()
 const activityId =
   parseInt(route.params.activityId?.toString()) || globalStore.config?.currentActivityId
 
@@ -139,6 +134,7 @@ if (activityId === globalStore.config?.currentActivityId) {
   const { activityData: remoteData } = useActivityDetail(activityId || 0)
   activityData = remoteData
 }
+
 if (userStore.token) userStore.getUserInfo()
 
 const handleLocale = (command: 'cn' | 'jp' | 'en') => {
@@ -146,11 +142,8 @@ const handleLocale = (command: 'cn' | 'jp' | 'en') => {
   switchLocalePath(command)
 }
 
-const isUserInfo = computed(() => {
-  return !lodash.isEmpty(userInfo.value)
-})
 
-const currentRoute = (link:any)=> {
+const currentRoute = (link: any) => {
   const route2 = localeRoute('link')
   return route2?.fullPath === route.fullPath
 }
@@ -160,9 +153,6 @@ const goWelcome = () => {
   navigateTo(route?.fullPath)
 }
 
-const logout = () => {
-  userStore.clearToken()
-}
 </script>
 
 <style lang="scss" scoped>
@@ -178,6 +168,7 @@ const logout = () => {
       color: $themeNotActiveColor;
       background-image: linear-gradient(to top, #00000000 0%, rgba(0, 0, 0, 0.301) 100%);
     }
+
     &-mobile {
       display: flex;
       height: 3rem;
@@ -188,12 +179,14 @@ const logout = () => {
       background-color: rgb(51, 35, 2);
     }
   }
+
   .MMGC-logo {
     height: 3rem;
     font-size: 2rem;
     color: $themeColor;
     cursor: pointer;
   }
+
   .MMGC-nav {
     display: flex;
     align-items: center;
@@ -201,6 +194,7 @@ const logout = () => {
     color: $themeNotActiveColor;
     font-size: 1rem;
     font-weight: 600;
+
     .nav-item {
       cursor: pointer;
       transition: color 0.4s ease;
@@ -208,6 +202,7 @@ const logout = () => {
       width: 50px;
       display: flex;
       align-items: center;
+
       .active {
         width: 8px;
         height: 16px;
@@ -216,6 +211,7 @@ const logout = () => {
         border-radius: 6px;
         margin-right: 4px;
       }
+
       a {
         display: flex;
         flex-direction: column;
@@ -223,31 +219,38 @@ const logout = () => {
         line-height: 1rem;
         font-size: 0.6rem;
         max-width: 50px;
+
         p {
           @include showLine(1);
         }
       }
+
       &:hover {
         color: $themeColor;
+
         .active {
           background-color: $themeColor;
           transform: scaleY(1.2);
+
           &.active2 {
             background-color: $themeColor;
           }
         }
       }
     }
+
     .split {
       margin: 0px 4rem;
       font-weight: 600;
     }
   }
+
   .MMGC-oper {
     display: flex;
     flex-shrink: 0;
     justify-content: space-around;
     align-items: center;
+
     .oper-item {
       cursor: pointer;
       display: flex;
@@ -258,6 +261,7 @@ const logout = () => {
       margin-right: 1rem;
       line-height: normal;
       transition: color 0.4s ease;
+
       &:hover {
         color: $themeColor;
       }
@@ -270,15 +274,18 @@ const logout = () => {
     &-header {
       display: flex;
     }
+
     &-mobile {
       display: none;
     }
   }
+
   .MMGC-logo {
     width: 14rem;
     height: 5.4rem;
     cursor: pointer;
   }
+
   .MMGC-nav {
     display: flex;
     align-items: center;
@@ -286,29 +293,35 @@ const logout = () => {
     color: $themeNotActiveColor;
     font-size: $bigFontSize;
     font-weight: 600;
+
     .nav-item {
       margin: 0 16px;
       width: unset;
+
       a {
         flex-direction: row;
         font-size: $bigFontSize;
         line-height: $bigFontSize;
         max-width: unset;
       }
+
       &:hover {
         color: $themeColor;
       }
     }
+
     .split {
       margin: 0px 4rem;
       font-weight: 600;
     }
   }
+
   .MMGC-oper {
     width: 14rem;
     display: flex;
     flex-shrink: 0;
     justify-content: space-around;
+
     .oper-item {
       cursor: pointer;
       display: flex;
@@ -318,6 +331,7 @@ const logout = () => {
       font-size: 12px;
       line-height: normal;
       transition: color 0.4s ease;
+
       &:hover {
         color: $themeColor;
       }

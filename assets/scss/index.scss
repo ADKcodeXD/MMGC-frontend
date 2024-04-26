@@ -30,23 +30,29 @@ dd,
   box-sizing: border-box;
 }
 html {
-  height: 100%;
   font-size: 14px;
   color: var(--textColor);
   font: 1em/1.4 'english', 'japanese', 'chinese', 'Microsoft Yahei', 'PingFang SC', 'Avenir',
     'Segoe UI', 'Hiragino Sans GB', 'STHeiti', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei',
     sans-serif;
 }
+
 body {
   margin: 0;
-  height: 100%;
 }
+
 #__nuxt {
-  height: 100%;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
 }
+
+html,
+body,
+#__nuxt {
+  height: calc(100vh - env(safe-area-inset-bottom));
+}
+
 a {
   font-weight: 400;
   text-decoration: none;

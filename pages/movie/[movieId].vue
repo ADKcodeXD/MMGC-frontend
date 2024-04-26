@@ -8,7 +8,7 @@
             src="@/assets/img/left-arrow.png"
             style="width: 60px"
             class="left-arrow mr-4 cursor-pointer"
-            @click="backToMain"
+            @click="backToMain(false)"
           />
           <div class="right-title">
             <div class="flex flex-col">
@@ -36,7 +36,7 @@
       </div>
       <div class="under flex w-full">
         <div class="underleft">
-          <div class="movie-play">
+          <div class="movie-play" v-if="movieDetail">
             <Aplayer
               :video-url="playSource"
               v-if="movieDetail?.moviePlaylink"
@@ -139,7 +139,7 @@
                         <Icon name="logos:microsoft-onedrive" />
                       </div>
                       <div
-                        v-if="movieDetail?.movieDownloadLink?.google"
+                        v-if="movieDetail?.movieDownloadLink?.other"
                         class="down-item down-google text-5xl cursor-pointer mx-2"
                         :title="$t('otherDownload', [movieDetail.movieDownloadLink.other])"
                         @click="openlink(movieDetail?.movieDownloadLink?.other || '')"
@@ -216,110 +216,33 @@
 </template>
 
 <script setup lang="ts">
-import type { MovieVo } from 'Movie'
-import { getMovieByActivityId, getMovieDetailById } from '~~/composables/apis/movie'
-import { addComment, getCommentList } from '~~/composables/apis/comment'
+import { getCommentList } from '~~/composables/apis/comment'
 import { useGlobalStore } from '~~/stores/global'
-import { useUserStore } from '~~/stores/user'
-import type { CommentVo } from 'Comment'
 import _ from 'lodash'
 
-const route = useRoute()
-const movieDetail = ref<MovieVo>()
-const movies = ref<MovieVo[]>([])
-const openlink = useOpenLink()
-const snsSites = ref()
-const body = ref()
-const content = ref('')
-const isFocus = ref(false)
+const {
+  total,
+  playSource,
+  pageParam,
+  comments,
+  movieDetail,
+  movieId,
+  openlink,
+  snsSites,
+  body,
+  content,
+  isFocus,
+  getComment,
+  sentComment,
+  getVideoByDay,
+  backToMain,
+  getMovieDetail
+} = useMovieDetail()
 
 const { locale } = useCurrentLocale()
 const { t } = useI18n()
-const { userInfo } = useUserStore()
-const localeNaviGate = useLocaleNavigate()
 const { unloading } = useGlobalStore()
-const { currentActivityData } = useGlobalStore()
 const { pollMovie, likeOrUnLike } = useMovieOperate()
-
-const movieId = computed(() => {
-  return parseInt(route.params.movieId.toString()) || 0
-})
-
-const total = ref(0)
-const comments = ref<CommentVo[]>([])
-const playSource = ref<any[]>([])
-const pageParam = reactive<any>({
-  page: 1,
-  pageSize: 10,
-  movieId: movieId.value
-})
-
-const getMovieDetail = async (movieId: number) => {
-  const { data } = await getMovieDetailById(movieId)
-  if (data) {
-    movieDetail.value = data
-    const keys = _.keys(movieDetail.value.moviePlaylink) as any
-    keys.forEach((key: keyof I18N) => {
-      if (movieDetail.value && movieDetail.value.moviePlaylink[key]) {
-        if (movieDetail.value.moviePlaylink[key]) {
-          playSource.value.push({ url: movieDetail.value.moviePlaylink[key], label: key })
-        }
-      }
-    })
-    snsSites.value = useSnsSites(data.movieLink)
-  }
-}
-
-const backToMain = () => {
-  if (movieDetail.value?.activityVo?.activityId) {
-    localeNaviGate(`/activity/${movieDetail.value?.activityVo?.activityId}/main`, {
-      day: movieDetail.value.day
-    })
-  } else {
-    localeNaviGate(`/activity/${currentActivityData?.activityId}/main`)
-  }
-}
-
-const getVideoByDay = async () => {
-  if (movieDetail.value?.activityVo && movieDetail.value.day) {
-    const { data } = await getMovieByActivityId(
-      movieDetail.value.activityVo.activityId,
-      movieDetail.value.day
-    )
-    movies.value = data?.result.filter(item => item.movieId !== movieId.value) || []
-  }
-}
-
-const sentComment = async () => {
-  if (!userInfo || !userInfo?.memberId) {
-    ElMessage.warning(t('loginFirst'))
-    return
-  }
-  if (!content.value || content.value.trim().length === 0) {
-    ElMessage.warning(t('commentContentEmpty'))
-    return
-  }
-  await addComment({
-    content: content.value,
-    movieId: movieId.value
-  })
-  await getComment()
-  content.value = ''
-  ElMessage.success(t('commentSuccess'))
-  return
-}
-
-const getComment = async (prams?: any) => {
-  if (!prams) {
-    pageParam.page = 1
-    prams = pageParam
-  }
-  const { data } = await getCommentList(prams)
-  if (data) {
-    comments.value = data.result
-    total.value = data.total
-  }
-}
 
 watchEffect(() => {
   getMovieDetail(movieId.value).then(async () => {

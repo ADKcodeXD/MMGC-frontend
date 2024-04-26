@@ -116,5 +116,17 @@
   "gotoView": "Go to View",
   "enterreview": "Please send a review for this video~",
   "ping": "Send",
-  "comment-area": "Comment Area"
+  "comment-area": "Comment Area",
+  "enterDetail": "Go to Detail",
+  "progress": "Ongoing!",
+  "owaru": "Ended!",
+  "works": " Works",
+  "activityMovies": "{0} Activity",
+  "weiruandownload": "Download Link of OneDrive",
+  "otherDownloadlink": "Others Download link",
+  "baiduDownloadLnk": "Download Link for Baidu",
+  "googleDownloadLink": "Download via google cloud",
+  "loginorRegister": "Login & Register",
+  "SnsAccountSet": "SMS Account Setting",
+  "personalWebsite": "Blog Web"
 }

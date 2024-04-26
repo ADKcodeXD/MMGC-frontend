@@ -35,7 +35,8 @@
     "video.js": "^7.21.1",
     "vue": "^3.2.39",
     "vue-i18n": "^9.10.1",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vue3-emoji": "^2.1.8"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.1",

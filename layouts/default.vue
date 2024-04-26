@@ -38,6 +38,7 @@ const { currentActivityData } = globalState
     z-index: -11;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .body {
     min-width: 1024px;

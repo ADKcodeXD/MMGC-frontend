@@ -1,90 +1,120 @@
 <template>
-  <div class="bg">
-    <div class="header">
-      <div class="w-60 h-24 cursor-pointer">
-        <MyCustomImage :img="Mirai" @click="goWelcome" />
-      </div>
-    </div>
-    <div class="flex-1 w-full h-full flex justify-center pt-10">
-      <div class="login-container">
-        <div class="form">
-          <div>
-            <p class="title">{{ $t('logintoMMGC') }}</p>
-            <p class="sub-title">{{ $t('MMGCdesc') }}</p>
-          </div>
-          <Transition mode="out-in">
-            <el-form
-              label-position="left"
-              :model="loginForm"
-              status-icon
-              ref="loginRef"
-              :rules="ruleslogin"
-              class="mt-5 flex-1"
-              @submit.native.prevent
-              v-if="!isRegister"
-            >
-              <el-form-item :label="$t('username')" prop="username">
-                <el-input v-model="loginForm.username" />
-              </el-form-item>
-              <el-form-item :label="$t('password')" prop="password">
-                <el-input v-model="loginForm.password" type="password" />
-              </el-form-item>
-            </el-form>
-            <el-form
-              label-position="left"
-              :model="registerForm"
-              class="mt-5 flex-1"
-              status-icon
-              :rules="rulesRegister"
-              @submit.native.prevent
-              ref="registerRef"
-              v-else
-            >
-              <el-form-item :label="$t('username')" prop="username">
-                <el-input v-model="registerForm.username" />
-              </el-form-item>
-              <el-form-item :label="$t('password')" prop="password">
-                <el-input v-model="registerForm.password" type="password" />
-              </el-form-item>
-              <el-form-item :label="$t('nickname')" prop="memberName">
-                <el-input v-model="registerForm.memberName" />
-              </el-form-item>
-              <el-form-item :label="$t('confirmPass')" prop="rePassword">
-                <el-input v-model="registerForm.rePassword" type="password" />
-              </el-form-item>
-              <el-form-item :label="t('email')" prop="email">
-                <el-input v-model="registerForm.email" />
-              </el-form-item>
-              <el-form-item :label="$t('verifyCode')" prop="verifyCode">
-                <div class="flex w-full">
-                  <el-input v-model="registerForm.verifyCode" />
-                  <el-button
-                    type="primary"
-                    class="ml-2"
-                    @click="getCodeFn"
-                    :disabled="isSend || isLoading"
-                    :loading="isLoading"
-                    >{{ !isSend ? $t('getCode') : $t('time get', [time]) }}</el-button
-                  >
-                </div>
-              </el-form-item>
-            </el-form>
-          </Transition>
+  <div class="flex flex-col">
+    <var-app-bar :title="$t('loginorRegister')" title-position="center" round>
+      <template #left
+        ><var-button round text color="transparent" text-color="#fff" @click="goHome">
+          <var-icon name="home" :size="24" /> </var-button
+      ></template>
+    </var-app-bar>
+    <div class="h-full flex justify-center p-8">
+      <div class="form">
+        <div>
+          <p class="title">{{ $t('logintoMMGC') }}</p>
+          <p class="text-light-400 text-sm">{{ $t('MMGCdesc') }}</p>
+        </div>
+        <Transition mode="out-in">
+          <el-form
+            label-position="left"
+            :model="loginForm"
+            status-icon
+            ref="loginRef"
+            :rules="ruleslogin"
+            class="mt-5 flex-1"
+            @submit.native.prevent
+            v-if="!isRegister"
+          >
+            <el-form-item prop="username" style="width: 100%">
+              <var-input
+                v-model="loginForm.username"
+                :placeholder="$t('username')"
+                style="width: 100%"
+              />
+            </el-form-item>
+            <el-form-item prop="password">
+              <var-input
+                v-model="loginForm.password"
+                type="password"
+                :placeholder="$t('password')"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-form>
+          <el-form
+            label-position="left"
+            :model="registerForm"
+            class="mt-5 flex-1"
+            status-icon
+            :rules="rulesRegister"
+            @submit.native.prevent
+            ref="registerRef"
+            v-else
+          >
+            <el-form-item prop="username">
+              <var-input
+                v-model="registerForm.username"
+                :placeholder="$t('username')"
+                class="w-full"
+              />
+            </el-form-item>
+            <el-form-item prop="password">
+              <var-input
+                v-model="registerForm.password"
+                type="password"
+                :placeholder="$t('password')"
+                class="w-full"
+              />
+            </el-form-item>
+            <el-form-item prop="memberName">
+              <var-input
+                v-model="registerForm.memberName"
+                :placeholder="$t('nickname')"
+                class="w-full"
+              />
+            </el-form-item>
+            <el-form-item prop="rePassword">
+              <var-input
+                v-model="registerForm.rePassword"
+                type="password"
+                :placeholder="$t('confirmPass')"
+                class="w-full"
+              />
+            </el-form-item>
+            <el-form-item prop="email">
+              <var-input v-model="registerForm.email" :placeholder="$t('email')" class="w-full" />
+            </el-form-item>
+            <el-form-item prop="verifyCode">
+              <div class="flex w-full items-center">
+                <var-input
+                  v-model="registerForm.verifyCode"
+                  :placeholder="$t('verifyCode')"
+                  class="flex-1"
+                />
+                <var-button
+                  type="primary"
+                  class="ml-2"
+                  @click="getCodeFn"
+                  :disabled="isSend || isLoading"
+                  :loading="isLoading"
+                  >{{ !isSend ? $t('getCode') : $t('time get', [time]) }}</var-button
+                >
+              </div>
+            </el-form-item>
+          </el-form>
+        </Transition>
 
-          <div class="text-light-50 self-end">
-            <el-button type="primary" round :dark="true" @click="isRegister = !isRegister">{{
-              isRegister ? $t('login') : $t('register')
-            }}</el-button>
-            <el-button type="primary" round :dark="true" @click="submitFn">{{
-              $t('submit')
-            }}</el-button>
+        <div class="text-light-50 self-end">
+          <VarButton type="primary" class="mr-2" :dark="true" @click="isRegister = !isRegister">{{
+            isRegister ? $t('login') : $t('register')
+          }}</VarButton>
+          <VarButton type="primary" :dark="true" @click="() => submitFn(true)">{{
+            $t('submit')
+          }}</VarButton>
+        </div>
+        <div class="flex items-center flex-col justify-self-end mt-12">
+          <div class="w-24 h-12">
+            <MyCustomImage :img="Mirai" />
           </div>
-          <div class="flex items-center justify-self-end">
-            <div class="w-24 h-12">
-              <MyCustomImage :img="Mirai" />
-            </div>
-            <p class="sub-title">{{ $t('dontDoany') }}</p>
-          </div>
+          <p class="text-light-400 text-center">{{ $t('dontDoany') }}</p>
         </div>
       </div>
     </div>
@@ -92,95 +122,27 @@
 </template>
 <script setup lang="ts">
 import Mirai from '~~/assets/img/mirai.png'
-import type { MemberParams } from 'Member'
-import { useUserStore } from '~~/stores/user'
-import { UserApi } from '~~/composables/apis/user'
-import { getCode } from '~~/composables/apis/email'
 import _ from 'lodash'
 
 definePageMeta({
   needLoading: false
 })
 
-const isRegister = ref(false)
-const isSend = ref(false)
-const time = ref(60)
-const registerRef = ref()
-const loginRef = ref()
-const isLoading = ref(false)
+const {
+  getCodeFn,
+  submitFn,
+  goWelcome,
+  ruleslogin,
+  rulesRegister,
+  loginForm,
+  registerForm,
+  isLoading,
+  loginRef,
+  registerRef,
+  time,
+  isSend,
+  isRegister
+} = useLoginPage()
 
-const loginForm = reactive<{ username: string; password: string }>({
-  username: '',
-  password: ''
-})
-
-const registerForm = reactive<MemberParams & { rePassword: string }>({
-  username: '',
-  password: '',
-  verifyCode: undefined,
-  memberName: '',
-  rePassword: '',
-  email: ''
-})
-
-const localeRoute = useLocaleRoute()
-const { t } = useI18n()
-const { createMessage } = useMessage()
-const { rulesRegister, ruleslogin } = useLoginRules(registerForm, t)
-
-const goWelcome = () => {
-  const route = localeRoute('/welcome')
-  navigateTo(route?.fullPath)
-}
-
-const getCodeFn = async () => {
-  try {
-    await registerRef.value.validateField('email')
-    isLoading.value = true
-    await getCode(registerForm.email)
-    isSend.value = true
-    const myInternal = setInterval(() => {
-      time.value--
-    }, 1000)
-    setTimeout(() => {
-      isSend.value = false
-      clearInterval(myInternal)
-      time.value = 60
-    }, 60000)
-    createMessage(t('getCodeSuccess'))
-  } catch (error) {
-    //
-  } finally {
-    isLoading.value = false
-  }
-}
-
-const submitFn = async () => {
-  if (isRegister.value) {
-    await registerRef.value.validate()
-    registerForm.verifyCode = parseInt(registerForm.verifyCode!.toString())
-    const form = _.cloneDeep(registerForm)
-    const { data: token } = await UserApi.register(form)
-    if (token) {
-      const userStore = useUserStore()
-      await userStore.setToken(token)
-      await userStore.getUserInfo()
-      const router = useRouter()
-      router.push('/')
-    }
-  } else {
-    await loginRef.value.validate()
-    const form = _.cloneDeep(loginForm)
-    const { data: token } = await UserApi.login(form)
-    if (token) {
-      const userStore = useUserStore()
-      userStore.setToken(token)
-      await userStore.getUserInfo()
-      const router = useRouter()
-      router.push('/')
-    }
-  }
-}
+const { goHome } = useGoMobile()
 </script>
-
-<style lang="scss" scoped></style>

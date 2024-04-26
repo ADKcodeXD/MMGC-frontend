@@ -114,5 +114,17 @@
   "gotoView": "見に行く",
   "enterreview": "レビューを送ってくださいね～",
   "ping": "送信",
-  "comment-area": "评论区"
+  "comment-area": "评论区",
+  "enterDetail": "作品の詳細を見る",
+  "progress": "開催中！",
+  "owaru": "終わった",
+  "works": "　ムービー",
+  "activityMovies": "{0}イベント",
+  "weiruandownload": "OneDriveダウンロードリンク",
+  "otherDownloadlink": "他のダウンロードリンク",
+  "baiduDownloadLnk": "Baidu ダウンロードリンク",
+  "googleDownloadLink": "Googleダウンロードリンク",
+  "loginorRegister": "Login & Register",
+  "SnsAccountSet": "SMSアカウント設定",
+  "personalWebsite": "ブロック"
 }

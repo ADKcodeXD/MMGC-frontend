@@ -38,6 +38,9 @@ dependencies:
   vue-router:
     specifier: ^4.1.6
     version: 4.3.0(vue@3.4.21)
+  vue3-emoji:
+    specifier: ^2.1.8
+    version: 2.1.8(vue@3.4.21)
 
 devDependencies:
   '@element-plus/nuxt':
@@ -67,6 +70,12 @@ devDependencies:
   '@unocss/nuxt':
     specifier: ^0.45.21
     version: 0.45.30(rollup@4.12.1)(vite@3.2.8)
+  '@varlet/nuxt':
+    specifier: ^0.0.8
+    version: 0.0.8(rollup@4.12.1)
+  '@varlet/ui':
+    specifier: ^3.1.2
+    version: 3.1.2(vue@3.4.21)
   '@vueuse/nuxt':
     specifier: ^9.2.0
     version: 9.13.0(nuxt@3.10.3)(rollup@4.12.1)(vue@3.4.21)
@@ -1790,6 +1799,10 @@ packages:
     resolution: {integrity: sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==}
     dev: true
 
+  /@popperjs/core@2.11.8:
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+    dev: true
+
   /@rollup/plugin-alias@5.1.0(rollup@4.12.1):
     resolution: {integrity: sha512-lpA3RZ9PdIG7qqhEfv79tBffNaoDuukFDrmhLqg9ifv99u/ehn+lOg30x2zmhf8AQqQUZaMk/B9fZraQ6/acDQ==}
     engines: {node: '>=14.0.0'}
@@ -2533,6 +2546,49 @@ packages:
       webpack-sources: 3.2.3
     transitivePeerDependencies:
       - rollup
+    dev: true
+
+  /@varlet/icons@3.1.2:
+    resolution: {integrity: sha512-s7NLcF7Zw0e5Ba7RfTeGeZvqH2+J/C9SlBu6q5XQqlf9S3TUJKbhokITDrIQXIJcbxRHJTn1y9mUte2GO5DKJA==}
+    dev: true
+
+  /@varlet/nuxt@0.0.8(rollup@4.12.1):
+    resolution: {integrity: sha512-PIaCMAwpIa2KP5+E/Ra8OFFWBPIxyvFNCye9gVgPoJo1ASQRvDA7l1AfCFduc8Cp8NACXt+6JrjHl9LgFyO02w==}
+    dependencies:
+      '@nuxt/kit': 3.10.3(rollup@4.12.1)
+      knitwork: 1.0.0
+      magic-string: 0.29.0
+      unplugin: 1.8.3
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: true
+
+  /@varlet/shared@3.1.2:
+    resolution: {integrity: sha512-yYlMboUrG4dBzJcEK5rOs9knTUfYi1CIqCRehLRhegoAqVW0mcQcvAwHpXCMUxHb2MJUDjt0i5gsMoiT4+6CuA==}
+    dev: true
+
+  /@varlet/ui@3.1.2(vue@3.4.21):
+    resolution: {integrity: sha512-vVY5QOc/cGeZNQ13vguqFJgufZv6QnG1hWxFHNXQv6AjKGJUv7y84QMpdVOFz5ntiMdiAzmhUBD9Qjm0kFpdjw==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@popperjs/core': 2.11.8
+      '@varlet/icons': 3.1.2
+      '@varlet/shared': 3.1.2
+      '@varlet/use': 3.1.2(vue@3.4.21)
+      dayjs: 1.11.10
+      decimal.js: 10.4.3
+      vue: 3.4.21(typescript@4.9.5)
+    dev: true
+
+  /@varlet/use@3.1.2(vue@3.4.21):
+    resolution: {integrity: sha512-ErHlD+YWKJw3iQXgsu4O77Owx7j/+IDdoHV5udmyBOq1UE4qiZ3HYba1Ie0go8NMPnh6E9CfzlEDaOdrU01h/w==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@varlet/shared': 3.1.2
+      vue: 3.4.21(typescript@4.9.5)
     dev: true
 
   /@vercel/nft@0.26.4:
@@ -3629,6 +3685,10 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
+    dev: true
+
+  /decimal.js@10.4.3:
+    resolution: {integrity: sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==}
     dev: true
 
   /deep-is@0.1.4:
@@ -5381,6 +5441,13 @@ packages:
 
   /magic-string@0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
+  /magic-string@0.29.0:
+    resolution: {integrity: sha512-WcfidHrDjMY+eLjlU+8OvwREqHwpgCeKVBUpQ3OhYYuvfaYCUgcbuBzappNzZvg/v8onU3oQj+BYpkOJe9Iw4Q==}
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -8294,6 +8361,14 @@ packages:
       semver: 7.6.0
       typescript: 4.9.5
     dev: true
+
+  /vue3-emoji@2.1.8(vue@3.4.21):
+    resolution: {integrity: sha512-bG4TpwDuG3TVOoa8LzgWySgGbUmHt3g2hSj8E/WQ5UVXwD+yuDK4k0I8ktxEW8cTTOr4PsqWnqqBi153MLIpAg==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.4.21(typescript@4.9.5)
+    dev: false
 
   /vue@3.4.21(typescript@4.9.5):
     resolution: {integrity: sha512-5hjyV/jLEIKD/jYl4cavMcnzKwjMKohureP8ejn3hhEjwhWIhWeuzL2kJAjzl/WyVsgPY56Sy4Z40C3lVshxXA==}
