@@ -96,7 +96,7 @@ export const useActivityMain = () => {
   const getVideoByDay = async (day: number, activityId: number) => {
     isLoading.value = true
     const { data } = await getMovieByActivityId(activityId, day)
-    movies.value = data?.result || []
+    movies.value = data?.result.sort((a, b) => (a.sortIndex || 0) - (b.sortIndex || 0)) || []
     activeVideo.value = (movies.value && movies.value[0]) || null
     players.value = []
     isLoading.value = false

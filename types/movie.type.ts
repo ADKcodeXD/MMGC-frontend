@@ -7,6 +7,8 @@ declare module 'Movie' {
      * 关联活动id 如果不存在则为非活动作品
      */
     activityId: null | number
+
+    sortIndex: null | number
     /**
      * 作者id 可以关联本站拥有的用户 如果不存在可以输入作者名
      */
