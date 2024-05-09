@@ -1,4 +1,3 @@
-import type { MemberParams } from 'Member'
 import { useUserStore } from '~~/stores/user'
 import { UserApi } from '~~/composables/apis/user'
 import { getCode } from '~~/composables/apis/email'
@@ -29,18 +28,22 @@ export const useLoginPage = () => {
   const localeRoute = useLocaleRoute()
   const { t } = useI18n()
   const { createMessage } = useMessage()
-  const { rulesRegister, ruleslogin } = useLoginRules(registerForm, t)
+  const { rulesRegister, ruleslogin, forgotRegister } = useLoginRules(registerForm, t)
 
   const goWelcome = () => {
     const route = localeRoute('/welcome')
     navigateTo(route?.fullPath)
   }
 
-  const getCodeFn = async () => {
+  const getCodeFn = async (email: string) => {
     try {
-      await registerRef.value.validateField('email')
+      const emailReg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9-]+[.a-zA-Z]+$/
+      if (!email || !emailReg.test(email)) {
+        createMessage(t('erroremail'))
+        return
+      }
       isLoading.value = true
-      await getCode(registerForm.email)
+      await getCode(email)
       isSend.value = true
       const myInternal = setInterval(() => {
         time.value--
@@ -59,8 +62,6 @@ export const useLoginPage = () => {
   }
 
   const submitFn = async (isMobile?: boolean) => {
-    const router = useRouter()
-
     if (isRegister.value) {
       await registerRef.value.validate()
       registerForm.verifyCode = parseInt(registerForm.verifyCode!.toString())
@@ -92,6 +93,7 @@ export const useLoginPage = () => {
     submitFn,
     goWelcome,
     ruleslogin,
+    forgotRegister,
     rulesRegister,
     loginForm,
     registerForm,
@@ -101,5 +103,40 @@ export const useLoginPage = () => {
     time,
     isSend,
     isRegister
+  }
+}
+
+export const useForgotPwd = () => {
+  const { t } = useI18n()
+  const isForgot = ref(false)
+  const localeRoute = useLocaleRoute()
+  const forgotForm = reactive<any>({
+    email: '',
+    code: '',
+    password: '',
+    rePassword: ''
+  })
+
+  const { forgotRegister } = useLoginRules(forgotForm, t)
+
+  const resetPwd = async (isMobile?: boolean) => {
+    const params = _.cloneDeep(forgotForm)
+    delete params.rePassword
+    params.code = parseInt(params.code)
+    const { data: token } = await UserApi.resetPwd(params)
+    if (token) {
+      const userStore = useUserStore()
+      userStore.setToken(token)
+      await userStore.getUserInfo()
+      const route = localeRoute(`${isMobile ? '/mobile' : ''}/welcome`)
+      navigateTo(route?.fullPath)
+    }
+  }
+
+  return {
+    forgotForm,
+    isForgot,
+    resetPwd,
+    forgotRegister
   }
 }

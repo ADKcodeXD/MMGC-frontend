@@ -131,5 +131,7 @@
   "pollTwitter": "X（Twitter）で投票する",
   "PollLink": "投票する！",
   "pollByCustom": "特定なサイトで投票する",
-  "contact-us": "Contact Us"
+  "contact-us": "Contact Us",
+  "erroremail": "Wrong Email ",
+  "forgotPasw": "Forgot Password?"
 }

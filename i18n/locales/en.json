@@ -133,5 +133,7 @@
   "pollTwitter": "Poll your fav movie via X(Twitter)",
   "PollLink": "Poll Links",
   "pollByCustom": "Poll by Cutom link",
-  "contact-us": "Contact Us"
+  "contact-us": "Contact Us",
+  "erroremail": "Wrong Email ",
+  "forgotPasw": "Forgot Password?"
 }

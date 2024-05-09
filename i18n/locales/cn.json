@@ -134,5 +134,7 @@
   "pollTwitter": "通过X(Twitter)进行投票",
   "PollLink": "投票链接",
   "pollByCustom": "通过主办方链接投票",
-  "contact-us": "联系我们"
+  "contact-us": "联系我们",
+  "erroremail": "邮箱格式错误！",
+  "forgotPasw": "忘记密码？"
 }

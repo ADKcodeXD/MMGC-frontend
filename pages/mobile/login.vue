@@ -11,6 +11,14 @@
         <div>
           <p class="title">{{ $t('logintoMMGC') }}</p>
           <p class="text-light-400 text-sm">{{ $t('MMGCdesc') }}</p>
+          <VarButton
+            class="my-2"
+            text
+            type="primary"
+            @click="isForgot = true"
+            v-if="!isForgot && !isRegister"
+            >{{ $t('forgotPasw') }}</VarButton
+          >
         </div>
         <Transition mode="out-in">
           <el-form
@@ -21,7 +29,7 @@
             :rules="ruleslogin"
             class="mt-5 flex-1"
             @submit.native.prevent
-            v-if="!isRegister"
+            v-if="!isRegister && !isForgot"
           >
             <el-form-item prop="username" style="width: 100%">
               <var-input
@@ -47,7 +55,7 @@
             :rules="rulesRegister"
             @submit.native.prevent
             ref="registerRef"
-            v-else
+            v-else-if="!isForgot"
           >
             <el-form-item prop="username">
               <var-input
@@ -92,7 +100,7 @@
                 <var-button
                   type="primary"
                   class="ml-2"
-                  @click="getCodeFn"
+                  @click="() => getCodeFn(registerForm.email)"
                   :disabled="isSend || isLoading"
                   :loading="isLoading"
                   >{{ !isSend ? $t('getCode') : $t('time get', [time]) }}</var-button
@@ -100,9 +108,56 @@
               </div>
             </el-form-item>
           </el-form>
+          <el-form
+            label-position="left"
+            :model="forgotForm"
+            status-icon
+            ref="loginRef"
+            :rules="forgotRegister"
+            class="mt-5 flex-1"
+            @submit.native.prevent
+            v-else-if="isForgot"
+          >
+            <el-form-item prop="username">
+              <var-input class="w-full" :placeholder="$t('email')" v-model="forgotForm.email" />
+            </el-form-item>
+            <el-form-item prop="code">
+              <div class="flex w-full">
+                <var-input
+                  :placeholder="$t('verifyCode')"
+                  class="w-full"
+                  v-model="forgotForm.code"
+                />
+                <var-button
+                  type="primary"
+                  class="ml-2"
+                  @click="() => getCodeFn(forgotForm.email)"
+                  :disabled="isSend || isLoading"
+                  :loading="isLoading"
+                  >{{ !isSend ? $t('getCode') : $t('time get', [time]) }}</var-button
+                >
+              </div>
+            </el-form-item>
+            <el-form-item prop="password">
+              <var-input
+                class="w-full"
+                :placeholder="$t('password')"
+                v-model="forgotForm.password"
+                type="password"
+              />
+            </el-form-item>
+            <el-form-item prop="rePassword">
+              <var-input
+                class="w-full"
+                :placeholder="$t('confirmPass')"
+                v-model="forgotForm.rePassword"
+                type="password"
+              />
+            </el-form-item>
+          </el-form>
         </Transition>
 
-        <div class="text-light-50 self-end">
+        <div class="text-light-50 self-end" v-if="!isForgot">
           <VarButton type="primary" class="mr-2" :dark="true" @click="isRegister = !isRegister">{{
             isRegister ? $t('login') : $t('register')
           }}</VarButton>
@@ -110,6 +165,14 @@
             $t('submit')
           }}</VarButton>
         </div>
+
+        <div class="text-light-50 self-end" v-else>
+          <VarButton type="primary" class="mr-2" :dark="true" @click="isForgot = false">{{
+            $t('login')
+          }}</VarButton>
+          <VarButton type="primary" :dark="true" @click="resetPwd">{{ $t('update') }}</VarButton>
+        </div>
+
         <div class="flex items-center flex-col justify-self-end mt-12">
           <div class="w-24 h-12">
             <MyCustomImage :img="Mirai" />
@@ -143,6 +206,8 @@ const {
   isSend,
   isRegister
 } = useLoginPage()
+
+const { isForgot, forgotForm, resetPwd, forgotRegister } = useForgotPwd()
 
 const { goHome } = useGoMobile()
 </script>

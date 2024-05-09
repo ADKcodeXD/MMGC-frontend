@@ -17,6 +17,7 @@ export const useLoginRules = (registerForm: MemberParams, t: any) => {
       callback()
     }
   }
+
   const validateEmail = (rule: any, value: any, callback: any) => {
     const emailReg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9-]+[.a-zA-Z]+$/
     if (value === '') {
@@ -27,10 +28,12 @@ export const useLoginRules = (registerForm: MemberParams, t: any) => {
       callback()
     }
   }
+
   const ruleslogin = reactive({
     username: genral(t('username'), t),
     password: genral(t('password'), t)
   })
+
   const rulesRegister = reactive({
     username: [
       ...genral(t('username'), t),
@@ -59,10 +62,32 @@ export const useLoginRules = (registerForm: MemberParams, t: any) => {
       { pattern: /^[0-9]{6}/, message: t('correctCode'), trigger: 'change' }
     ]
   })
+
+  const forgotRegister = reactive({
+    password: [
+      ...genral(t('password'), t),
+      {
+        pattern: /^[A-Za-z0-9.+-_,]{6,16}$/,
+        message: t('teshu'),
+        triger: 'change'
+      }
+    ],
+    rePassword: [{ validator: validateRePass, trigger: 'change' }, ...genral(t('confirmPass'), t)],
+    email: [
+      { validator: validateEmail, trigger: 'change' },
+      { required: true, message: t('inputEmail'), trigger: 'change' }
+    ],
+    code: [
+      { required: true, message: t('inputCode'), trigger: 'change' },
+      { pattern: /^[0-9]{6}/, message: t('correctCode'), trigger: 'change' }
+    ]
+  })
+
   return {
     validateRePass,
     validateEmail,
     ruleslogin,
+    forgotRegister,
     rulesRegister
   }
 }

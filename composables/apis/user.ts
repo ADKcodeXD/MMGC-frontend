@@ -1,4 +1,4 @@
-import { MemberParams, MemberVo } from 'Member'
+import type { MemberParams, MemberVo } from 'Member'
 
 const getMyInfoApi = async () => {
   const { data } = await xFetch<MemberVo>('/api/user/getMyInfo')
@@ -29,9 +29,18 @@ const updateMyInfo = async (params: Partial<MemberVo>) => {
   }
 }
 
+const resetPwd = async (params: Partial<MemberVo>) => {
+  const { data, refresh } = await xFetch<string>('/api/user/resetPassword', 'post', params)
+  return {
+    data: data && data.data,
+    refresh
+  }
+}
+
 export const UserApi = {
   getMyInfo: getMyInfoApi,
   login: login,
   register: register,
+  resetPwd: resetPwd,
   updateMyInfo: updateMyInfo
 }
