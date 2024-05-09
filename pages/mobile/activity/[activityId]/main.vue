@@ -31,7 +31,10 @@
         </var-menu-select>
         <div class="h-full p-4" v-if="movies.length">
           <div v-if="activeVideo && activeVideo.movieId" class="flex-1" :key="activeVideo.movieId">
-            <MovieShowItemMobile :movie-item="activeVideo" />
+            <MovieShowItemMobile
+              :movie-item="activeVideo"
+              :day-poll-link="currentDayItem?.dayPollLink"
+            />
           </div>
           <div v-else></div>
           <p class="title">Day {{ currentDay }}{{ $t('works') }}</p>
@@ -61,9 +64,12 @@
             </div>
           </div>
         </div>
-        <p class="title" v-else-if="movies.length === 0 && !isLoading">
-          {{ $t('notFoundDays') }}
-        </p>
+        <div class="flex flex-col p-4" v-else-if="movies.length === 0 && !isLoading">
+          <div class="h-48">
+            <MyCustomImage :img="Image404" />
+          </div>
+          <p class="title">{{ $t('notFoundDays') }}</p>
+        </div>
         <MyCustomLoading v-else />
       </div>
     </ClientOnly>
@@ -85,6 +91,10 @@
 
 <script setup lang="ts">
 import { useGlobalStore } from '~~/stores/global'
+import Image404 from '@/assets/img/NotFound.png'
+import type { MovieVo } from 'Movie'
+const pollDialogShow = ref(false)
+
 definePageMeta({
   key: route => route.fullPath
 })

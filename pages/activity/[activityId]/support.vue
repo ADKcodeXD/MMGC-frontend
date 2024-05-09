@@ -31,27 +31,40 @@
             <p class="my-2">{{ $t('MDesc2') }}</p>
             <p class="my-2">{{ $t('MDesc3') }}</p>
           </div>
-          <div class="contact-me flex flex-col text-light-50">
-            <div class="flex my-2">
-              <p class="tag-primary w-32">BiliBili</p>
-              <a href="https://space.bilibili.com/523239">https://space.bilibili.com/523239</a>
-            </div>
-            <div class="flex my-2">
-              <p class="tag-primary w-32">Niconico</p>
-              <a href="https://www.nicovideo.jp/user/96755145"
-                >https://www.nicovideo.jp/user/96755145</a
-              >
-            </div>
-            <div class="flex my-2">
-              <p class="tag-primary w-32 mr-4">Youtube</p>
-              <a href="https://www.youtube.com/channel/UCdFdBrjDrHGlDg-O67PbQYw"
-                >https://www.youtube.com/channel/UCdFdBrjDrHGlDg-O67PbQYw</a
-              >
-            </div>
-            <div class="flex my-2">
-              <p class="tag-primary w-32">Twitter</p>
-              <a href="https://twitter.com/Mirai_MAD_Team">https://twitter.com/Mirai_MAD_Team</a>
-            </div>
+          <p class="my-2">{{ $t('contact-us') }}</p>
+          <div class="contact-me flex text-light-50">
+            <var-button
+              type="primary"
+              round
+              class="mx-2"
+              @click="jumpToUrl('https://space.bilibili.com/523239')"
+            >
+              <Icon name="ri:bilibili-line" size="20" />
+            </var-button>
+            <var-button
+              type="primary"
+              round
+              class="mx-2"
+              @click="jumpToUrl('https://www.nicovideo.jp/user/96755145')"
+            >
+              <Icon name="arcticons:niconico" size="20" />
+            </var-button>
+            <var-button
+              type="primary"
+              round
+              class="mx-2"
+              @click="jumpToUrl('https://www.youtube.com/channel/UCdFdBrjDrHGlDg-O67PbQYw')"
+            >
+              <Icon name="ri:youtube-line" size="20" />
+            </var-button>
+            <var-button
+              type="primary"
+              round
+              class="mx-2"
+              @click="jumpToUrl('https://twitter.com/Mirai_MAD_Team')"
+            >
+              <Icon name="ri:twitter-x-line" size="20" />
+            </var-button>
           </div>
         </div>
       </template>
@@ -89,6 +102,10 @@ const { activityData, getActivity } = useActivityDetail(attrs.activityId)
 const { unloading } = useGlobalStore()
 
 await getActivity(attrs.activityId)
+const jumpToUrl = (url: string) => {
+  window.open(url, '_blank')
+}
+
 unloading()
 </script>
 

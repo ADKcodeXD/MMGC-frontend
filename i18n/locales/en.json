@@ -128,5 +128,10 @@
   "googleDownloadLink": "Download via google cloud",
   "loginorRegister": "Login & Register",
   "SnsAccountSet": "SMS Account Setting",
-  "personalWebsite": "Blog Web"
+  "personalWebsite": "Blog Web",
+  "bilibiliPoll": "Poll your fav movie via Bilibili",
+  "pollTwitter": "Poll your fav movie via X(Twitter)",
+  "PollLink": "Poll Links",
+  "pollByCustom": "Poll by Cutom link",
+  "contact-us": "Contact Us"
 }

@@ -9,6 +9,7 @@
       ripple
       class="mb-2"
       style="height: 32rem"
+      fit="contain"
       @click="gotoActivity(`/mobile/activity/${activity.activityId}/about`)"
     >
       <template #subtitle>

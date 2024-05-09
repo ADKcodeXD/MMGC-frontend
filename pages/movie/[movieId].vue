@@ -65,7 +65,7 @@
                   />
                   <p class="operitem-font">{{ movieDetail.likeNums }}</p>
                 </div>
-                <div class="flex items-center mx-2 operitem" @click="pollMovie(movieDetail)">
+                <div class="flex items-center mx-2 operitem" @click="pollByLink(movieDetail, currentDayItem?.dayPollLink)">
                   <Icon
                     :name="
                       movieDetail.loginVo?.isPoll
@@ -211,7 +211,34 @@
         </div>
       </div>
     </div>
-    <p class="title" v-else>{{ $t('noOpen') }}</p>
+    <p class="flex flex-col" v-else>
+      <div class="h-48">
+        <MyCustomImage :img="Image404" />
+      </div>
+      <p class="title">{{ $t('noOpen') }}</p>
+    </p>
+    <el-dialog v-model="pollDialogShow" :title="$t('PollLink')" width="400" draggable>
+      <div class="p-4">
+        <div v-if="currentDayItem?.dayPollLink?.bilibili">
+          <Icon name="ri:bilibili-line" size="20" class="mr-2" />{{ $t('bilibiliPoll') }}
+          <a :href="currentDayItem?.dayPollLink?.bilibili" target="_blank" style="color: #abf7ff">{{
+            $t('clickJump')
+          }}</a>
+        </div>
+        <div v-if="currentDayItem?.dayPollLink?.twitter" class="my-4">
+          <Icon name="ri:twitter-x-line" size="20" class="mr-2" />{{ $t('pollTwitter') }}
+          <a :href="currentDayItem?.dayPollLink?.twitter" target="_blank" style="color: #abf7ff">{{
+            $t('clickJump')
+          }}</a>
+        </div>
+        <div v-if="currentDayItem?.dayPollLink?.personalWebsite" class="my-4">
+          <Icon name="ri:twitter-x-line" size="20" class="mr-2" />{{ $t('pollByCustom') }}
+          <a :href="currentDayItem?.dayPollLink?.personalWebsite" target="_blank" style="color: #abf7ff">{{
+            $t('clickJump')
+          }}</a>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -219,7 +246,8 @@
 import { getCommentList } from '~~/composables/apis/comment'
 import { useGlobalStore } from '~~/stores/global'
 import _ from 'lodash'
-
+import Image404 from '@/assets/img/NotFound.png'
+import type { MovieVo } from 'Movie';
 const {
   total,
   playSource,
@@ -236,13 +264,23 @@ const {
   sentComment,
   getVideoByDay,
   backToMain,
-  getMovieDetail
+  getMovieDetail,
+  currentDayItem,
+  pollDialogShow
 } = useMovieDetail()
 
 const { locale } = useCurrentLocale()
 const { t } = useI18n()
 const { unloading } = useGlobalStore()
 const { pollMovie, likeOrUnLike } = useMovieOperate()
+
+const pollByLink = (movie: MovieVo, dayPollLink?: Sns | null) => {
+  if (dayPollLink && (dayPollLink.bilibili || dayPollLink.twitter || dayPollLink.personalWebsite)) {
+    pollDialogShow.value = true
+  } else {
+    pollMovie(movie)
+  }
+}
 
 watchEffect(() => {
   getMovieDetail(movieId.value).then(async () => {
@@ -283,7 +321,7 @@ onMounted(async () => {
     min-width: 320px;
     .all-wrapper {
       width: 94%;
-      height: calc(100% - 128px);
+      height: calc(100% - 140px);
       display: flex;
       flex-direction: column;
       align-items: flex-start;

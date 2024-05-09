@@ -15,7 +15,9 @@ export const useMovieDetail = () => {
   const body = ref()
   const content = ref('')
   const isFocus = ref(false)
+  const pollDialogShow = ref(false)
 
+  const { days, getDays } = useActivityMain()
   const localeNaviGate = useLocaleNavigate()
   const { t } = useI18n()
   const { userInfo } = useUserStore()
@@ -23,6 +25,10 @@ export const useMovieDetail = () => {
 
   const movieId = computed(() => {
     return parseInt(route.params.movieId.toString()) || 0
+  })
+
+  const currentDayItem = computed(() => {
+    return days.value?.find(item => item.day === movieDetail.value?.day) || null
   })
 
   const total = ref(0)
@@ -64,7 +70,7 @@ export const useMovieDetail = () => {
       )
     }
   }
- 
+
   const getVideoByDay = async () => {
     if (movieDetail.value?.activityVo && movieDetail.value.day) {
       const { data } = await getMovieByActivityId(
@@ -106,6 +112,10 @@ export const useMovieDetail = () => {
     }
   }
 
+  watchEffect(() => {
+    getDays(movieDetail.value?.activityVo?.activityId || 0)
+  })
+
   return {
     total,
     playSource,
@@ -119,10 +129,13 @@ export const useMovieDetail = () => {
     content,
     isFocus,
     getComment,
+    pollDialogShow,
     sentComment,
     getVideoByDay,
     backToMain,
     movieId,
-    getMovieDetail
+    getMovieDetail,
+    getDays,
+    currentDayItem
   }
 }

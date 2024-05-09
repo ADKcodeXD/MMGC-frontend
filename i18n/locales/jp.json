@@ -126,5 +126,10 @@
   "googleDownloadLink": "Googleダウンロードリンク",
   "loginorRegister": "Login & Register",
   "SnsAccountSet": "SMSアカウント設定",
-  "personalWebsite": "ブロック"
+  "personalWebsite": "ブロック",
+  "bilibiliPoll": "ビリビリ動画で投票する",
+  "pollTwitter": "X（Twitter）で投票する",
+  "PollLink": "投票する！",
+  "pollByCustom": "特定なサイトで投票する",
+  "contact-us": "Contact Us"
 }

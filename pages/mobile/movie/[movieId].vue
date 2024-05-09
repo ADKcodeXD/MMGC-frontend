@@ -88,7 +88,10 @@
                 />
                 <p class="operitem-font">{{ movieDetail.likeNums }}</p>
               </div>
-              <div class="flex items-center mx-2 operitem" @click="pollMovie(movieDetail)">
+              <div
+                class="flex items-center mx-2 operitem"
+                @click="pollByLink(movieDetail, currentDayItem?.dayPollLink)"
+              >
                 <Icon
                   :name="
                     movieDetail.loginVo?.isPoll
@@ -237,7 +240,11 @@
         </p>
         <div class="movie-comment-area">
           <div class="flex-1 overflow-auto review-area">
-            <ElEmpty :description="$t('noComment')" v-if="comments.length === 0" />
+            <ElEmpty
+              :image="Image404"
+              :description="$t('noComment')"
+              v-if="comments.length === 0"
+            />
             <template v-else>
               <ReviewItem
                 v-for="comment in comments"
@@ -258,7 +265,7 @@
             v-model:current-page="pageParam.page"
           />
           <div class="relative">
-            <var-input :placeholder="$t('enterreview')" textarea v-model="content" />
+            <var-input :placeholder="$t('enterreview')" textarea v-model="content" :rows="3" />
             <VarButton type="danger" @click="sentComment" size="small" class="button">{{
               $t('ping')
             }}</VarButton>
@@ -268,12 +275,41 @@
     </div>
     <p class="title" v-else>{{ $t('noOpen') }}</p>
   </div>
+  <el-dialog v-model="pollDialogShow" :title="$t('PollLink')" width="400" draggable>
+    <div class="p-4">
+      <div>
+        <p v-if="currentDayItem?.dayPollLink?.bilibili">
+          <Icon name="ri:bilibili-line" size="20" class="mr-2" />{{ $t('bilibiliPoll') }}
+          <a :href="currentDayItem?.dayPollLink?.bilibili" target="_blank" style="color: #abf7ff">{{
+            $t('clickJump')
+          }}</a>
+        </p>
+        <p v-if="currentDayItem?.dayPollLink?.twitter" class="my-4">
+          <Icon name="ri:twitter-x-line" size="20" class="mr-2" />{{ $t('pollTwitter') }}
+          <a :href="currentDayItem?.dayPollLink?.twitter" target="_blank" style="color: #abf7ff">{{
+            $t('clickJump')
+          }}</a>
+        </p>
+        <p v-if="currentDayItem?.dayPollLink?.personalWebsite" class="my-4">
+          <Icon name="ri:twitter-x-line" size="20" class="mr-2" />{{ $t('pollByCustom') }}
+          <a
+            :href="currentDayItem?.dayPollLink?.personalWebsite"
+            target="_blank"
+            style="color: #abf7ff"
+            >{{ $t('clickJump') }}</a
+          >
+        </p>
+      </div>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { getCommentList } from '~~/composables/apis/comment'
 import { useGlobalStore } from '~~/stores/global'
 import _ from 'lodash'
+import Image404 from '@/assets/img/NotFound.png'
+import type { MovieVo } from 'Movie'
 
 const {
   total,
@@ -291,7 +327,9 @@ const {
   sentComment,
   getVideoByDay,
   backToMain,
-  getMovieDetail
+  getMovieDetail,
+  currentDayItem,
+  pollDialogShow
 } = useMovieDetail()
 const center = ref(false)
 const { locale } = useCurrentLocale()
@@ -300,6 +338,14 @@ const { unloading } = useGlobalStore()
 const { pollMovie, likeOrUnLike } = useMovieOperate()
 const { goHome, goLogin, handleLocale } = useGoMobile()
 const { logout, userInfo, isUserInfo } = useMyInfo()
+
+const pollByLink = (movie: MovieVo, dayPollLink?: Sns | null) => {
+  if (dayPollLink && (dayPollLink.bilibili || dayPollLink.twitter || dayPollLink.personalWebsite)) {
+    pollDialogShow.value = true
+  } else {
+    pollMovie(movie)
+  }
+}
 
 const localeRoute = useLocaleRoute()
 

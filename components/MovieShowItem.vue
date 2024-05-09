@@ -51,7 +51,10 @@
           <p>{{ $t('like') }}</p>
         </template>
       </div>
-      <div class="flex flex-col items-center my-4 operitem" @click="pollMovie(movieItem)">
+      <div
+        class="flex flex-col items-center my-4 operitem"
+        @click="pollByLink(movieItem, dayPollLink)"
+      >
         <template v-if="movieItem.loginVo?.isPoll">
           <Icon name="ant-design:profile-filled" class="text-xl" />
           <p class="operitem-font">{{ movieItem.pollNums }}</p>
@@ -63,13 +66,47 @@
       </div>
     </div>
   </div>
+  <el-dialog v-model="pollDialogShow" :title="$t('PollLink')" width="400" draggable>
+    <div class="p-4">
+      <div>
+        <p v-if="dayPollLink?.bilibili">
+          <Icon name="ri:bilibili-line" size="20" class="mr-2" />{{ $t('bilibiliPoll') }}
+          <a :href="dayPollLink?.bilibili" target="_blank" style="color: #abf7ff">{{
+            $t('clickJump')
+          }}</a>
+        </p>
+        <p v-if="dayPollLink?.twitter" class="my-4">
+          <Icon name="ri:twitter-x-line" size="20" class="mr-2" />{{ $t('pollTwitter') }}
+          <a :href="dayPollLink?.twitter" target="_blank" style="color: #abf7ff">{{
+            $t('clickJump')
+          }}</a>
+        </p>
+        <p v-if="dayPollLink?.personalWebsite" class="my-4">
+          <Icon name="ri:twitter-x-line" size="20" class="mr-2" />{{ $t('pollByCustom') }}
+          <a :href="dayPollLink?.personalWebsite" target="_blank" style="color: #abf7ff">{{
+            $t('clickJump')
+          }}</a>
+        </p>
+      </div>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import type { MovieVo } from 'Movie'
 defineProps<{
   movieItem: MovieVo | any
+  dayPollLink?: Sns | null
 }>()
+const pollDialogShow = ref(false)
+
+const pollByLink = (movie: MovieVo, dayPollLink?: Sns | null) => {
+  if (dayPollLink && (dayPollLink.bilibili || dayPollLink.twitter || dayPollLink.personalWebsite)) {
+    pollDialogShow.value = true
+  } else {
+    pollMovie(movie)
+  }
+}
 
 const { locale } = useCurrentLocale()
 const { pollMovie, likeOrUnLike, goToMovieDetail } = useMovieOperate()

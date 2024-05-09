@@ -6,7 +6,10 @@
           <div class="video-content" v-if="movies.length">
             <Transition :name="currentAnime" mode="out-in">
               <div v-if="activeVideo" class="flex-1" :key="activeVideo.movieId">
-                <MovieShowItem :movie-item="activeVideo" />
+                <MovieShowItem
+                  :movie-item="activeVideo"
+                  :day-poll-link="currentDayItem?.dayPollLink"
+                />
               </div>
               <ElEmpty v-else />
             </Transition>
@@ -43,9 +46,12 @@
               </div>
             </ElScrollbar>
           </div>
-          <p class="title" v-else-if="movies.length === 0 && !isLoading">
-            {{ $t('notFoundDays') }}
-          </p>
+          <div class="flex flex-col" v-else-if="movies.length === 0 && !isLoading">
+            <div class="h-48">
+              <MyCustomImage :img="Image404" />
+            </div>
+            <p class="title">{{ $t('notFoundDays') }}</p>
+          </div>
           <MyCustomLoading v-else />
         </Transition>
       </div>
@@ -107,6 +113,8 @@
 
 <script setup lang="ts">
 import { useGlobalStore } from '~~/stores/global'
+import Image404 from '@/assets/img/NotFound.png'
+
 definePageMeta({
   key: route => route.fullPath
 })

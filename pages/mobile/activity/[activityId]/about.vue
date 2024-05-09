@@ -1,40 +1,38 @@
 <template>
   <Transition mode="out-in">
     <div class="fullpage" v-if="activityData && !isLoading">
-      <!-- CM -->
-      <div class="section relative cm-section" v-if="activityData.activityCM">
-        <div class="video-cm">
-          <Transition mode="out-in" :name="isPrev ? 'right-to-left' : 'left-to-right'">
-            <div class="inner-container" v-if="currentItem" :key="currentItem.link">
-              <Aplayer :video-url="currentItem.link" />
-              <div class="flex justify-between items-end h-32">
-                <div>
-                  <p class="title" :title="currentItem.title || ''">{{ currentItem.title }}</p>
-                  <p class="tip text-light-50 mb-2">
-                    {{ $t('author') }}:{{ currentItem.cmEditor }}
-                  </p>
-                  <p class="sub-title" :title="currentItem.desc || ''">
-                    {{ currentItem.desc }}
-                  </p>
-                </div>
-                <div class="flex">
-                  <p class="cursor-pointer set" @click="prevCm" v-if="currentCMIndex !== 0">
-                    {{ $t('prev') }}
-                  </p>
-                  <p
-                    class="cursor-pointer set"
-                    @click="nextCm"
-                    v-if="currentCMIndex !== activityData.activityCM.length - 1"
-                  >
-                    {{ $t('next') }}
-                  </p>
-                </div>
+      <div class="section p-2" v-if="activityData.activityCM">
+        <Transition mode="out-in" :name="isPrev ? 'right-to-left' : 'left-to-right'">
+          <div class="inner-container" v-if="currentItem" :key="currentItem.link">
+            <p class="title threeline" :title="currentItem.title || ''">{{ currentItem.title }}</p>
+            <ClientOnly>
+              <div class="h-64">
+                <Aplayer :video-url="currentItem.link" />
+              </div>
+            </ClientOnly>
+            <div class="flex justify-between items-end">
+              <div class="flex flex-col">
+                <p class="tip text-light-50 mb-2">{{ $t('author') }}:{{ currentItem.cmEditor }}</p>
+                <p class="text-light-50" :title="currentItem.desc || ''">
+                  {{ currentItem.desc }}
+                </p>
+              </div>
+              <div class="flex">
+                <p class="cursor-pointer set" @click="prevCm" v-if="currentCMIndex !== 0">
+                  {{ $t('prev') }}
+                </p>
+                <p
+                  class="cursor-pointer set"
+                  @click="nextCm"
+                  v-if="currentCMIndex !== activityData.activityCM.length - 1"
+                >
+                  {{ $t('next') }}
+                </p>
               </div>
             </div>
-          </Transition>
-        </div>
+          </div>
+        </Transition>
       </div>
-
       <!-- desc 介绍 -->
       <div class="section">
         <div class="desc-like">
@@ -110,12 +108,14 @@
       <!-- other -->
       <div class="section" v-if="activityData.timesorother">
         <div class="desc-like">
+          <p class="title">{{ $t('其他') }}</p>
           <div v-html="activityData.timesorother[locale] || activityData.timesorother['cn']" />
         </div>
       </div>
       <!-- faq -->
       <div class="section" v-if="activityData.faq">
         <div class="desc-like">
+          <p class="title">FAQ</p>
           <div v-html="activityData.faq[locale] || activityData.faq['cn']" />
         </div>
       </div>
@@ -156,45 +156,33 @@ const { activityData, currentItem, nextCm, prevCm, currentCMIndex, isLoading, is
       flex-shrink: 0;
     }
   }
-  .cm-section {
-    width: 100%;
-    height: 100%;
+  .inner-container {
     display: flex;
-    overflow-x: hidden;
-    justify-content: flex-start;
-    .video-cm {
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      .inner-container {
-        display: flex;
-        flex-direction: column;
-        width: 95%;
-        height: 100%;
-        .set {
-          color: $themeNotActiveColor;
-          font-size: $bigFontSize;
-          margin-left: 5px;
-          &:hover {
-            color: $themeColor;
-          }
-        }
+    flex-direction: column;
+    width: 95%;
+    height: 100%;
+    .set {
+      color: $themeNotActiveColor;
+      font-size: $bigFontSize;
+      margin-left: 5px;
+      &:hover {
+        color: $themeColor;
       }
     }
-    .title-cm {
-      font-size: 32px;
-      font-weight: 600;
-      color: $themeColor;
-    }
+  }
+  .title-cm {
+    font-size: 32px;
+    font-weight: 600;
+    color: $themeColor;
   }
   .desc-like {
     align-items: flex-start;
     justify-content: flex-start;
     width: 95%;
     overflow-y: hidden;
+  }
+  .threeline {
+    @include showLine(3);
   }
 }
 </style>

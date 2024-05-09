@@ -129,5 +129,10 @@
   "googleDownloadLink": "谷歌下载链接",
   "loginorRegister": "登陆&注册",
   "SnsAccountSet": "社交媒体账号设置",
-  "personalWebsite": "个人网站"
+  "personalWebsite": "个人网站",
+  "bilibiliPoll": "通过Bilibili进行投票",
+  "pollTwitter": "通过X(Twitter)进行投票",
+  "PollLink": "投票链接",
+  "pollByCustom": "通过主办方链接投票",
+  "contact-us": "联系我们"
 }
