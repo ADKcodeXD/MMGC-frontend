@@ -18,9 +18,6 @@ export default defineNuxtConfig({
     }
   },
   css: ['@/assets/scss/index.scss', '@/assets/scss/iconfont.scss'],
-  build: {
-    transpile: ['element-plus/es']
-  },
   imports: {
     autoImport: true
   },
@@ -66,6 +63,9 @@ export default defineNuxtConfig({
     'nuxt-lodash',
     'dayjs-nuxt'
   ],
+  elementPlus: {
+    themes: ['dark']
+  },
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://mirai-mad.com',

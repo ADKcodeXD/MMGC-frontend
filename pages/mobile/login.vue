@@ -170,7 +170,9 @@
           <VarButton type="primary" class="mr-2" :dark="true" @click="isForgot = false">{{
             $t('login')
           }}</VarButton>
-          <VarButton type="primary" :dark="true" @click="resetPwd">{{ $t('update') }}</VarButton>
+          <VarButton type="primary" :dark="true" @click="() => resetPwd()">{{
+            $t('update')
+          }}</VarButton>
         </div>
 
         <div class="flex items-center flex-col justify-self-end mt-12">

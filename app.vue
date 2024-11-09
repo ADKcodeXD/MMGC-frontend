@@ -9,12 +9,7 @@
 </template>
 
 <script setup>
-import { ID_INJECTION_KEY } from 'element-plus'
 import { useGlobalStore } from './stores/global'
-provide(ID_INJECTION_KEY, {
-  prefix: 100,
-  current: 0
-})
 const globalState = useGlobalStore()
 await globalState.setConfig()
 await globalState.setCurrentActivity()

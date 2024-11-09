@@ -98,7 +98,7 @@
   "commentSuccess": "投稿が成功しました",
   "deleteSuccess": "削除に成功しました",
   "reply": "返信",
-  "replyTo": "@{0}に返信",
+  "replyTo": "{0}に返信",
   "sentIn": "{0}に投稿されました",
   "deleteComment": "このコメントを削除",
   "confirmDelete": "このコメントを削除しますか？",

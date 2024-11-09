@@ -99,7 +99,7 @@
   "commentSuccess": "Comment posted successfully",
   "deleteSuccess": "Deletion successful",
   "reply": "Reply",
-  "replyTo": "Reply to @{0}",
+  "replyTo": "Reply to {0}",
   "sentIn": "Posted in {0}",
   "deleteComment": "Delete this comment",
   "confirmDelete": "Are you sure you want to delete this comment?",
