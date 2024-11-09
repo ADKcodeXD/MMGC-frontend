@@ -9,9 +9,13 @@
             {{ (movieItem.author && movieItem.author?.memberName) || movieItem.authorName }}
           </p>
         </div>
-        <ElButton link type="primary" @click="() => goToMovieDetailMobile(movieItem.movieId)">{{
-          $t('enterDetail')
-        }}</ElButton>
+        <ElButton
+          link
+          type="primary"
+          v-if="movieItem.moviePlaylink"
+          @click="() => goToMovieDetailMobile(movieItem.movieId)"
+          >{{ $t('enterDetail') }}</ElButton
+        >
       </div>
     </div>
 

@@ -131,6 +131,10 @@ defineExpose({ pause })
   transform: translate(-50%, -50%);
 }
 
+.video-js {
+  font-size: 12px;
+}
+
 .my-menu-button > .vjs-button > .vjs-icon-placeholder {
   font-family: VideoJS;
   font-weight: normal;

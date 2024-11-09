@@ -70,23 +70,28 @@ img {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 3px;
-  transition: all ease 0.2s;
-  &:hover {
-    width: 10px;
-    height: 6px;
-  }
+  width: 8px;
+  background-color: transparent;
+  transition: all ease 0.3s;
 }
 
 ::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: none;
-  background: hsla(29, 95%, 29%, 0.514);
-  -webkit-box-shadow: none;
+  background: hsla(29, 95%, 29%, 0.6);
+  border-radius: 8px;
+  &:hover {
+    background: hsla(29, 95%, 48%, 0.8);
+  }
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: none;
-  background: #1a110100;
-  -webkit-box-shadow: none;
+  background: transparent;
+}
+
+*:hover::-webkit-scrollbar {
+  height: 4px;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background: hsla(29, 95%, 48%, 0.7);
 }

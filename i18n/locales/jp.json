@@ -1,6 +1,6 @@
 {
   "hello": "こんにちは",
-  "cn": "中国語",
+  "cn": "Default",
   "en": "英語",
   "jp": "日本語",
   "current": "Source",
@@ -133,5 +133,6 @@
   "pollByCustom": "特定なサイトで投票する",
   "contact-us": "Contact Us",
   "erroremail": "Wrong Email ",
-  "forgotPasw": "Forgot Password?"
+  "forgotPasw": "Forgot Password?",
+  "scrollDown": "スクロールダウン"
 }

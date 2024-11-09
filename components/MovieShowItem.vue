@@ -153,6 +153,7 @@ const { pollMovie, likeOrUnLike, goToMovieDetail } = useMovieOperate()
     top: 0;
     bottom: 0;
     width: 4rem;
+    height: 300px;
     display: flex;
     justify-items: center;
     align-items: center;
