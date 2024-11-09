@@ -16,6 +16,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18' # 使用你项目的Node.js版本
+      
+      - name: Create .npmrc
+        run: echo "shamefully-hoist=true" > .npmrc
 
       - name: Install Dependencies
         run: npm install

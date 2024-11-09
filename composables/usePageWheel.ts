@@ -59,12 +59,11 @@ export const useFullPageWheel = (length: number) => {
     const scrollableParent = getScrollParent(target)
 
     if (scrollableParent) {
-      // 检查是否已经滚动到边界
       const isAtTop = scrollableParent.scrollTop <= 0
       const isAtBottom =
-        scrollableParent.scrollTop + scrollableParent.clientHeight >= scrollableParent.scrollHeight
+        scrollableParent.scrollTop + scrollableParent.clientHeight >=
+        scrollableParent.scrollHeight - 5
 
-      // 只有在滚动到边界时才触发页面切换
       if ((evt.deltaY > 0 && isAtBottom) || (evt.deltaY < 0 && isAtTop)) {
         evt.stopPropagation()
         if (pageState.isScrolling) return false
