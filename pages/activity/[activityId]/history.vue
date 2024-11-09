@@ -57,60 +57,6 @@
           </div>
         </div>
       </div>
-      <div
-        class="activity-content h-40 flex items-center my-12"
-        v-for="activity in activityList?.result"
-        :key="activity.activityId"
-      >
-        <div
-          class="ball w-6 h-6 rounded-full flex items-center justify-center text-light-50"
-          :class="{
-            'bg-yellow-300': isOngoing(activity.startTime, activity.endTime),
-            'bg-green-400': !isOngoing(activity.startTime, activity.endTime)
-          }"
-        >
-          <Icon
-            name="material-symbols:check-rounded"
-            size="18"
-            v-if="!isOngoing(activity.startTime, activity.endTime)"
-          />
-          <Icon name="material-symbols:av-timer-outline-rounded" size="18" v-else />
-        </div>
-        <div class="left-time">
-          <p>
-            {{ $dayjs(activity.startTime).format('YYYY-MM-DD') }} -
-            {{ $dayjs(activity.endTime).format('YYYY-MM-DD') }}
-          </p>
-          <div class="ongoing">
-            <p v-if="isOngoing(activity.startTime, activity.endTime)" class="flex items-center">
-              <ElImage :src="loading" class="mr-2 h-4"></ElImage>
-              {{ $t('progress') }}
-            </p>
-            <p v-else class="flex items-center"><span class="dot"></span>{{ $t('owaru') }}</p>
-          </div>
-        </div>
-        <div class="right-logo">
-          <div class="img">
-            <MyCustomImage :img="activity.activityLogo" />
-          </div>
-          <div class="flex flex-col ml-4 items-start">
-            <p class="activity-title mb-2">
-              {{ activity.activityName[locale] || activity.activityName['cn'] }}
-            </p>
-            <p
-              class="desc text-light-50 text-xs"
-              v-html="activity.desc && strictLength(activity.desc[locale] || activity.desc['cn'])"
-            ></p>
-            <ElButton
-              link
-              type="primary"
-              class="mt-2"
-              @click="gotoActivity(`/activity/${activity.activityId}`)"
-              >{{ $t('gotoView') }}</ElButton
-            >
-          </div>
-        </div>
-      </div>
     </div>
     <Transition name="up-to-down" mode="out-in">
       <div
