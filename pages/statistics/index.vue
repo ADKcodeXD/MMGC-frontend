@@ -2,7 +2,7 @@
   <div class="bg-black body">
     <Suspense>
       <NuxtLayout name="free">
-        <div class="flex flex-col font-bold w-full max-w-2xl items-center">
+        <div class="flex flex-col font-bold w-full min-h-full max-w-2xl items-center">
           <p class="italic text-xl title">{{ $t('participateStatistics', [2024]) }}</p>
           <div
             @click="showType = 'platinum'"
