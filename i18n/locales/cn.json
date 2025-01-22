@@ -145,5 +145,7 @@
   "tupian": "图片",
   "consecutiveParticipate": "连续参加",
   "participateTimes": "累计参加",
-  "matches": "参加年份"
+  "matches": "参加年份",
+  "matchStatistics": "参赛统计",
+  "statisticsTitle": "MMGC历届作者参赛记录"
 }

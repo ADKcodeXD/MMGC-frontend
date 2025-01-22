@@ -3,7 +3,7 @@
     <ClientOnly>
       <MMGCHeader class="flex-shrink-0" />
     </ClientOnly>
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center flex-1">
       <slot></slot>
     </div>
   </div>
@@ -19,15 +19,16 @@ const body = ref()
 watchEffect(async () => {
   setTimeout(() => {
     const bg = new Image()
-    const { currentActivityData } = useGlobalStore()
-    bg.src = currentActivityData?.activityBackgroundImg || ''
+    const { config } = useGlobalStore()
+    bg.src = (config?.otherSettings as any)?.bgStatistics || ''
     bg.onload = () => {
       if (body.value && currentActivityData) {
-        body.value.style.backgroundImage = `url(${currentActivityData.activityBackgroundImg})`
+        body.value.style.backgroundImage = `url(${bg.src})`
         body.value.style.backgroundAttachment = 'fixed'
         body.value.style.backgroundSize = 'cover'
         body.value.style.width = '100%'
         body.value.style.overflowX = 'hidden'
+        body.value.style.backgroundColor = 'rgba(0, 0, 0, 0.9)' // Add a semi-transparent black background
       }
     }
   }, 0)

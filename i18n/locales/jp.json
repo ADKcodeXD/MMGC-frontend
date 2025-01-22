@@ -144,5 +144,7 @@
   "tupian": "画像",
   "consecutiveParticipate": "連続参加",
   "participateTimes": "累計参加",
-  "matches": "参加年"
+  "matches": "参加年",
+  "matchStatistics": "試合統計",
+  "statisticsTitle": "MMGC参加記録"
 }

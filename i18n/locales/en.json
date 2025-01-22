@@ -145,5 +145,7 @@
   "tupian": "Image",
   "consecutiveParticipate": "Consecutive Participation",
   "participateTimes": "Total Participation",
-  "matches": "Participation Years"
+  "matches": "Participation Years",
+  "matchStatistics": "Match Statistics",
+  "statisticsTitle": "MMGC Participation Record"
 }

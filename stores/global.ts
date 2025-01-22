@@ -27,7 +27,7 @@ export const useGlobalStore = defineStore('global', {
     return {
       localeState: func() || useCookie('locale').value || 'cn',
       config: {
-        currentActivityId: 2023
+        currentActivityId: 2025
       },
       currentActivityData: null,
       isLoadingState: false
@@ -50,6 +50,9 @@ export const useGlobalStore = defineStore('global', {
     },
     async setConfig() {
       const { data } = await getConfig()
+      if (!data) return
+      if (data.otherSettings && typeof data.otherSettings === 'string')
+        data.otherSettings = JSON.parse(data?.otherSettings || '{}')
       this.config = data
     },
     unloading() {

@@ -41,7 +41,7 @@
         </div>
         <div class="nav-item">
           <div class="active" :class="{ active2: currentRoute(`/statistics`) }"></div>
-          <NuxtLink :to="localePath(`/statistics`)"> 参赛统计 </NuxtLink>
+          <NuxtLink :to="localePath(`/statistics`)"> {{ $t('matchStatistics') }} </NuxtLink>
         </div>
       </nav>
       <section class="MMGC-oper">

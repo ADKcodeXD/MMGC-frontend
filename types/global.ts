@@ -165,7 +165,7 @@ declare global {
     currentActivityId: number
     skin: string
     isVideoPlay: boolean
-    otherSettings: string
+    otherSettings: string | JSON
     configType: string
   }
 }
