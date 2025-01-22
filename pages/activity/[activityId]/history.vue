@@ -51,7 +51,7 @@
               link
               type="primary"
               class="mt-2"
-              @click="gotoActivity(`/activity/${activity.activityId}`)"
+              @click="gotoActivity(`/activity/${activity.activityId}/about`)"
               >{{ $t('gotoView') }}</ElButton
             >
           </div>

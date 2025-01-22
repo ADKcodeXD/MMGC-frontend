@@ -134,5 +134,15 @@
   "contact-us": "Contact Us",
   "erroremail": "Wrong Email ",
   "forgotPasw": "Forgot Password?",
-  "scrollDown": "スクロールダウン"
+  "scrollDown": "スクロールダウン",
+  "more": "",
+  "switchSource": "",
+  "verifyAndTip": "リストに名前がない場合は、主催者に連絡して確認し、追加してください。",
+  "participateStatistics": "MMGC2013 - {0} 参加記録",
+  "goldAuthor": "ゴールド著者",
+  "platiumAuthor": "プラチナ著者",
+  "tupian": "画像",
+  "consecutiveParticipate": "連続参加",
+  "participateTimes": "累計参加",
+  "matches": "参加年"
 }

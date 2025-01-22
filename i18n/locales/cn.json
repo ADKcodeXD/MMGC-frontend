@@ -137,5 +137,13 @@
   "contact-us": "联系我们",
   "erroremail": "邮箱格式错误！",
   "forgotPasw": "忘记密码？",
-  "scrollDown": "向下滚动"
+  "scrollDown": "向下滚动",
+  "verifyAndTip": "如果您没在名单上寻找到您的名字，请联系主办方核对并添加哦~",
+  "participateStatistics": "MMGC2013 - {0}参赛记录",
+  "goldAuthor": "黄金作者",
+  "platiumAuthor": "白金作者",
+  "tupian": "图片",
+  "consecutiveParticipate": "连续参加",
+  "participateTimes": "累计参加",
+  "matches": "参加年份"
 }

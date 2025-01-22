@@ -5,28 +5,44 @@
         <MyCustomImage :img="activityData?.activityLogo" />
       </section>
       <nav class="MMGC-nav">
-        <p class="nav-item">
-        <div class="active" :class="{ active2: currentRoute(`/activity/${activityId}/about`) }"></div>
-        <NuxtLink :to="localePath(`/activity/${activityId}/about`)"> {{ $t('desc') }} </NuxtLink>
-        </p>
-        <p class="nav-item">
-        <div class="active" :class="{ active2: currentRoute(`/activity/${activityId}/main`) }"></div>
-        <NuxtLink :to="localePath(`/activity/${activityId}/main`)">
-          {{ $t('mainStage') }}
-        </NuxtLink>
-        </p>
-        <p class="nav-item">
-        <div class="active" :class="{ active2: currentRoute(`/activity/${activityId}/support`) }"></div>
-        <NuxtLink :to="localePath(`/activity/${activityId}/support`)">
-          {{ $t('organSponsor') }}
-        </NuxtLink>
-        </p>
-        <p class="nav-item">
-        <div class="active" :class="{ active2: currentRoute(`/activity/${activityId}/history`) }"></div>
-        <NuxtLink :to="localePath(`/activity/${activityId}/history`)">
-          {{ $t('history') }}
-        </NuxtLink>
-        </p>
+        <div class="nav-item">
+          <div
+            class="active"
+            :class="{ active2: currentRoute(`/activity/${activityId}/about`) }"
+          ></div>
+          <NuxtLink :to="localePath(`/activity/${activityId}/about`)"> {{ $t('desc') }} </NuxtLink>
+        </div>
+        <div class="nav-item">
+          <div
+            class="active"
+            :class="{ active2: currentRoute(`/activity/${activityId}/main`) }"
+          ></div>
+          <NuxtLink :to="localePath(`/activity/${activityId}/main`)">
+            {{ $t('mainStage') }}
+          </NuxtLink>
+        </div>
+        <div class="nav-item">
+          <div
+            class="active"
+            :class="{ active2: currentRoute(`/activity/${activityId}/support`) }"
+          ></div>
+          <NuxtLink :to="localePath(`/activity/${activityId}/support`)">
+            {{ $t('organSponsor') }}
+          </NuxtLink>
+        </div>
+        <div class="nav-item">
+          <div
+            class="active"
+            :class="{ active2: currentRoute(`/activity/${activityId}/history`) }"
+          ></div>
+          <NuxtLink :to="localePath(`/activity/${activityId}/history`)">
+            {{ $t('history') }}
+          </NuxtLink>
+        </div>
+        <div class="nav-item">
+          <div class="active" :class="{ active2: currentRoute(`/statistics`) }"></div>
+          <NuxtLink :to="localePath(`/statistics`)"> 参赛统计 </NuxtLink>
+        </div>
       </nav>
       <section class="MMGC-oper">
         <ElDropdown trigger="click" @command="handleLocale">
@@ -142,9 +158,8 @@ const handleLocale = (command: 'cn' | 'jp' | 'en') => {
   switchLocalePath(command)
 }
 
-
 const currentRoute = (link: any) => {
-  const route2 = localeRoute('link')
+  const route2 = localeRoute(link)
   return route2?.fullPath === route.fullPath
 }
 
@@ -152,7 +167,6 @@ const goWelcome = () => {
   const route = localeRoute('/welcome')
   navigateTo(route?.fullPath)
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -210,6 +224,12 @@ const goWelcome = () => {
         background-color: gray;
         border-radius: 6px;
         margin-right: 4px;
+
+        &.active2 {
+          color: $themeColor;
+          background-color: $themeColor;
+          transform: scaleY(1.2);
+        }
       }
 
       a {
@@ -231,10 +251,6 @@ const goWelcome = () => {
         .active {
           background-color: $themeColor;
           transform: scaleY(1.2);
-
-          &.active2 {
-            background-color: $themeColor;
-          }
         }
       }
     }

@@ -70,7 +70,7 @@ export const useFullPageWheel = (length: number) => {
 
         pageState.deltaY = evt.deltaY
         if (pageState.deltaY > 0) {
-          next()
+          setTimeout(() => next(), 200)
         } else {
           pre()
         }

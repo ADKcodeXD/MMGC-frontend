@@ -136,5 +136,14 @@
   "contact-us": "Contact Us",
   "erroremail": "Wrong Email ",
   "forgotPasw": "Forgot Password?",
-  "scrollDown": "Scroll Down"
+  "scrollDown": "Scroll Down",
+  "switchSource": "",
+  "verifyAndTip": "If you don't find your name on the list, please contact the organizer to verify and add it.",
+  "participateStatistics": "MMGC2013 - {0} Participation Record",
+  "goldAuthor": "Gold Author",
+  "platiumAuthor": "Platinum Author",
+  "tupian": "Image",
+  "consecutiveParticipate": "Consecutive Participation",
+  "participateTimes": "Total Participation",
+  "matches": "Participation Years"
 }
