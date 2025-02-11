@@ -12,7 +12,7 @@ export const useStatistics = () => {
   const body = ref()
   const pageParams = ref({
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
     keyword: undefined
   })
 
