@@ -78,15 +78,24 @@ export const useStatistics = () => {
   })
 
   onMounted(() => {
-    body.value = document.getElementById('freeBody')
-    if (body.value) body.value.addEventListener('scroll', handleScroll)
-    window.addEventListener('touchmove', handleScroll)
+    const initBody = () => {
+      body.value = document.getElementById('freeBody')
+      if (body.value) {
+        body.value.addEventListener('scroll', handleScroll)
+        body.value.addEventListener('touchmove', handleScroll)
+      } else {
+        setTimeout(initBody, 100)
+      }
+    }
+    initBody()
     getRankListFn()
   })
 
   onUnmounted(() => {
-    if (body.value) body.value.removeEventListener('scroll', handleScroll)
-    window.removeEventListener('touchmove', handleScroll)
+    if (body.value) {
+      body.value.removeEventListener('scroll', handleScroll)
+      body.value.removeEventListener('touchmove', handleScroll)
+    }
   })
 
   return {
