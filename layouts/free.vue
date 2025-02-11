@@ -1,5 +1,5 @@
 <template>
-  <div class="body" :key="$route.fullPath" ref="body">
+  <div class="body" :key="$route.fullPath" ref="body" id="freeBody">
     <ClientOnly>
       <MMGCHeader class="flex-shrink-0" />
     </ClientOnly>
@@ -42,6 +42,7 @@ watchEffect(async () => {
     display: flex;
     flex-direction: column;
     min-width: 320px;
+    overflow: auto;
   }
 }
 

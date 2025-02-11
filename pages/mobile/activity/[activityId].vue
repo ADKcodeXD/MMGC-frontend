@@ -44,6 +44,7 @@
           color="transparent"
           active-color="#fff"
           inactive-color="#ddd"
+          elevation
           v-model:active="currentRoute"
           @update:active="changeRoute"
         >
@@ -55,14 +56,22 @@
             ><Icon name="ic:round-ondemand-video" size="1rem" class="mr-1"></Icon
             >{{ $t('mainStage') }}</var-tab
           >
-          <var-tab name="support"
-            ><Icon name="simple-icons:githubsponsors" size="1rem" class="mr-1"></Icon
-            >{{ $t('organSponsor') }}</var-tab
-          >
-          <var-tab name="history"
-            ><Icon name="ic:baseline-history" size="1rem" class="mr-1"></Icon
-            >{{ $t('history') }}</var-tab
-          >
+          <var-tab name="more">
+            <var-menu-select
+              :modelValue="currentRoute"
+              @update:model-value="changeRoute"
+              size="large"
+              placement="top"
+            >
+              <var-button round text color="transparent" text-color="#fff">
+                <Icon name="ion:more" size="24"></Icon>
+              </var-button>
+              <template #options>
+                <var-menu-option :label="$t('organSponsor')" value="support" />
+                <var-menu-option :label="$t('history')" value="history" />
+                <var-menu-option :label="$t('matchStatistics')" value="statistics" />
+              </template> </var-menu-select
+          ></var-tab>
         </var-tabs>
       </template>
     </var-app-bar>
@@ -116,6 +125,7 @@ onMounted(() => {
 })
 
 const changeRoute = (routepath: any) => {
+  if (routepath === 'more') return
   const route = localeRoute(`/mobile/activity/${activityId}/${routepath}`)
   navigateTo(route?.fullPath || '/')
 }
