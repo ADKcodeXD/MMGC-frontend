@@ -6,7 +6,7 @@ const globalState = useGlobalStore()
 const { activityData } = useActivityDetail(globalState.config!.currentActivityId)
 
 watch(activityData, () => {
-  const route = localeRoute(`/activity/${activityData.value?.activityId}/statistics`)
+  const route = localeRoute(`/mobile/activity/${activityData.value?.activityId}/statistics`)
   navigateTo(route?.fullPath || '/')
 })
 </script>
