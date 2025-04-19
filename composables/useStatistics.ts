@@ -1,6 +1,6 @@
 import type { StatisticsModel } from 'Statistics'
 import { getRankList } from '~/composables/apis/statistics'
-import { uniqBy, debounce } from 'lodash'
+import _ from 'lodash'
 
 export const useStatistics = () => {
   const rankList = ref<StatisticsModel[]>([])
@@ -24,7 +24,7 @@ export const useStatistics = () => {
     return rankList.value.filter(item => item.authorType === 'platinum')
   })
 
-  const getRankListFn = debounce(async () => {
+  const getRankListFn = _.debounce(async () => {
     if (isLoading.value) return
     if (total.value > 0 && rankList.value.length >= total.value) {
       return
@@ -41,7 +41,7 @@ export const useStatistics = () => {
         rankList.value = data.data.result || []
       } else {
         if (data.data.result.length === 0) return
-        rankList.value = uniqBy([...rankList.value, ...data.data.result], '_id')
+        rankList.value = _.uniqBy([...rankList.value, ...data.data.result], '_id')
       }
       total.value = data.data.total
     } finally {
@@ -61,7 +61,7 @@ export const useStatistics = () => {
     orderCondition.value = order as any
   }
 
-  const handleScroll = debounce(() => {
+  const handleScroll = _.debounce(() => {
     const bottomOfWindow =
       body.value.scrollTop + body.value.clientHeight >= body.value.scrollHeight - 10
     const notLoad = total.value > 0 && rankList.value.length >= total.value

@@ -94,6 +94,29 @@
             }}
           </p>
         </Transition>
+        <ElDropdown class="ml-auto" trigger="click">
+          <ElButton type="primary" size="small" class="activity-link">
+            <Icon name="carbon:view-filled" class="mr-1" />
+            {{ $t('viewOtherActivities') }}
+            <Icon name="ant-design:down-outlined" size="14" class="ml-1" />
+          </ElButton>
+          <template #dropdown>
+            <ElDropdownMenu>
+              <template v-if="activityList && activityList.length">
+                <ElDropdownItem
+                  v-for="activity in activityList"
+                  :key="activity.activityId"
+                  @click="gotoActivity(`/activity/${activity.activityId}/main`)"
+                >
+                  {{ activity.activityName[locale] || activity.activityName.cn }}
+                </ElDropdownItem>
+              </template>
+              <ElDropdownItem v-else disabled>
+                {{ $t('noData') }}
+              </ElDropdownItem>
+            </ElDropdownMenu>
+          </template>
+        </ElDropdown>
       </div>
     </div>
     <Transition mode="out-in">
@@ -114,6 +137,7 @@
 <script setup lang="ts">
 import { useGlobalStore } from '~~/stores/global'
 import Image404 from '@/assets/img/NotFound.png'
+import { useRouter } from 'vue-router'
 
 definePageMeta({
   key: route => route.fullPath
@@ -123,6 +147,7 @@ const props = defineProps<{
   activityId: number
 }>()
 
+const router = useRouter()
 const { unloading } = useGlobalStore()
 
 const {
@@ -144,6 +169,35 @@ const {
   getDays,
   getVideoByDay
 } = useActivityMain()
+
+// Get activity list for dropdown
+const { activityList: activityListData } = useActivityList()
+const activityList = ref<any[]>([])
+
+// Update activity list when data changes
+watch(
+  activityListData,
+  newVal => {
+    if (newVal && Array.isArray(newVal)) {
+      activityList.value = newVal
+    } else if (
+      newVal &&
+      typeof newVal === 'object' &&
+      'records' in newVal &&
+      Array.isArray(newVal.records)
+    ) {
+      activityList.value = newVal.records
+    } else {
+      activityList.value = []
+    }
+  },
+  { immediate: true }
+)
+
+// Navigate to selected activity
+const gotoActivity = (path: string) => {
+  router.push(path)
+}
 
 watchEffect(async () => {
   await getDays(props.activityId)
@@ -293,6 +347,16 @@ watch(
   &:hover {
     color: $themeColor;
     transform: translateY(-2px);
+  }
+}
+
+.activity-link {
+  transition: all 0.2s ease-in-out;
+  background-color: $themeColor;
+  border-color: $themeColor;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba($themeColor, 0.6);
   }
 }
 </style>

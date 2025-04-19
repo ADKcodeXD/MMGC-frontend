@@ -29,6 +29,30 @@
             />
           </template>
         </var-menu-select>
+
+        <div class="px-4 pt-2 mb-2" v-if="days && days?.length">
+          <var-menu placement="top">
+            <var-button type="primary" class="w-full activity-link">
+              <Icon name="carbon:view-filled" class="mr-1" />
+              {{ $t('viewOtherActivities') }}
+              <Icon name="ant-design:down-outlined" size="14" class="ml-1" />
+            </var-button>
+            <template #menu>
+              <div class="activity-menu">
+                <template v-if="activityList && activityList.length">
+                  <var-cell
+                    v-for="activity in activityList"
+                    :key="activity.activityId"
+                    :title="activity.activityName[locale] || activity.activityName.cn"
+                    @click="gotoActivity(`/activity/${activity.activityId}/main`)"
+                  />
+                </template>
+                <var-cell v-else :title="$t('noData')" />
+              </div>
+            </template>
+          </var-menu>
+        </div>
+
         <div class="h-full p-4" v-if="movies.length">
           <div v-if="activeVideo && activeVideo.movieId" class="flex-1" :key="activeVideo.movieId">
             <MovieShowItemMobile
@@ -93,7 +117,10 @@
 import { useGlobalStore } from '~~/stores/global'
 import Image404 from '@/assets/img/NotFound.png'
 import type { MovieVo } from 'Movie'
+import { useRouter } from 'vue-router'
+
 const pollDialogShow = ref(false)
+const router = useRouter()
 
 definePageMeta({
   key: route => route.fullPath
@@ -121,6 +148,35 @@ const {
   getDays,
   getVideoByDay
 } = useActivityMain()
+
+// Get activity list for dropdown
+const { activityList: activityListData } = useActivityList()
+const activityList = ref<any[]>([])
+
+// Update activity list when data changes
+watch(
+  activityListData,
+  newVal => {
+    if (newVal && Array.isArray(newVal)) {
+      activityList.value = newVal
+    } else if (
+      newVal &&
+      typeof newVal === 'object' &&
+      'records' in newVal &&
+      Array.isArray(newVal.records)
+    ) {
+      activityList.value = newVal.records
+    } else {
+      activityList.value = []
+    }
+  },
+  { immediate: true }
+)
+
+// Navigate to selected activity
+const gotoActivity = (path: string) => {
+  router.push(path)
+}
 
 watchEffect(async () => {
   currentDay.value = day.value
@@ -209,6 +265,28 @@ watch(
   &:hover {
     color: $themeColor;
     transform: translateY(-2px);
+  }
+}
+
+.activity-link {
+  background-color: $themeColor;
+  border-color: $themeColor;
+}
+
+.activity-menu {
+  max-height: 50vh;
+  overflow-y: auto;
+  width: 280px;
+  background-color: #2c2c2c;
+  border-radius: 8px;
+
+  :deep(.var-cell) {
+    color: #fff;
+    padding: 12px 16px;
+
+    &:active {
+      background-color: rgba($themeColor, 0.2);
+    }
   }
 }
 </style>

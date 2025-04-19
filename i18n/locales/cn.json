@@ -73,7 +73,7 @@
   "oranganDesc": "主办方介绍",
   "aboutM": "关于M组",
   "MDesc": "Mirai MAD Team成立于2012年03月17日，距今为止已经有超过10年的组成长历史。目前共有组员100多名，旗下组员既有旅人姐姐、神夜、博丽西瓜、黑岩、杯子、忆缘、稻草、宫园葵 等一批以静止系及PV为创作类型的MADer，也有像冰汐、夕阳下的二少、钻石星痕、 dikaer等擅长AMV制作的组员，组长为结城音無。",
-  "MDesc2": "Mirai取自‘’未来“一两字的日语罗马音，取名未来的含义主要有两点:一指培养未来的 MAD大神计划，既是指现在为零技术的新人在未来也可以成为非常碉堡的技术大神;二是指探 索未来新的MAD制作模式，包括动画AMV系、静止系、PV系、MMD等的各种混合。",
+  "MDesc2": "Mirai取自'未来'一两字的日语罗马音，取名未来的含义主要有两点:一指培养未来的 MAD大神计划，既是指现在为零技术的新人在未来也可以成为非常碉堡的技术大神;二是指探 索未来新的MAD制作模式，包括动画AMV系、静止系、PV系、MMD等的各种混合。",
   "MDesc3": "Mirai MAD Team的宗旨是:让更多的人了解MAD，让更多的人参与MAD的制作，所以，如果你对MAD有爱，希望制作MAD，欢迎加入Mirai MAD Team这个温暖的大家庭吧!",
   "confirmPass": "确认密码",
   "verifyCode": "验证码",
@@ -147,5 +147,7 @@
   "participateTimes": "累计参加",
   "matches": "参加年份",
   "matchStatistics": "参赛统计",
-  "statisticsTitle": "MMGC历届作者参赛记录"
+  "statisticsTitle": "MMGC历届作者参赛记录",
+  "viewOtherActivities": "查看其他活动",
+  "noData": "暂无数据"
 }

@@ -147,5 +147,7 @@
   "participateTimes": "Total Participation",
   "matches": "Participation Years",
   "matchStatistics": "Match Statistics",
-  "statisticsTitle": "MMGC Participation Record"
+  "statisticsTitle": "MMGC Participation Record",
+  "viewOtherActivities": "View Other Activities",
+  "noData": "No data available"
 }
