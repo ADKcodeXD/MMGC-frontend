@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  if (to.path === '/') {
+  if (to.fullPath === '/') {
     const locale = useCookie('i18n_redirected')
     if (locale.value === 'cn') {
       return navigateTo('/welcome')

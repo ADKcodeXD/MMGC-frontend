@@ -1,52 +1,31 @@
-import type { ActivityVo } from 'Activity'
 import { defineStore } from 'pinia'
 import { getActivityDetail } from '~~/composables/apis/activity'
 import { getConfig } from '~~/composables/apis/config'
+
 export const useGlobalStore = defineStore('global', {
-  state: () => {
-    const func = () => {
-      const urlLocale = useRoute().fullPath.split('/')[1]
-      if (urlLocale === 'en' || urlLocale === 'jp') {
-        const { $i18n } = useNuxtApp()
-        $i18n.setLocale(urlLocale)
-        const locale = useCookie('locale', {
-          maxAge: 3600 * 3600
-        })
-        locale.value = urlLocale
-        return urlLocale
-      } else {
-        const { $i18n } = useNuxtApp()
-        $i18n.setLocale('cn')
-        const locale = useCookie('locale', {
-          maxAge: 3600 * 3600
-        })
-        locale.value = 'cn'
-        return 'cn'
-      }
-    }
-    return {
-      localeState: func() || useCookie('locale').value || 'cn',
-      config: {
-        currentActivityId: 2025
-      },
-      currentActivityData: null,
-      isLoadingState: false
-    } as {
-      localeState: 'cn' | 'en' | 'jp'
-      config: ConfigVo | null
-      currentActivityData: ActivityVo | null
-      isLoadingState: boolean
-    }
-  },
+  state: () => ({
+    localeState: 'cn',
+    config: {
+      currentActivityId: 2025
+    },
+    currentActivityData: null,
+    isLoadingState: false
+  }),
   actions: {
-    setLocale(newLocale: 'cn' | 'en' | 'jp') {
+    initLocale() {
+      const route = useRoute()
+      const urlLocale = route.fullPath.split('/')[1]
       const { $i18n } = useNuxtApp()
-      $i18n.setLocale(newLocale)
-      const locale = useCookie('locale', {
-        maxAge: 3600 * 3600
-      })
-      locale.value = newLocale
-      this.localeState = newLocale
+      const locale = useCookie('locale', { maxAge: 3600 * 3600 })
+      if (urlLocale === 'en' || urlLocale === 'jp') {
+        $i18n.setLocale(urlLocale)
+        locale.value = urlLocale
+        this.localeState = urlLocale
+      } else {
+        $i18n.setLocale('cn')
+        locale.value = 'cn'
+        this.localeState = 'cn'
+      }
     },
     async setConfig() {
       const { data } = await getConfig()
@@ -60,6 +39,15 @@ export const useGlobalStore = defineStore('global', {
     },
     loading() {
       this.isLoadingState = true
+    },
+    setLocale(newLocale: 'cn' | 'en' | 'jp') {
+      const { $i18n } = useNuxtApp()
+      $i18n.setLocale(newLocale)
+      const locale = useCookie('locale', {
+        maxAge: 3600 * 3600
+      })
+      locale.value = newLocale
+      this.localeState = newLocale
     },
     async setCurrentActivity() {
       if (this.config && this.config.currentActivityId) {
