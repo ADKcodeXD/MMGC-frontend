@@ -94,29 +94,6 @@
             }}
           </p>
         </Transition>
-        <ElDropdown class="ml-auto" trigger="click">
-          <ElButton type="primary" size="small" class="activity-link">
-            <Icon name="carbon:view-filled" class="mr-1" />
-            {{ $t('viewOtherActivities') }}
-            <Icon name="ant-design:down-outlined" size="14" class="ml-1" />
-          </ElButton>
-          <template #dropdown>
-            <ElDropdownMenu>
-              <template v-if="activityList && activityList.length">
-                <ElDropdownItem
-                  v-for="activity in activityList"
-                  :key="activity.activityId"
-                  @click="gotoActivity(`/activity/${activity.activityId}/main`)"
-                >
-                  {{ activity.activityName[locale] || activity.activityName.cn }}
-                </ElDropdownItem>
-              </template>
-              <ElDropdownItem v-else disabled>
-                {{ $t('noData') }}
-              </ElDropdownItem>
-            </ElDropdownMenu>
-          </template>
-        </ElDropdown>
       </div>
     </div>
     <Transition mode="out-in">

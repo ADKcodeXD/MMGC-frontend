@@ -10,9 +10,31 @@ const localeRoute = useLocaleRoute()
 const globalState = useGlobalStore()
 const { activityData } = useActivityDetail(globalState.config!.currentActivityId)
 
-watch(activityData, () => {
-  const route = localeRoute(`/activity/${activityData.value?.activityId}/about`)
-  navigateTo(route?.fullPath || '/')
+// 添加重定向标志，防止无限循环
+const hasRedirected = ref(false)
+
+watch(
+  activityData,
+  () => {
+    // 确保只重定向一次，且 activityData 存在且有效
+    if (!hasRedirected.value && activityData.value?.activityId) {
+      hasRedirected.value = true
+      const route = localeRoute(`/activity/${activityData.value.activityId}/about`)
+      if (route?.fullPath) {
+        navigateTo(route.fullPath)
+      }
+    }
+  },
+  { immediate: true }
+)
+
+// 如果 5 秒后还没有 activityData，显示错误或默认内容
+onMounted(() => {
+  setTimeout(() => {
+    if (!activityData.value?.activityId && !hasRedirected.value) {
+      console.warn('Activity data not loaded, staying on welcome page')
+    }
+  }, 5000)
 })
 </script>
 

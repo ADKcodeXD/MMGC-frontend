@@ -28,6 +28,7 @@ specifiers:
   nuxt-lodash: ^2.4.1
   pinia: ^2.0.22
   pinia-plugin-persist: ^1.0.0
+  plyr: ^3.7.8
   prettier: ^2.7.1
   sass: ^1.54.9
   typescript: ^4.9.5
@@ -51,6 +52,7 @@ dependencies:
   h3: 1.15.3
   pinia: 2.3.1_6ojp7pwvafskey22aliwdxkyey
   pinia-plugin-persist: 1.0.0_pinia@2.3.1+vue@3.5.13
+  plyr: 3.7.8
   video.js: 7.21.7
   vue: 3.5.13_typescript@4.9.5
   vue-i18n: 9.10.1_vue@3.5.13
@@ -4217,6 +4219,11 @@ packages:
       is-what: 4.1.16
     dev: true
 
+  /core-js/3.42.0:
+    resolution: {integrity: sha512-Sz4PP4ZA+Rq4II21qkNqOEDTDrCvcANId3xpIgB34NDkWc3UduWj2dqEtN9yZIq8Dk3HyPI33x9sqqU5C8sr0g==}
+    requiresBuild: true
+    dev: false
+
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: true
@@ -4404,6 +4411,10 @@ packages:
 
   /csstype/3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+
+  /custom-event-polyfill/1.0.7:
+    resolution: {integrity: sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==}
+    dev: false
 
   /data-uri-to-buffer/4.0.1:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
@@ -6381,6 +6392,10 @@ packages:
       uqr: 0.1.2
     dev: true
 
+  /loadjs/4.3.0:
+    resolution: {integrity: sha512-vNX4ZZLJBeDEOBvdr2v/F+0aN5oMuPu7JTqrMwp+DtgK+AryOlpy6Xtm2/HpNr+azEa828oQjOtWsB6iDtSfSQ==}
+    dev: false
+
   /local-pkg/0.4.3:
     resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
     engines: {node: '>=14'}
@@ -7616,6 +7631,16 @@ packages:
       exsolve: 1.0.5
       pathe: 2.0.3
 
+  /plyr/3.7.8:
+    resolution: {integrity: sha512-yG/EHDobwbB/uP+4Bm6eUpJ93f8xxHjjk2dYcD1Oqpe1EcuQl5tzzw9Oq+uVAzd2lkM11qZfydSiyIpiB8pgdA==}
+    dependencies:
+      core-js: 3.42.0
+      custom-event-polyfill: 1.0.7
+      loadjs: 4.3.0
+      rangetouch: 2.0.1
+      url-polyfill: 1.1.13
+    dev: false
+
   /postcss-calc/10.1.1_postcss@8.5.3:
     resolution: {integrity: sha512-NYEsLHh8DgG/PRH2+G9BTuUdtf9ViS+vdoQ0YA5OQdGsfN4ztiwtDWNtBl9EKeqNMFnIu8IKZ0cLxEQ5r5KVMw==}
     engines: {node: ^18.12 || ^20.9 || >=22.0}
@@ -8047,6 +8072,10 @@ packages:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
     dev: true
+
+  /rangetouch/2.0.1:
+    resolution: {integrity: sha512-sln+pNSc8NGaHoLzwNBssFSf/rSYkqeBXzX1AtJlkJiUaVSJSbRAWJk+4omsXkN+EJalzkZhWQ3th1m0FpR5xA==}
+    dev: false
 
   /rattail/1.0.17:
     resolution: {integrity: sha512-EO9spS6qjW/y/5rKBcNkXka1e4udhOqiuUigmPd6aJZOwclkGhDGx9HnUHCz3R8Is8FqXdsqgiSOhV5/r4ynCA==}
@@ -9399,6 +9428,10 @@ packages:
     dependencies:
       punycode: 2.3.1
     dev: true
+
+  /url-polyfill/1.1.13:
+    resolution: {integrity: sha512-tXzkojrv2SujumYthZ/WjF7jaSfNhSXlYMpE5AYdL2I3D7DCeo+mch8KtW2rUuKjDg+3VXODXHVgipt8yGY/eQ==}
+    dev: false
 
   /url-toolkit/2.2.5:
     resolution: {integrity: sha512-mtN6xk+Nac+oyJ/PrI7tzfmomRVNFIWKUbG8jdYFt52hxbiReFAXIjYskvu64/dvuW71IcB7lV8l0HvZMac6Jg==}

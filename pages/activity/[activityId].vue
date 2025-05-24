@@ -26,7 +26,6 @@ const activityId = parseInt(route.params.activityId.toString())
     flex-direction: column;
     background-image: url(@/assets/img/bg.png);
     background-size: cover;
-    filter: brightness(0.8);
     min-width: 320px;
     overflow: hidden;
   }

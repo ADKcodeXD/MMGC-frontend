@@ -30,29 +30,6 @@
           </template>
         </var-menu-select>
 
-        <div class="px-4 pt-2 mb-2" v-if="days && days?.length">
-          <var-menu placement="top">
-            <var-button type="primary" class="w-full activity-link">
-              <Icon name="carbon:view-filled" class="mr-1" />
-              {{ $t('viewOtherActivities') }}
-              <Icon name="ant-design:down-outlined" size="14" class="ml-1" />
-            </var-button>
-            <template #menu>
-              <div class="activity-menu">
-                <template v-if="activityList && activityList.length">
-                  <var-cell
-                    v-for="activity in activityList"
-                    :key="activity.activityId"
-                    :title="activity.activityName[locale] || activity.activityName.cn"
-                    @click="gotoActivity(`/activity/${activity.activityId}/main`)"
-                  />
-                </template>
-                <var-cell v-else :title="$t('noData')" />
-              </div>
-            </template>
-          </var-menu>
-        </div>
-
         <div class="h-full p-4" v-if="movies.length">
           <div v-if="activeVideo && activeVideo.movieId" class="flex-1" :key="activeVideo.movieId">
             <MovieShowItemMobile
@@ -106,7 +83,7 @@
         :key="coverzip"
         :style="{
           transition: 'all ease 0.4s',
-          backgroundImage: `linear-gradient(to left,#000,transparent),url(${coverzip})`
+          backgroundImage: `url(${coverzip})`
         }"
       />
     </Transition>
@@ -212,7 +189,7 @@ watch(
     width: 100%;
     height: 100%;
     z-index: -10;
-    filter: brightness(0.6) blur(3px);
+    filter: blur(3px);
     background-size: cover;
     transition: all ease 0.5s;
   }

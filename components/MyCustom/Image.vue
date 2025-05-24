@@ -7,7 +7,7 @@
     </template>
     <template #error>
       <div class="gray">
-        <img src="@/assets/img/2022logo.png" />
+        <img src="@/assets/2025logo.png" />
       </div>
     </template>
   </ElImage>
